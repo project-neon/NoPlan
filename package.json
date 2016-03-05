@@ -12,7 +12,6 @@
     "colors": "^1.1.2",
     "electron-prebuilt": "^0.36.8",
     "lodash": "^4.6.1",
-    "matter-js": "^0.9.1",
     "noflow": "git://github.com/ivanseidel/NoFlow.git",
     "react": "^0.14.7"
   },

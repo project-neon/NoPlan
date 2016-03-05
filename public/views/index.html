@@ -4,29 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NoPlan</title>
-  <link rel="stylesheet" href="../_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <!-- <link rel="stylesheet" href="../_components/bootstrap/dist/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="../_components/photon/dist/css/photon.min.css">
+  <!-- <link rel="stylesheet" href="../css/style.css"> -->
   <script>window.$ = window.jQuery = require('./../_components/jquery/dist/jquery.min.js');</script>
-  <script src="../_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../_components/Matter/build/matter.min.js"></script>
+  <script src="../_components/pixi.js/bin/pixi.min.js"></script>
+
+  <!-- Matter js dependencies -->
+  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/lib/decomp.js"></script>
+  <script type="text/javascript" src="http://brm.io/matter-js/build/matter-dev.js"></script>
+  <link rel="stylesheet" href="http://brm.io/matter-js/demo/js/lib/matter-tools/matter-tools.css" type="text/css">
+  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/lib/matter-tools/gif/gif.js"></script>
+  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/lib/matter-tools/gif/gif.js"></script>
+  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/lib/matter-tools/matter-tools-dev.js"></script>
+  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/Examples.js"></script>
+  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/Demo.js"></script>
+  <!-- <script src="../_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
 </head>
 <body>
-  <header>
-    <div class="col-xs-4">
-      <h1>NoPlan</h1>
-    </div>
-    <div class="col-xs-4"></div>
-    <div class="col-xs-4"></div>
-  </header>
-  <div class="middle">
-    <div id="field">
+  <div class="window">
+    <header class="toolbar toolbar-header">
+      <h1 class="title">NoPlan</h1>
+    </header>
 
+    <div class="window-content">
+      <div class="padded-more">
+        <h1>No Hello</h1>
+      </div>
     </div>
+    <footer class="toolbar toolbar-footer">
+      <h1 class="title">Footer</h1>
+    </footer>
   </div>
-  <footer>
-    <div class="col-xs-3">1</div>
-    <div class="col-xs-3">2</div>
-    <div class="col-xs-3">3</div>
-    <div class="col-xs-3">4</div>
-  </footer>
 </body>
 </html>
