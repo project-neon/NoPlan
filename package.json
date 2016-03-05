@@ -35,5 +35,8 @@
   "bugs": {
     "url": "https://github.com/UFABC-NoBox/NoPlan/issues"
   },
-  "homepage": "https://github.com/UFABC-NoBox/NoPlan#readme"
+  "homepage": "https://github.com/UFABC-NoBox/NoPlan#readme",
+  "devDependencies": {
+    "bower": "^1.7.7"
+  }
 }
