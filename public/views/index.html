@@ -4,23 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NoPlan</title>
-  <!-- <link rel="stylesheet" href="../_components/bootstrap/dist/css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="../_components/photon/dist/css/photon.min.css">
   <!-- <link rel="stylesheet" href="../css/style.css"> -->
   <script>window.$ = window.jQuery = require('./../_components/jquery/dist/jquery.min.js');</script>
   <script src="../_components/Matter/build/matter.min.js"></script>
-  <script src="../_components/pixi.js/bin/pixi.min.js"></script>
-
-  <!-- Matter js dependencies -->
-  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/lib/decomp.js"></script>
-  <script type="text/javascript" src="http://brm.io/matter-js/build/matter-dev.js"></script>
-  <link rel="stylesheet" href="http://brm.io/matter-js/demo/js/lib/matter-tools/matter-tools.css" type="text/css">
-  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/lib/matter-tools/gif/gif.js"></script>
-  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/lib/matter-tools/gif/gif.js"></script>
-  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/lib/matter-tools/matter-tools-dev.js"></script>
-  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/Examples.js"></script>
-  <script type="text/javascript" src="http://brm.io/matter-js/demo/js/Demo.js"></script>
-  <!-- <script src="../_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
+  <!-- <script src="../_components/pixi.js/bin/pixi.min.js"></script> -->
 </head>
 <body>
   <div class="window">
@@ -31,6 +19,31 @@
     <div class="window-content">
       <div class="padded-more">
         <h1>No Hello</h1>
+        <div id="showField">
+          <script>
+            function Start(){
+              // Matter.js module aliases
+              var Engine = Matter.Engine,
+                  World = Matter.World,
+                  Bodies = Matter.Bodies;
+
+              // create a Matter.js engine
+              var engine = Engine.create(document.body);
+
+              // create two boxes and a ground
+              var boxA = Bodies.rectangle(400, 200, 80, 80);
+              var boxB = Bodies.rectangle(450, 50, 80, 80);
+              var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+
+              // add all of the bodies to the world
+              World.add(engine.world, [boxA, boxB, ground]);
+
+              // run the engine
+              Engine.run(engine);
+            }
+            Start();
+          </script>
+        </div>
       </div>
     </div>
     <footer class="toolbar toolbar-footer">
