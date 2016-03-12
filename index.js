@@ -20,7 +20,7 @@ function createWindow () {
   });
 
   // opens the app maximized
-  mainWindow.maximize(true);
+  // mainWindow.maximize(true);
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/public/views/index.html');

@@ -8,7 +8,7 @@
   <!-- <link rel="stylesheet" href="../css/style.css"> -->
   <script>window.$ = window.jQuery = require('./../_components/jquery/dist/jquery.min.js');</script>
   <script src="../_components/Matter/build/matter.min.js"></script>
-  <!-- <script src="../_components/pixi.js/bin/pixi.min.js"></script> -->
+  <script src="../_components/pixi.js/bin/pixi.min.js"></script>
 </head>
 <body>
   <div class="window">
@@ -18,37 +18,52 @@
 
     <div class="window-content">
       <div class="padded-more">
-        <h1>No Hello</h1>
-        <div id="showField">
-          <script>
-            function Start(){
-              // Matter.js module aliases
-              var Engine = Matter.Engine,
-                  World = Matter.World,
-                  Bodies = Matter.Bodies;
-
-              // create a Matter.js engine
-              var engine = Engine.create(document.body);
-
-              // create two boxes and a ground
-              var boxA = Bodies.rectangle(400, 200, 80, 80);
-              var boxB = Bodies.rectangle(450, 50, 80, 80);
-              var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
-
-              // add all of the bodies to the world
-              World.add(engine.world, [boxA, boxB, ground]);
-
-              // run the engine
-              Engine.run(engine);
-            }
-            Start();
-          </script>
-        </div>
+        <div id="showField"></div>
       </div>
     </div>
     <footer class="toolbar toolbar-footer">
       <h1 class="title">Footer</h1>
     </footer>
   </div>
+  <script>
+    function Start(){
+      // Matter.js module aliases
+      var Engine = Matter.Engine,
+          World  = Matter.World,
+          Bodies = Matter.Bodies;
+
+      // NOTE: Values of VSS Field in centimeters
+      var fieldHeight = 130;
+      var fieldWidth  = 150;
+      // NOTE: Canvas size in pixels
+      var canvasHeight = 400;
+      var canvasWidth  = fieldWidth*canvasHeight/fieldHeight;
+      var diameter     = 40*canvasHeight/fieldHeight;
+
+      // create a Matter.js engine
+      var engine = Engine.create({
+        render: {
+          element: document.getElementById('showField'),
+          controller: Matter.RenderPixi, //Uses Pixi.js as renderer
+          options: {
+            width: canvasWidth,
+            height: canvasHeight
+          }
+        }
+      });
+
+      var fieldLeft   = Bodies.rectangle(canvasWidth/2 - canvasWidth/4 + 5, canvasHeight/2, canvasWidth/2 - 10, canvasHeight-10, { isStatic: true });
+      var fieldRight  = Bodies.rectangle(canvasWidth/2 + canvasWidth/4 - 5, canvasHeight/2, canvasWidth/2 - 10, canvasHeight-10, { isStatic: true });
+      var fieldMiddle = Bodies.circle(canvasWidth/2, canvasHeight/2, diameter/2, { isStatic: true });
+
+      // add all of the bodies to the world
+      // World.add(engine.world, [boxA, boxB, ground]);
+      World.add(engine.world, [fieldLeft, fieldRight, fieldMiddle]);
+
+      // run the engine
+      Engine.run(engine);
+    }
+    Start();
+  </script>
 </body>
 </html>
