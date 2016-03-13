@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link type="image/png" href="../../nobox-logo.png">
   <title>NoPlan</title>
   <link rel="stylesheet" href="../_components/photon/dist/css/photon.min.css">
   <!-- <link rel="stylesheet" href="../css/style.css"> -->
@@ -15,7 +16,6 @@
     <header class="toolbar toolbar-header">
       <h1 class="title">NoPlan</h1>
     </header>
-
     <div class="window-content">
       <div class="padded-more">
         <div id="showField"></div>
@@ -25,45 +25,6 @@
       <h1 class="title">Footer</h1>
     </footer>
   </div>
-  <script>
-    function Start(){
-      // Matter.js module aliases
-      var Engine = Matter.Engine,
-          World  = Matter.World,
-          Bodies = Matter.Bodies;
-
-      // NOTE: Values of VSS Field in centimeters
-      var fieldHeight = 130;
-      var fieldWidth  = 150;
-      // NOTE: Canvas size in pixels
-      var canvasHeight = 400;
-      var canvasWidth  = fieldWidth*canvasHeight/fieldHeight;
-      var diameter     = 40*canvasHeight/fieldHeight;
-
-      // create a Matter.js engine
-      var engine = Engine.create({
-        render: {
-          element: document.getElementById('showField'),
-          controller: Matter.RenderPixi, //Uses Pixi.js as renderer
-          options: {
-            width: canvasWidth,
-            height: canvasHeight
-          }
-        }
-      });
-
-      var fieldLeft   = Bodies.rectangle(canvasWidth/2 - canvasWidth/4 + 5, canvasHeight/2, canvasWidth/2 - 10, canvasHeight-10, { isStatic: true });
-      var fieldRight  = Bodies.rectangle(canvasWidth/2 + canvasWidth/4 - 5, canvasHeight/2, canvasWidth/2 - 10, canvasHeight-10, { isStatic: true });
-      var fieldMiddle = Bodies.circle(canvasWidth/2, canvasHeight/2, diameter/2, { isStatic: true });
-
-      // add all of the bodies to the world
-      // World.add(engine.world, [boxA, boxB, ground]);
-      World.add(engine.world, [fieldLeft, fieldRight, fieldMiddle]);
-
-      // run the engine
-      Engine.run(engine);
-    }
-    Start();
-  </script>
+  <script src="../app/field.js"></script>
 </body>
 </html>
