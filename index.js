@@ -17,7 +17,7 @@ function createWindow () {
     height: 768,
     minWidth: 1024,
     minHeight: 768,
-    icon: 'nobox-logo.png'
+    icon: './icon.png'
   });
 
   // opens the app maximized
