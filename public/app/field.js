@@ -78,7 +78,7 @@ var fieldGoalRightPiece = Body.create({
 });
 
 // NOTE: Creates the ball
-var fieldBall = Bodies.circle(canvasWidth/2, canvasHeight/2, ballSize/2);
+var fieldBall = Bodies.circle(canvasWidth/2, canvasHeight/2, ballSize/2, { restitution: 0.6, render: { fillStyle: 'rgba(77,205,10, 1)' }});
 
 var fieldParts = [
                   fieldBotPiece,
