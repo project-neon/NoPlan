@@ -4,6 +4,7 @@ var Engine = Matter.Engine,
     MouseConstraint = Matter.MouseConstraint,
     Body = Matter.Body,
     Bodies = Matter.Bodies;
+    RenderPixi = Matter.RenderPixi;
 
 // NOTE: Values of VSS Field in centimeters
 var fieldHeight = 140;
@@ -16,6 +17,7 @@ var canvasHeight = 600;
 var canvasWidth  = fieldWidth*canvasHeight/fieldHeight;
 var middleRadius = (40*canvasHeight/fieldHeight)/2;
 var ballSize     = 4.27*canvasHeight/fieldHeight;
+var robotSize    = 8*canvasHeight/fieldHeight;
 
 // create a Matter.js engine
 var engine = Engine.create({
@@ -24,7 +26,9 @@ var engine = Engine.create({
     controller: Matter.RenderPixi, //Uses Pixi.js as renderer
     options: {
       width: canvasWidth,
-      height: canvasHeight
+      height: canvasHeight,
+      showAngleIndicator: true,
+      showVelocity: true
     }
   }
 });
@@ -78,7 +82,9 @@ var fieldGoalRightPiece = Body.create({
 });
 
 // NOTE: Creates the ball
-var fieldBall = Bodies.circle(canvasWidth/2, canvasHeight/2, ballSize/2, { restitution: 0.6, render: { fillStyle: 'rgba(77,205,10, 1)' }});
+var fieldBall = Bodies.circle(canvasWidth/3, canvasHeight/3, ballSize/2, { restitution: 0.8, render: { fillStyle: 'rgba(77,205,10, 1)' }});
+
+var robot = Bodies.rectangle(canvasWidth/2, canvasHeight/2, robotSize, robotSize, { restitution: 0.0 });
 
 var fieldParts = [
                   fieldBotPiece,
@@ -94,10 +100,18 @@ var fieldParts = [
 // NOTE: add all of the bodies to the world
 World.add(engine.world, MouseConstraint.create(engine));
 World.add(engine.world, fieldParts);
-World.add(engine.world, [fieldBall]);
+World.add(engine.world, [fieldBall, robot]);
 
 // NOTE: Change world gravity on y axis to zero
 engine.world.gravity.y = 0;
+
+setTimeout(function() {
+    Body.setAngularVelocity(robot, Math.PI/2);
+    Body.applyForce(robot, robot.position, {
+      x : 0.0 ,
+      y : 0
+    });
+  });
 
 // NOTE: run the engine
 Engine.run(engine);
