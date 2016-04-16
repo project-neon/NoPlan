@@ -28,6 +28,7 @@ var engine = Engine.create({
       width: canvasWidth,
       height: canvasHeight,
       showAngleIndicator: true,
+      showAxes: true,
       showVelocity: true
     }
   }
@@ -105,13 +106,20 @@ World.add(engine.world, [fieldBall, robot]);
 // NOTE: Change world gravity on y axis to zero
 engine.world.gravity.y = 0;
 
-setTimeout(function() {
-    Body.setAngularVelocity(robot, Math.PI/2);
+var i=0;
+setInterval(function() {
+    Body.setAngularVelocity(robot, .1);
+    var fX = robot.axes[1].x * .01;
+    var fY = robot.axes[1].y * .01;
+    console.log("fx = " + fX + " fY = " + fY);
     Body.applyForce(robot, robot.position, {
-      x : 0.0 ,
-      y : 0
+      x : fX,
+      y : fY
     });
-  });
+
+    console.log(robot.axes);
+    i++;
+  }, 100);
 
 // NOTE: run the engine
 Engine.run(engine);
