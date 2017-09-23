@@ -4,20 +4,25 @@ const Match = require('./lib/Match')
 
 const players = require('require-smart')('./players')
 
+const PORT = process.env.PORT || 10002
+const HOST = process.env.HOST || '224.5.23.2'
+
 const TAG = 'server'
 async function startup(){
   console.info(TAG, chalk.yellow('startup'))
   
   let match = new Match({
-    vision: {
-      PORT: 10002,
-    },
+    vision: { PORT, HOST },
     robots: {
       red: {visionId: 1, radioId: 1, class: players.Attacker}
     },
   })
 
   await match.init()
+
+  // match.vision.on('data', console.log)
+
+  console.log('Listening in:', PORT)
 }
 
 process.on('unhandledRejection', (e) => {
