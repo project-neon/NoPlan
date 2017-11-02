@@ -5,11 +5,20 @@ const SerialPort = require('serialport')
 const express = require('express')
 const app = express()
 const path = require('path')
+// para testes
+const fs = require("fs");
+// end para testes
 require('draftlog').into(console)
 
 const Match = require('./lib/Match')
 const players = require('require-smart')('./players')
 
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+// para testes
+var contents = fs.readFileSync("dummy_detection.json");
+var jsonContent = JSON.parse(contents);
+// end para testes
 const PORT = 10006
 const HOST = '224.5.23.2'
 
@@ -20,24 +29,22 @@ const TAG = 'server'
 async function startup(){
   console.info(TAG, chalk.yellow('startup'))
   
-  let match = new Match({
-    vision: { PORT, HOST },
-    robots: {
-      fretado: {visionId: 2, radioId: 2, class: players.Attacker},
-      piso_vermelho: {visionId: 0, radioId: 3, class: players.Attacker},
-      torre_do_relogio: {visionId: 4, radioId: 1, class: players.Attacker}
-    },
-    driver: {
-      port: await getPort('/dev/tty.usbserial-A10252WB'),
-      debug: false,
-      baudRate: 500000,
-    }
-  })
-  await match.init()
-  console.log('Listening in:', PORT)
-  app.listen(80, function () {
-  console.log('View listening on port 80!')
-}) 
+  // let match = new Match({
+  //   vision: { PORT, HOST },
+  //   robots: {
+  //     fretado: {visionId: 2, radioId: 2, class: players.Attacker},
+  //     piso_vermelho: {visionId: 0, radioId: 3, class: players.Attacker},
+  //     torre_do_relogio: {visionId: 4, radioId: 1, class: players.Attacker}
+  //   },
+  //   driver: {
+  //     port: await getPort('/dev/tty.usbserial-A10252WB'),
+  //     debug: false,
+  //     baudRate: 500000,
+  //   }
+  // })
+  // await match.init()
+  // console.log('Listening in:', PORT)
+  server.listen(80); 
 }
 
 process.on('unhandledRejection', (e) => {
@@ -48,10 +55,24 @@ process.on('unhandledRejection', (e) => {
 
 startup()
 
+setInterval(function(){
+    detection_data = jsonContent
+    detection_data.balls[0].x += Math.random()* 100 - 50
+    io.sockets.emit('detection', jsonContent);
+}, 1000);
+
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname,'/static/index.html'))
 })
 
+io.sockets.on('connection', function(socket) {
+    socket.on('toggle game', function(data) {
+        debug.debug('Game toggled!')
+        status = // match.toggle(game)
+
+        socket.emit('toggle status', status)
+    });
+});
 
 async function getPort(prefered) {
   let ports = await SerialPort.list()
@@ -83,7 +104,8 @@ async function getPort(prefered) {
 
 //   // Bind to state change events
 //   this.state.on('change', change => {
-//     this.socket.broadcast({type: 'state', state})
+//     //this.socket.broadcast({type: 'state', state})
+//     console.log('TOGGLE GAME')
 //   })
 
 //   // Update state
