@@ -1,7 +1,7 @@
 {
   "name": "NoPlan",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "https://github.com/Project-Neon/NoPlan",
   "author": "Ivan Seidel <ivanseidel@gmail.com>",
   "license": "MIT",
@@ -9,8 +9,9 @@
     "start": "node server"
   },
   "dependencies": {
-    "chalk": "^2.1.0",
+    "chalk": "^2.3.0",
     "draftlog": "^1.0.12",
+    "express": "^4.16.2",
     "inquirer": "^3.3.0",
     "lodash": "^4.17.4",
     "require-smart": "^1.1.1",
