@@ -67,7 +67,7 @@ app.get('/', function (req, res) {
 
 io.sockets.on('connection', function(socket) {
     socket.on('toggle game', function(data) {
-        debug.debug('Game toggled!')
+        debug.log('Game toggled!')
         status = // match.toggle(game)
 
         socket.emit('toggle status', status)

@@ -47,7 +47,7 @@
 							detection_json.balls[0].y
 						]
 						ball_pos = translatePosition(ball_pos[0], ball_pos[1])
-						drawBall(ctx, ball_pos.x, ball_pos.y)
+						drawBall(ctx, ball_pos.x, ball_pos.y, 25, 'orange')
 						// end ball drawing
 
 						// start player drawing
@@ -194,10 +194,19 @@
 				return {'x': x, 'y': y}
 			}
 
-			function drawBall(ctx, pos_x, pos_y) {
+			function drawBall(ctx, pos_x, pos_y, radius, color) {
 				ctx.beginPath();
-				ctx.fillStyle = 'rgb(255, 165, 0)';
-				ctx.arc(pos_x,pos_y,25, 0, 2*Math.PI);
+				ctx.fillStyle = color;
+				ctx.strokeStyle = 'black';
+				ctx.arc(pos_x,pos_y,radius, 0, 2*Math.PI);
+				ctx.fill();
+				ctx.stroke();
+			}
+
+			function drawSemiCircle(ctx, pos_x, pos_y, init_angle, end_angle, radius, color) {
+				ctx.beginPath();
+				ctx.strokeStyle = color;
+				ctx.arc(pos_x,pos_y,25, init_angle, end_angle);
 				ctx.stroke();
 			}
 
@@ -209,6 +218,7 @@
 				ctx.lineWidth = 7;
 				ctx.strokeStyle = 'black';
 				ctx.stroke();
+				drawSemiCircle(ctx, pos_x + 35, pos_y + 35, angle - 0.75, angle + 0.75, 'red')
 			}
 		</script>
 	</body>
