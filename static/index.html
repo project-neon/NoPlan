@@ -55,7 +55,7 @@
 							player_pos = translatePosition(robot.x, robot.y)
 							tag = robot.robot_id
 							angle = robot.orientation
-							drawPlayer(ctx, player_pos.x, player_pos.y, angle, 'blue', 1)
+							drawPlayer(ctx, player_pos.x, player_pos.y, angle, 'blue', tag)
 						});
 
 						detection_json.robots_yellow.forEach(function(robot) {
@@ -219,6 +219,9 @@
 				ctx.strokeStyle = 'black';
 				ctx.stroke();
 				drawSemiCircle(ctx, pos_x + 35, pos_y + 35, angle - 0.75, angle + 0.75, 'red')
+				ctx.font = "50px Arial";
+				ctx.fillStyle = 'red';
+				ctx.fillText(number_tag, pos_x + 25, pos_y + 50);
 			}
 		</script>
 	</body>
