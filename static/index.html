@@ -55,14 +55,16 @@
 							player_pos = translatePosition(robot.x, robot.y)
 							tag = robot.robot_id
 							angle = robot.orientation
-							drawPlayer(ctx, player_pos.x, player_pos.y, angle, 'blue', tag)
+							confidence = robot.confidence
+							drawPlayer(ctx, player_pos.x, player_pos.y, angle, 'blue', tag, confidence)
 						});
 
 						detection_json.robots_yellow.forEach(function(robot) {
 							player_pos = translatePosition(robot.x, robot.y)
 							tag = robot.robot_id
 							angle = robot.orientation
-							drawPlayer(ctx, player_pos.x, player_pos.y, angle, 'yellow', 1)
+							confidence = robot.confidence
+							drawPlayer(ctx, player_pos.x, player_pos.y, angle, 'yellow', tag, confidence)
 						});
 						// end player drawing
 					});
@@ -206,19 +208,21 @@
 			function drawSemiCircle(ctx, pos_x, pos_y, init_angle, end_angle, radius, color) {
 				ctx.beginPath();
 				ctx.strokeStyle = color;
-				ctx.arc(pos_x,pos_y,25, init_angle, end_angle);
+				ctx.arc(pos_x, pos_y, 35, init_angle, end_angle);
 				ctx.stroke();
 			}
 
-			function drawPlayer(ctx, pos_x, pos_y, angle, color, number_tag) {
+			function drawPlayer(ctx, pos_x, pos_y, angle, color, number_tag, confidence) {
 				ctx.beginPath();
-				ctx.rect(pos_x, pos_y, 70, 70);
-				ctx.fillStyle = color;
-				ctx.fill();
+				ctx.fillStyle = 'gray';
+				ctx.fillRect(pos_x, pos_y - 20, 80, 15)
+				ctx.fillStyle = color
+				ctx.fillRect(pos_x, pos_y - 20, 80 * confidence, 15)
 				ctx.lineWidth = 7;
 				ctx.strokeStyle = 'black';
 				ctx.stroke();
-				drawSemiCircle(ctx, pos_x + 35, pos_y + 35, angle - 0.75, angle + 0.75, 'red')
+				drawSemiCircle(ctx, pos_x + 35, pos_y + 35, angle + 0.75, angle - 0.75, 'red')
+				ctx.fill();
 				ctx.font = "50px Arial";
 				ctx.fillStyle = 'red';
 				ctx.fillText(number_tag, pos_x + 25, pos_y + 50);
