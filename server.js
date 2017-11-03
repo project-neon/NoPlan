@@ -3,13 +3,10 @@ const chalk = require('chalk')
 const inquirer = require('inquirer')
 const SerialPort = require('serialport')
 const comm = require('./lib/Comm.js')
-
-
 require('draftlog').into(console)
 
 const Match = require('./lib/Match')
 const players = require('require-smart')('./players')
-
 const PORT = 10006
 const HOST = '224.5.23.2'
 
@@ -47,29 +44,6 @@ process.on('unhandledRejection', (e) => {
 })
 
 startup()
-
-
-
-// async initSocket() {
-//   this.socket = new SocketIo(...)
-//   // Wait be ready
-//   await this.socket.ready()
-
-//   // Bind to vision events
-//   this.vision.on('detection', detection => {
-//     this.socket.broadcast({type: 'detection', detection})
-//   })
-
-//   // Bind to state change events
-//   this.state.on('change', change => {
-//     this.socket.broadcast({type: 'state', state})
-//   })
-
-//   // Update state
-//   this.socket.on('set:state', data => {
-//     this.state.setState(data)
-//   })
-// }
 
 async function getPort(prefered) {
   let ports = await SerialPort.list()
