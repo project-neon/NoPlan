@@ -1,22 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>		
-	<title>Server</title>
+	<script src="/socket.io/socket.io.js"></script>	
+	<title>No Plan | Project Neon</title>
+	<style type="text/css">
+		body{
+  		background-color: #333;
+		}
+		.panel{
+			background-color: white;
+			width: 200px; 
+			float: right;
+			padding: 20px;
+			margin: 20px;
+			border: 12px;
+		}
+		.start {
+	    background-color: #4CAF50; /* Green */
+	    border: none;
+	    color: white;
+	    padding: 15px 32px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+	    width: 180px;
+	    margin: 10px;
+		}
+		.field{
+			float: left;
+		}
+	</style>
 </head>
 	<body>
-		<h1>Hello!</h1>
+		<div class="main">
+			<div class="panel">
+				<div class="title">
+					<h1 style="font-family:Verdana; text-align: center;">NoPlan</h1>
+				</div>
+				<div class="buttons" align="center">
+				    <button class="start" onclick="changeState()">Toggle Game</button>
+				    <button class="start" onclick="changeSide()">Change Side</button>
+				</div>
+			</div>
+			<div class="field" style="max-width: 100%;">
+				<canvas id="field_canvas" width="1200" style="width:75%;align-items: center;"></canvas>
+			</div>
+		</div>
 
-		<canvas id="field_canvas" width="1200" style="width:75%;align-items: center;">
 
-		</canvas>
-
-		<form action="">
-	      <button>Pause Game</button>
-	    </form>	
 
 		<script type="text/javascript">
+			
+			var socket = io.connect('http://localhost')
+
+			function changeState() {
+				socket.emit('state', {state:"toggle"})
+						console.log("Clicked State")
+			}
+			
+			function changeSide() {
+				socket.emit('state', {state:"side"})
+						console.log("Clicked Side")
+			}
+
 			var canvas = document.getElementById("field_canvas");
 			var ctx = canvas.getContext("2d");
 			
@@ -30,25 +77,23 @@
 
 			var xCenter = width / 2;
 			var yCenter = height / 2;
-			$(function () {
-					var socket = io();
-					
-					$('form').submit(function(){
-						socket.emit('toggle game', '');
-						return false;
-					});
+
+			window.onload = function () {
+
+
 
 					socket.on('detection', function(msg){
+						//var drawStart = Date.now()
 						detection_json = msg
 						drawField(ctx, canvas.width, canvas.height);
 						// start ball drawing
-						if(detection_json.ball_pos.length >= 1) {
+						if(detection_json.balls.length >= 1) {
 							ball_pos = [
 								detection_json.balls[0].x,
 								detection_json.balls[0].y
 							]
 							ball_pos = translatePosition(ball_pos[0], ball_pos[1])
-							drawBall(ctx, ball_pos.x, ball_pos.y, 25, 'orange')
+							drawBall(ctx, ball_pos.x, ball_pos.y, 12, 'orange')
 						}
 						// end ball drawing
 
@@ -69,9 +114,10 @@
 							drawPlayer(ctx, player_pos.x, player_pos.y, angle, 'yellow', tag, confidence)
 						});
 						// end player drawing
+						//console.log(Date.now()-drawStart)
 					});
-				});
-			drawField(ctx, canvas.width, canvas.height);
+				}
+			
 
 			function drawField(ctx, w, h) {
 				// Render field
@@ -198,8 +244,8 @@
 			function drawBall(ctx, pos_x, pos_y, radius, color) {
 				ctx.beginPath();
 				ctx.fillStyle = color;
-				ctx.strokeStyle = 'black';
-				ctx.arc(pos_x,pos_y,radius, 0, 2*Math.PI);
+				ctx.strokeStyle = 'orange';
+				ctx.arc(pos_x-radius,pos_y-radius,radius, 0, 2*Math.PI);
 				ctx.fill();
 				ctx.stroke();
 			}
@@ -214,17 +260,17 @@
 			function drawPlayer(ctx, pos_x, pos_y, angle, color, number_tag, confidence) {
 				ctx.beginPath();
 				ctx.fillStyle = 'gray';
-				ctx.fillRect(pos_x, pos_y - 20, 80, 15)
+				ctx.fillRect(pos_x-40, pos_y-50, 80, 15)
 				ctx.fillStyle = color
-				ctx.fillRect(pos_x, pos_y - 20, 80 * confidence, 15)
+				ctx.fillRect(pos_x-40, pos_y-50, 80 * confidence, 15)
 				ctx.lineWidth = 7;
 				ctx.strokeStyle = 'black';
 				ctx.stroke();
-				drawSemiCircle(ctx, pos_x + 35, pos_y + 35, angle + 0.75, angle - 0.75, 'red')
+				drawSemiCircle(ctx, pos_x, pos_y, angle + 0.75, angle - 0.75, 'red')
 				ctx.fill();
-				ctx.font = "50px Arial";
-				ctx.fillStyle = 'red';
-				ctx.fillText(number_tag, pos_x + 25, pos_y + 50);
+				ctx.font = "30px Verdana";
+				ctx.fillStyle = 'black';
+				ctx.fillText(number_tag, pos_x-9, pos_y+10);
 			}
 		</script>
 	</body>

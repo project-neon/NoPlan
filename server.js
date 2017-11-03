@@ -20,9 +20,9 @@ async function startup(){
   let match = new Match({
     vision: { PORT, HOST },
     robots: {
-      fretado: {visionId: 2, radioId: 2, class: players.Attacker},
-      piso_vermelho: {visionId: 0, radioId: 3, class: players.Attacker},
-      torre_do_relogio: {visionId: 4, radioId: 1, class: players.Attacker}
+      fretado: {visionId: 1, radioId: 2, class: players.Attacker},
+      piso_vermelho: {visionId: 3, radioId: 3, class: players.Attacker},
+      torre_do_relogio: {visionId: 5, radioId: 1, class: players.Attacker}
     },
     driver: {
       port: await getPort('/dev/tty.usbserial-A10252WB'),
