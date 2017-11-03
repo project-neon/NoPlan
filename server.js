@@ -2,9 +2,9 @@ const _ = require('lodash')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
 const SerialPort = require('serialport')
-const express = require('express')
-const app = express()
-const path = require('path')
+const comm = require('./lib/Comm.js')
+
+
 require('draftlog').into(console)
 
 const Match = require('./lib/Match')
@@ -35,9 +35,9 @@ async function startup(){
   })
   await match.init()
   console.log('Listening in:', PORT)
-  app.listen(80, function () {
-  console.log('View listening on port 80!')
-}) 
+  
+  await comm(match, {PORT:80})
+
 }
 
 process.on('unhandledRejection', (e) => {
@@ -48,28 +48,7 @@ process.on('unhandledRejection', (e) => {
 
 startup()
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname,'/static/index.html'))
-})
 
-
-async function getPort(prefered) {
-  let ports = await SerialPort.list()
-  let found = _.find(ports, {comName: prefered})
-  if (found)
-    return prefered
-
-  console.log(`Port '${prefered}' not available`)
-
-  let answer = await inquirer.prompt({
-    type: 'list', 
-    name: 'port',
-    choices: _.map(ports, 'comName'),
-    message: 'Select Cursor port'
-  })
-
-  return answer.port
-}
 
 // async initSocket() {
 //   this.socket = new SocketIo(...)
@@ -92,3 +71,20 @@ async function getPort(prefered) {
 //   })
 // }
 
+async function getPort(prefered) {
+  let ports = await SerialPort.list()
+  let found = _.find(ports, {comName: prefered})
+  if (found)
+    return prefered
+
+  console.log(`Port '${prefered}' not available`)
+
+  let answer = await inquirer.prompt({
+    type: 'list', 
+    name: 'port',
+    choices: _.map(ports, 'comName'),
+    message: 'Select Cursor port'
+  })
+
+  return answer.port
+}

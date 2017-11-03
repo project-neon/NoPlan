@@ -18,12 +18,23 @@ module.exports = class BasePlayer {
     return this.options.radioId
   }
 
-  // Update robot state (linear and angular) targets
-  async send(linear, angular) {
-    // await this.match.driver.send(this.radioId, linear, angular)
+  get ball() {
+    this.match.vision.on('detection',(detection) => {
+    })
   }
 
-  async update (state) {}
+  // Update robot state (linear and angular) targets
+  async send(linear, angular) {
+    try{
+      // await this.match.driver.send(this.radioId, 1, linear, angular)
+    } catch(e){
+      console.log("Fail")
+    }
+  }
+
+  async change (state) {
+
+  }
   async connected () {}
   async disconnected () {}
 }
