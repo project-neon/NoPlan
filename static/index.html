@@ -42,12 +42,14 @@
 						detection_json = msg
 						drawField(ctx, canvas.width, canvas.height);
 						// start ball drawing
-						ball_pos = [
-							detection_json.balls[0].x,
-							detection_json.balls[0].y
-						]
-						ball_pos = translatePosition(ball_pos[0], ball_pos[1])
-						drawBall(ctx, ball_pos.x, ball_pos.y, 25, 'orange')
+						if(detection_json.ball_pos.length >= 1) {
+							ball_pos = [
+								detection_json.balls[0].x,
+								detection_json.balls[0].y
+							]
+							ball_pos = translatePosition(ball_pos[0], ball_pos[1])
+							drawBall(ctx, ball_pos.x, ball_pos.y, 25, 'orange')
+						}
 						// end ball drawing
 
 						// start player drawing
@@ -72,9 +74,6 @@
 			drawField(ctx, canvas.width, canvas.height);
 
 			function drawField(ctx, w, h) {
-				// var widthP = 1125;
-				// var heightP = 975;
-
 				// Render field
 				ctx.fillStyle = "#333";
 				ctx.fillRect(0, 0, width, height);
