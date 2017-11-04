@@ -9,7 +9,7 @@ module.exports = class BasePlayer {
     this.match = match
     this.options = options
     this.state = {id: id, class: this.name}
-    this.ball = {x: 0, y: 0}
+    this.ball = {x: 100, y: 100}
     
     this.linear = 0
     this.angular = 0
@@ -17,7 +17,17 @@ module.exports = class BasePlayer {
     this.position = {x : 0, y : 0}
     this.orientation = 0
 
-    setInterval(() => this.simulate(), 5)
+    if (options.predict) {
+      console.log('Enabled prediction for', id)
+      setInterval(() => {
+        // Skip if no frame has arrived yet
+        if (!this.position.x)
+          return;
+
+        this.simulate()
+        this.update()
+      }, 5)
+    }
   }
 
   toObject () {
@@ -70,11 +80,15 @@ module.exports = class BasePlayer {
     }
 
     let deltaPos = Vector.mult(Vector.fromTheta(this.orientation), dt * this.linear)
-    
     let deltaTheta = this.angular * dt
     
-    this.orientation = this.orientation + deltaTheta
-    let p = Vector.sum([this.position.x, this.position.y], deltaPos)
-    this.position = {x: p[0], y: p[1]}
+    if (deltaTheta) {
+      this.orientation = this.orientation - deltaTheta
+      // console.log(this.orientation.toFixed(2))
+    }
+
+    if (deltaPos)
+      this.position = Vector.sum(this.position, deltaPos)
+    // console.log('delta: ', Math.round(Vector.toDegrees(deltaTheta)))
   }
 }

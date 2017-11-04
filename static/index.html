@@ -10,7 +10,7 @@
 		.panel{
 			background-color: white;
 			width: 200px; 
-			float: right;
+			float: left;
 			padding: 20px;
 			margin: 20px;
 			border: 12px;
@@ -95,7 +95,7 @@
 							tag = robot.robot_id
 							angle = robot.orientation
 							confidence = robot.confidence
-							drawPlayer(ctx, player_pos.x, player_pos.y, angle, 'blue', tag, confidence)
+							drawPlayer(ctx, player_pos.x, player_pos.y, -angle, 'blue', tag, confidence)
 						});
 
 						detection_json.robots_yellow.forEach(function(robot) {
@@ -103,7 +103,7 @@
 							tag = robot.robot_id
 							angle = robot.orientation
 							confidence = robot.confidence
-							drawPlayer(ctx, player_pos.x, player_pos.y, angle, 'yellow', tag, confidence)
+							drawPlayer(ctx, player_pos.x, player_pos.y, -angle, 'yellow', tag, confidence)
 						});
 						// end player drawing
 						//console.log(Date.now()-drawStart)
@@ -158,7 +158,7 @@
 				ctx.beginPath();
 				ctx.strokeStyle="white";
 				ctx.lineWidth=0.5*ratioPxCm;
-				ctx.fillStyle='#333'
+				ctx.fillStyle='#444'
 				ctx.fillRect(0,yCenter-(20*ratioPxCm),10.3*ratioPxCm,40*ratioPxCm);
 				ctx.stroke();
 
@@ -166,7 +166,7 @@
 				ctx.beginPath();
 				ctx.strokeStyle="white";
 				ctx.lineWidth=0.5*ratioPxCm;
-				ctx.fillStyle='#333'
+				ctx.fillStyle='#444'
 				ctx.fillRect(widthP-(10.3*ratioPxCm),yCenter-(20*ratioPxCm),10*ratioPxCm,40*ratioPxCm);
 				ctx.stroke();
 
@@ -238,7 +238,7 @@
 			function translatePosition(pos_x, pos_y) {
 				x = pos_x * scale + width/2
 				y = pos_y * scale + height/2
-				return {'x': x, 'y': y}
+				return {'x': x, 'y': height - y}
 			}
 
 			function drawBall(ctx, pos_x, pos_y, radius, color) {
