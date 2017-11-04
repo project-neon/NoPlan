@@ -5,10 +5,10 @@
 			<Var name="Reset SSL 2014" type="trigger">
 			</Var>
 			<Var name="Field Length" type="double" minval="" maxval="">
-				1500,000000
+				1750,000000
 			</Var>
 			<Var name="Field Width" type="double" minval="" maxval="">
-				1300,000000
+				1350,000000
 			</Var>
 			<Var name="Goal Width" type="double" minval="" maxval="">
 				100,000000
@@ -17,7 +17,7 @@
 				40,000000
 			</Var>
 			<Var name="Boundary Width" type="double" minval="" maxval="">
-				3,000000
+				50,000000
 			</Var>
 			<Var name="Number of Line Segments" type="int" minval="" maxval="">
 				18
@@ -461,7 +461,7 @@
 		</Var>
 		<Var name="Ball Detection" type="list">
 			<Var name="Max Ball Count" type="int" minval="" maxval="">
-				1
+				2
 			</Var>
 			<Var name="Ball Color" type="string">
 				Orange
@@ -483,10 +483,10 @@
 					30
 				</Var>
 				<Var name="Min Area (sq-pixels)" type="int" minval="" maxval="">
-					9
+					3
 				</Var>
 				<Var name="Max Area (sq-pixels)" type="int" minval="" maxval="">
-					1000
+					500
 				</Var>
 			</Var>
 			<Var name="Gaussian Size Filter" type="list">
@@ -505,7 +505,7 @@
 			</Var>
 			<Var name="Near Robot Filter" type="list">
 				<Var name="Enable Filter" type="bool">
-					true
+					false
 				</Var>
 				<Var name="Distance (mm)" type="double" minval="" maxval="">
 					70,000000
@@ -588,9 +588,12 @@
 				<Var name="14" type="string">
 					Neon
 				</Var>
+				<Var name="15" type="string">
+					New Team 15
+				</Var>
 			</Var>
 			<Var name="Max Robots" type="int" minval="" maxval="">
-				1
+				3
 			</Var>
 		</Var>
 		<Var name="Yellow Team" type="list">
@@ -641,9 +644,12 @@
 				<Var name="14" type="string">
 					Neon
 				</Var>
+				<Var name="15" type="string">
+					New Team 15
+				</Var>
 			</Var>
 			<Var name="Max Robots" type="int" minval="" maxval="">
-				0
+				6
 			</Var>
 		</Var>
 		<Var name="Network Output" type="list">
@@ -2230,10 +2236,10 @@
 				</Var>
 				<Var name="Capture Settings" type="list">
 					<Var name="cam idx" type="int" minval="" maxval="">
-						1
+						0
 					</Var>
 					<Var name="framerate" type="int" minval="" maxval="">
-						60
+						30
 					</Var>
 					<Var name="width" type="int" minval="" maxval="">
 						640
@@ -2442,13 +2448,13 @@
 				</Var>
 				<Var name="Capture Settings" type="list">
 					<Var name="Framerate (FPS)" type="double" minval="" maxval="">
-						60,000000
+						30,000000
 					</Var>
 					<Var name="Width (pixels)" type="int" minval="" maxval="">
-						780
+						640
 					</Var>
 					<Var name="Height (pixels)" type="int" minval="" maxval="">
-						580
+						480
 					</Var>
 					<Var name="Generate Color Test Image" type="bool">
 						false
@@ -2469,122 +2475,122 @@
 		<Var name="Camera Calibrator" type="list">
 			<Var name="Camera Parameters" type="list">
 				<Var name="focal length" type="double" minval="" maxval="">
-					1120,401774
+					645,817822
 				</Var>
 				<Var name="principal point x" type="double" minval="" maxval="">
-					391,516485
+					481,263839
 				</Var>
 				<Var name="principal point y" type="double" minval="" maxval="">
-					287,833744
+					20,094995
 				</Var>
 				<Var name="distortion" type="double" minval="0,000000" maxval="2,000000">
-					0,380000
+					0,030000
 				</Var>
 				<Var name="q0" type="double" minval="" maxval="">
-					0,998067
+					-0,999892
 				</Var>
 				<Var name="q1" type="double" minval="" maxval="">
-					0,005705
+					-0,001852
 				</Var>
 				<Var name="q2" type="double" minval="" maxval="">
-					0,000682
+					-0,001125
 				</Var>
 				<Var name="q3" type="double" minval="" maxval="">
-					0,061880
+					-0,014568
 				</Var>
 				<Var name="tx" type="double" minval="" maxval="">
-					-257,389705
+					-499,702409
 				</Var>
 				<Var name="ty" type="double" minval="" maxval="">
-					-188,448030
+					672,313349
 				</Var>
 				<Var name="tz" type="double" minval="0,000000" maxval="5000,000000">
-					3500,000000
+					2079,000000
 				</Var>
 			</Var>
 			<Var name="Calibration Parameters" type="list">
 				<Var name="Control Point 0" type="list">
 					<Var name="Control point 0 name" type="string">
-						Control point 0
+						Top Left
 					</Var>
 					<Var name="Control point 0 image x" type="double" minval="" maxval="">
-						43,000000
+						63,000000
 					</Var>
 					<Var name="Control point 0 image y" type="double" minval="" maxval="">
-						11,000000
+						35,000000
 					</Var>
 					<Var name="Control point 0 field x" type="double" minval="" maxval="">
-						-950,000000
+						-875,000000
 					</Var>
 					<Var name="Control point 0 field y" type="double" minval="" maxval="">
-						750,000000
+						675,000000
 					</Var>
 				</Var>
 				<Var name="Control Point 1" type="list">
 					<Var name="Control point 1 name" type="string">
-						Control point 1
+						Top Right
 					</Var>
 					<Var name="Control point 1 image x" type="double" minval="" maxval="">
-						600,000000
+						598,000000
 					</Var>
 					<Var name="Control point 1 image y" type="double" minval="" maxval="">
-						10,000000
+						25,000000
 					</Var>
 					<Var name="Control point 1 field x" type="double" minval="" maxval="">
-						950,000000
+						875,000000
 					</Var>
 					<Var name="Control point 1 field y" type="double" minval="" maxval="">
-						750,000000
+						675,000000
 					</Var>
 				</Var>
 				<Var name="Control Point 2" type="list">
 					<Var name="Control point 2 name" type="string">
-						Control point 2
+						Bottom Right
 					</Var>
 					<Var name="Control point 2 image x" type="double" minval="" maxval="">
-						34,000000
+						612,000000
 					</Var>
 					<Var name="Control point 2 image y" type="double" minval="" maxval="">
-						438,000000
+						433,000000
 					</Var>
 					<Var name="Control point 2 field x" type="double" minval="" maxval="">
-						-860,000000
+						875,000000
 					</Var>
 					<Var name="Control point 2 field y" type="double" minval="" maxval="">
-						-660,000000
+						-675,000000
 					</Var>
 				</Var>
 				<Var name="Control Point 3" type="list">
 					<Var name="Control point 3 name" type="string">
-						Control point 3
+						Bottom Left
 					</Var>
 					<Var name="Control point 3 image x" type="double" minval="" maxval="">
-						606,000000
+						44,000000
 					</Var>
 					<Var name="Control point 3 image y" type="double" minval="" maxval="">
-						463,000000
+						415,000000
 					</Var>
 					<Var name="Control point 3 field x" type="double" minval="" maxval="">
-						950,000000
+						-875,000000
 					</Var>
 					<Var name="Control point 3 field y" type="double" minval="" maxval="">
-						-750,000000
+						-675,000000
 					</Var>
 				</Var>
 				<Var name="initial distortion" type="double" minval="" maxval="">
 					0,000000
 				</Var>
 				<Var name="camera height" type="double" minval="" maxval="">
-					1500,000000
+					2000,000000
 				</Var>
 				<Var name="line search corridor width" type="double" minval="" maxval="">
-					50,000000
+					61,000000
 				</Var>
 				<Var name="Image boundary for edge detection" type="double" minval="" maxval="">
 					10,000000
 				</Var>
 				<Var name="Max distance of edge from camera" type="double" minval="" maxval="">
-					750,000000
+					640,000000
 				</Var>
 				<Var name="convergence timeout (s)" type="double" minval="" maxval="">
 					10,000000
@@ -2608,7 +2614,7 @@
 		</Var>
 		<Var name="Blob Finding" type="list">
 			<Var name="min_blob_area" type="int" minval="" maxval="">
-				5
+				15
 			</Var>
 			<Var name="enable" type="bool">
 				true
