@@ -87,14 +87,6 @@
 						detection_json = msg
 						drawField(ctx, canvas.width, canvas.height);
 						// start ball drawing
-						if(detection_json.balls.length >= 1) {
-							ball_pos = [
-								detection_json.balls[0].x,
-								detection_json.balls[0].y
-							]
-							ball_pos = translatePosition(ball_pos[0], ball_pos[1])
-							drawBall(ctx, ball_pos.x, ball_pos.y, 12, 'orange')
-						}
 						// end ball drawing
 
 						// start player drawing
@@ -115,6 +107,14 @@
 						});
 						// end player drawing
 						//console.log(Date.now()-drawStart)
+						if(detection_json.balls.length >= 1) {
+							ball_pos = [
+								detection_json.balls[0].x,
+								detection_json.balls[0].y
+							]
+							ball_pos = translatePosition(ball_pos[0], ball_pos[1])
+							drawBall(ctx, ball_pos.x, ball_pos.y, 12, 'orange')
+						}
 					});
 				}
 			
@@ -245,7 +245,7 @@
 				ctx.beginPath();
 				ctx.fillStyle = color;
 				ctx.strokeStyle = 'orange';
-				ctx.arc(pos_x-radius,pos_y-radius,radius, 0, 2*Math.PI);
+				ctx.arc(pos_x,pos_y,radius, 0, 2*Math.PI);
 				ctx.fill();
 				ctx.stroke();
 			}
@@ -253,7 +253,7 @@
 			function drawSemiCircle(ctx, pos_x, pos_y, init_angle, end_angle, radius, color) {
 				ctx.beginPath();
 				ctx.strokeStyle = color;
-				ctx.arc(pos_x, pos_y, 35, init_angle, end_angle);
+				ctx.arc(pos_x, pos_y, 30, init_angle, end_angle);
 				ctx.stroke();
 			}
 

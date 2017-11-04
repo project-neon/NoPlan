@@ -1,5 +1,7 @@
+const Vector = require('../lib/Vector')
+
 let fail = 0
-const MAX_ANGULAR = 999
+const MAX_ANGULAR = Vector.toRadians(999)
 
 module.exports = class BasePlayer {
   constructor (id, match, options) {
@@ -7,9 +9,15 @@ module.exports = class BasePlayer {
     this.match = match
     this.options = options
     this.state = {id: id, class: this.name}
-    this.balls = {x: null, y: null}
-    this.speed = {linear : null, angular : null}
-    this.position = {x : null, y : null, theta : null}
+    this.ball = {x: 0, y: 0}
+    
+    this.linear = 0
+    this.angular = 0
+    
+    this.position = {x : 0, y : 0}
+    this.orientation = 0
+
+    setInterval(() => this.simulate(), 5)
   }
 
   toObject () {
@@ -24,62 +32,49 @@ module.exports = class BasePlayer {
     return this.options.radioId
   }
 
-  async ball() {
-    // this.match.vision.on('detection', function(detection) {
-    //   this.balls = {detection}
-    // })
-  }
 
   // Update robot state (linear and angular) targets
   async send(_state, _linear, _angular) {
 
-
     _angular = _angular > MAX_ANGULAR ? MAX_ANGULAR : _angular
     _angular = _angular < -MAX_ANGULAR ? -MAX_ANGULAR : _angular
-
-    try{
-
-      await this.match.driver.send(this.radioId, _state, linear, _angular)
-    } catch(e){
-      fail++
-    }
-  }
-
-  // async gotoPoint(minAngle, ) {
-  //   robot.itstarget = [state[0], state[1]];
-
-  //   // Find Angle to ball
-  //   var angleDx =  (state[0] - robot.state[0]);
-  //   var angleDy =  (state[1] - robot.state[1]);
-
-  //   var angle = -Math.atan2(angleDx, angleDy) * (180/Math.PI);
-  //   var robotAngle = robot.state[2] * (180 / Math.PI) + 180;
     
-  //   var relativeAngle = robotAngle - angle;
-  //   var dist = Math.sqrt(Math.pow(angleDx, 2) + Math.pow(angleDy, 2));
-
-  //   relativeAngle = Move.normalizeAngle(relativeAngle);
-  //   var minDist = 50;
-
-  //   if(dist < minDist){
-  //     return true;
-  //   }
-
-  //   //  Approximation goes from 1 to 0
-  //   var startApprox = 80;
-  //   var approximation = (dist < startApprox ? (dist - minDist) / (startApprox - minDist) : 3.0); 
-
-  //   var bestStartAngle = 35;
-  //   var approximationAngle = (Math.min(Math.abs(relativeAngle), bestStartAngle) ) / bestStartAngle;
-
-  //   // console.log(approximation+"");
-  //   // console.log(approximationAngle);
-  //   this.send(ySpeed * (1 - approximationAngle), relativeAngle * approximation);
-  // }
-
-  async move (state) {
-
+    if (_state == 1) {
+      this.linear = _linear
+      this.angular = _angular
+    } else {
+      this.linear = 0
+      this.angular = 0
+    }
+    
+    // try{
+      _angular = Vector.toDegrees(_angular)
+      _linear = _linear/10
+      this.match.driver.send(this.radioId, _state, _linear, _angular)
+    // } catch(e){
+      // fail++
+    // }
   }
-  async connected () {}
-  async disconnected () {}
+
+  simulate(dt) {
+    // Compute dt if not assigned
+    if (!dt) {
+      let now = Date.now()
+      dt = (now - this.lastTime) / 1000
+      this.lastTime = now
+    }
+
+    if (dt > 0.05) {
+      console.error('Dt weird:', dt)
+      return
+    }
+
+    let deltaPos = Vector.mult(Vector.fromTheta(this.orientation), dt * this.linear)
+    
+    let deltaTheta = this.angular * dt
+    
+    this.orientation = this.orientation + deltaTheta
+    let p = Vector.sum([this.position.x, this.position.y], deltaPos)
+    this.position = {x: p[0], y: p[1]}
+  }
 }
