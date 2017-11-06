@@ -9,8 +9,7 @@ module.exports = class BasePlayer {
     this.match = match
     this.options = options
     this.state = {id: id, class: this.name}
-    this.ball = {x: 100, y: 100}
-    
+    this.ball = {x:0,y:0}
     this.linear = 0
     this.angular = 0
     
@@ -41,7 +40,6 @@ module.exports = class BasePlayer {
   get radioId() {
     return this.options.radioId
   }
-
 
   // Update robot state (linear and angular) targets
   async send(_state, _linear, _angular) {

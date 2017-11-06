@@ -4,13 +4,16 @@ const Intention = require('./')
 
 module.exports = class LineIntention extends Intention{
   constructor(name, params) {
-    super(name)
+    super(name, params)
 
     this.params = params
   }
 
   compute({x, y, theta}) {
-    let distToPoint = Vector.sub({x, y}, this.params.pos)
+
+    let position = typeof this.params.pos === "function" ? this.params.pos(): this.params.pos
+
+    let distToPoint = Vector.sub({x, y}, position)
     let relToPoint = Vector.rotate(distToPoint, -this.params.theta)
 
     //   Posição na reta: relToPoint.x

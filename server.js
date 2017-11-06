@@ -28,12 +28,9 @@ async function startup(){
   let match = new MatchClass({
     vision: { PORT, HOST },
     robots: {
-      test: {visionId: 0, radioId: 2, class: players.TestIntention1, predict: usePrediction}, 
-
-      // fretado: {visionId: 1, radioId: 2, class: players.Attacker, predict: usePrediction}, 
-
-      //piso_vermelho: {visionId: 3, radioId: 1, class: players.Attacker, predict: usePrediction},
-      //torre_do_relogio: {visionId: 5, radioId: 3, class: players.Attacker, predict: usePrediction}
+      // fretado: {visionId: 0, radioId: 2, class: players.TestIntention2, predict: usePrediction}, 
+      piso_vermelho: {visionId: 2, radioId: 1, class: players.TestIntention2, predict: usePrediction},
+      //torre_do_relogio: {visionId: 4, radioId: 3, class: players.TestIntention2, predict: usePrediction}
     },
     driver: {
       port: (isSimulated ? null : await getPort('/dev/tty.usbserial-A10252WB')),
@@ -41,6 +38,7 @@ async function startup(){
       baudRate: 500000,
     }
   })
+
   await match.init()
   console.log('Listening in:', PORT)
   

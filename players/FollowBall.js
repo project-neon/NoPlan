@@ -1,11 +1,12 @@
 const BasePlayer = require('./BasePlayer')
 const Vector = require('../lib/Vector')
+
 let MAX_SPEED=999
 
 const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 
 
-module.exports = class Attacker extends BasePlayer {
+module.exports = class FollowBall extends BasePlayer {
   async update() {
 
     if(this.match.state.state.status == "stopped"){
@@ -28,10 +29,6 @@ module.exports = class Attacker extends BasePlayer {
       let robot = Vector.fromTheta(this.orientation)
       let angle = Vector.angleBetween(ball, robot)
       let targetSpeed = Vector.toDegrees(angle)
-      // this.draft(Math.round(targetSpeed))
-      // targetSpeed = targetSpeed > 10 ? 360 : targetSpeed < -10 ? -360 : targetSpeed * 30
-
-      // await this.send(1,0,Vector.toRadians(targetSpeed))
       let speedFront = -Math.max(0, 400 - Math.abs(angle * 100)) 
       await this.send(1, speedFront,angle * 5)
 

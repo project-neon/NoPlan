@@ -7,7 +7,10 @@ const LineIntention = require('../Intention/LineIntention')
 
 const BasePlayer = require('./BasePlayer')
 
-let MAX_SPEED=999
+const SPEED_IMPORTANCE_MIN=10
+const SPEED_IMPORTANCE_MAX=15
+
+const speedImportance = TensorMath.new.map(SPEED_IMPORTANCE_MAX,SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
 
 const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 
@@ -19,6 +22,25 @@ const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 // }
 
 
+console.log()
+console.log()
+console.log('========================== TESTS')
+function printObj(inp){ 
+  let obj = {}
+  for (let k in inp) obj[k] = inp[k].toFixed && inp[k].toFixed(1);
+  console.log(obj)
+}
+
+// printObj(Vector.rotate({x: 0, y: 1}, -Math.PI/2))
+// printObj(Vector.rotate({x: 0, y: 1}, Math.PI / 2))
+// console.log(Vector.rotate({x: 0, y: 1}, Math.PI))
+// console.log(Vector.rotate({x: 1, y: 1}, Math.PI))
+
+console.log('========================== =====')
+console.log()
+console.log()
+
+
 module.exports = class IntentionPlayer extends BasePlayer {
   constructor (id, match, options) {
     super(id, match, options)
@@ -26,32 +48,45 @@ module.exports = class IntentionPlayer extends BasePlayer {
     this.intentionGroup = new Intention('RootIntentionGroup')
 
     this.setup()
+
+    this.orientation = 0
+  }
+
+  addIntetion(name, intention) {
+    this.intentionGroup.addIntetion(name, intention)
+    return intention
   }
 
   setup() {}
   loop() {}
 
   computeRobotModelForIntention({vx, vy, vtheta}) {
-
-    let robotThetaVector = Vector.fromTheta(this.orientation)
+    // Create Vector From Received Speed
     let targetSpeedVector = {x: vx, y: vy}
+    // Escalar
+    let targetSpeed = Vector.size(targetSpeedVector)
 
+    // Normalize Vector to robot's Xs and Ys
     let robotWorldSpeed = Vector.rotate(targetSpeedVector, -this.orientation)
 
-    // 50% de chance de dar certo
-    let linear = robotWorldSpeed.y
+    // Get linear speed from robotWorldSpeed x component
+    let linear = robotWorldSpeed.x
 
-
-    if(robotWorldSpeed.y < 0.0) {
+    // To work with the two robot fronts
+    if(robotWorldSpeed.x < 0.0) {
       robotWorldSpeed.y = -robotWorldSpeed.y;
       robotWorldSpeed.x = -robotWorldSpeed.x;
     }
 
-    let robotAngleToSpeed = Vector.angle(robotWorldSpeed)//Vector.angleBetween(robotThetaVector, targetSpeedVector)
-    let angular = robotAngleToSpeed * 3
+    // Use speed vector as robot angle
+    let robotAngleToSpeed = -Vector.angle(robotWorldSpeed)
 
-    // console.log(vx, vy, vtheta, Vector.toDegrees(this.orientation).toFixed(2), targetSpeedVector)
-    // console.log({x:robotWorldSpeed.x.toFixed(2), y: robotWorldSpeed.y.toFixed(2)})
+    let speedWeight = speedImportance(targetSpeed)
+    let vthetaWeight = 1 - speedWeight
+    // console.log(vthetaWeight)
+
+    let angular = (robotAngleToSpeed * 5 * speedWeight) + (vtheta * vthetaWeight)
+
     return {linear, angular}
   }
 
@@ -61,14 +96,12 @@ module.exports = class IntentionPlayer extends BasePlayer {
       return
     }
 
-    // this.draft = this.draft || console.draft()
-
     let frame = this.frame
 
     // Update ball position
     if(frame.balls[0]){
-      this.ball.x = frame.balls[0].x.toFixed(2)
-      this.ball.y = frame.balls[0].y.toFixed(2)
+      this.ball.x = frame.balls[0].x//.x.toFixed(2)
+      this.ball.y = frame.balls[0].y//.y.toFixed(2)
     }
 
     await this.loop()
@@ -77,21 +110,11 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let input = {
       x: this.position.x,
       y: this.position.y,
-      theta: this.orientation
+      theta: this.orientation,
     }
 
     // // Get intention output
     let output = this.intentionGroup.compute(input)
-
-    //console.log(input, output)
-
-    // let output = {
-    //   vx: 700,
-    //   vy: 0,
-    //   // vx: 500 * ((Math.round(Date.now() / 5000) % 2) * 2 - 1),
-    //   // vy: 500 * ((Math.round((Date.now() - 2500) / 5000) % 2) * 2 - 1), 
-    //   vtheta: Math.PI,
-    // }
 
     // Convert to robot model
     let {linear, angular} = this.computeRobotModelForIntention(output)
@@ -99,20 +122,5 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
     // Apply to robot
     this.send(1, linear, angular)
-    
-    // if (frame) {
-
-    //   let ball = Vector.sub(this.ball, this.position)
-    //   let robot = Vector.fromTheta(this.orientation)
-    //   let angle = Vector.angleBetween(ball, robot)
-    //   let targetSpeed = Vector.toDegrees(angle)
-    //   // this.draft(Math.round(targetSpeed))
-    //   // targetSpeed = targetSpeed > 10 ? 360 : targetSpeed < -10 ? -360 : targetSpeed * 30
-
-    //   // await this.send(1,0,Vector.toRadians(targetSpeed))
-    //   let speedFront = -Math.max(0, 400 - Math.abs(angle * 100)) 
-    //   await this.send(1, speedFront,angle * 5)
-
-    // }
   }
 }
