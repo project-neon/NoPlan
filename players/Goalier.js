@@ -16,30 +16,23 @@ module.exports = class Goalier extends IntentionPlayer {
       return {x: this.ball.x,
               y: this.ball.y}
     }
-    
-    // ----------------------------- Go Goal up
+
+    this.orientation = Math.PI / 2
+    this.position = {x: 600, y: 400}
+
     this.$goGoalUp = new Intention('goGoalUp')
     this.$goGoalUp.addIntetion(new LineIntention('goal', {
       // target: ball,
-      position: {x: 750, y: 0},
-      theta:0,
-      lineWidth: 200,
-      decay: TensorMath.new.pow(3).finish,
+      target: {x: 700, y: 0},
+      lineDist:200,
+      lineDistMax:650,
+      lineSize:false,
+      theta:Math.PI/2,
+      decay: TensorMath.new.mult(-1).finish,
       multiplier: FORWARD_SPEED,
     }))
 
-    this.$goGoalUp.addIntetion(new LookAtIntention('lookUp', {
-      // target: ,
-      theta: Math.PI / 2,
-      decay: TensorMath.new.finish,
-      multiplier: ANGULAR_MULTIPLIER,
-    }))
-
     this.addIntetion(this.$goGoalUp)
-
-    this.startTime = Date.now()
-    this.states = [this.$goGoalUp]
-
   }
 
   loop(){
