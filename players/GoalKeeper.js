@@ -18,6 +18,16 @@ const Direction = {
   RIGHT: 0,
   LEFT: Math.PI,
 }
+const AvoidWall_Speed = 990
+const AvoidWall_Corridor = 620
+
+const Field = {
+  width: 1700,
+  TopLeft: {x: -775, y: 675},
+  TopRight: {x: 775, y: 675},
+  BottomLeft: {x: -775, y: -675},
+  BottomRight: {x: 775, y: -675}
+}
 
 module.exports = class GoalKeeper extends IntentionPlayer {
   setup(){
@@ -28,35 +38,68 @@ module.exports = class GoalKeeper extends IntentionPlayer {
     
     this.$goalkeeperIntetion = new Intention('goalkeeper')
     
-    this.$followXIntetion = new LineIntention('follow_x', {
+    this.$goalkeeperIntetion.addIntetion(new LineIntention('follow_x', {
       target: ball,
       theta: Direction.RIGHT,
       lineSize: 1700,
       lineDist: 200,
       decay: TensorMath.new.mult(-1).finish,
-      multiplier: 200,
-    })
-    this.$goalkeeperIntetion.addIntetion(this.$followXIntetion)
+      multiplier: 990,
+    }))
+
     this.$goalkeeperIntetion.addIntetion(new LineIntention('follow_goalline', {
-      target: {x: 640 , y: 0},
+      target: {x: 750 , y: 0},
       theta: Direction.UP,
       lineSize: 1700,
       lineDist: 200,
       lineDistMax: 200,
       decay: TensorMath.new.mult(-1).finish,
-      multiplier: 200,
+      multiplier: 990,
     }))
+
+
+    this.$goalkeeperIntetion.addIntetion(new LineIntention('topWall', {
+      // target: ball,
+      target: Field.TopLeft,
+      theta: Direction.RIGHT,
+      lineSize: Field.width, // Largura do segmento de reta
+      // lineSizeSingleSide: true,
+
+      lineDist: AvoidWall_Corridor, // Tamanho da repelência
+      lineDistMax: AvoidWall_Corridor, // Tamanho da repelência
+      // lineDistSingleSide: true,
+      
+      decay: AvoidWall_Decay,
+      multiplier: AvoidWall_Speed,
+    }))
+
+
+    this.$goalkeeperIntetion.addIntetion(new LineIntention('bottomWall', {
+      // target: ball,
+      target: Field.TopRight,
+      theta: Direction.LEFT,
+      lineSize: Field.width, // Largura do segmento de reta
+      // lineSizeSingleSide: true,
+
+      lineDist: AvoidWall_Corridor, // Tamanho da repelência
+      lineDistMax: AvoidWall_Corridor, // Tamanho da repelência
+      // lineDistSingleSide: true,
+      
+      decay: AvoidWall_Decay,
+      multiplier: AvoidWall_Speed,
+    }))
+
 
     this.addIntetion(this.$goalkeeperIntetion)
   }
 
   loop(){
-    if (this.ball.y < -300 || this.ball.y > 300) {
-      console.log('not OK!', this.ball)
-      this.$followXIntetion.weight = 0
-    } else {
-      console.log('OK!', this.ball)
-      this.$followXIntetion.weight = 1
-    }
+    // if (this.ball.y < -300 || this.ball.y > 300) {
+    //   console.log('not OK!', this.ball)
+    //   this.$followXIntetion.weight = 0
+    // } else {
+    //   console.log('OK!', this.ball)
+    //   this.$followXIntetion.weight = 1
+    // }
   }
 }
