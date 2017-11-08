@@ -10,6 +10,15 @@ const FORWARD_SPEED = 500 // ~4.3s
 
 const ANGULAR_MULTIPLIER = 10
 
+const AvoidWall_Decay = TensorMath.new.mult(-1).sum(1).finish
+
+const Direction = {
+  UP: Math.PI / 2,
+  DOWN: - Math.PI / 2,
+  RIGHT: 0,
+  LEFT: Math.PI,
+}
+
 module.exports = class GoalKeeper extends IntentionPlayer {
   setup(){
     let ball = () => {
@@ -17,20 +26,37 @@ module.exports = class GoalKeeper extends IntentionPlayer {
               y: this.ball.y}
     }
     
-    // ----------------------------- Go Goal up
     this.$goalkeeperIntetion = new Intention('goalkeeper')
     
-    this.$goalkeeperIntetion.addIntetion(new LineIntention('follow_x', {
+    this.$followXIntetion = new LineIntention('follow_x', {
       target: ball,
-      theta:0,
-      decay: TensorMath.new.finish,
-      multiplier: FORWARD_SPEED,
+      theta: Direction.RIGHT,
+      lineSize: 1700,
+      lineDist: 200,
+      decay: TensorMath.new.mult(-1).finish,
+      multiplier: 200,
+    })
+    this.$goalkeeperIntetion.addIntetion(this.$followXIntetion)
+    this.$goalkeeperIntetion.addIntetion(new LineIntention('follow_goalline', {
+      target: {x: 640 , y: 0},
+      theta: Direction.UP,
+      lineSize: 1700,
+      lineDist: 200,
+      lineDistMax: 200,
+      decay: TensorMath.new.mult(-1).finish,
+      multiplier: 200,
     }))
 
     this.addIntetion(this.$goalkeeperIntetion)
   }
 
   loop(){
-
+    if (this.ball.y < -300 || this.ball.y > 300) {
+      console.log('not OK!', this.ball)
+      this.$followXIntetion.weight = 0
+    } else {
+      console.log('OK!', this.ball)
+      this.$followXIntetion.weight = 1
+    }
   }
 }
