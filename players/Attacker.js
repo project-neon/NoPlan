@@ -1,6 +1,7 @@
-const IntentionPlayer = require('./IntentionPlayer')
+const Vector = require('../lib/Vector')
 const TensorMath = require('../lib/TensorMath')
 const Intention = require('../Intention')
+const IntentionPlayer = require('./IntentionPlayer')
 const LineIntention = require('../Intention/LineIntention')
 const PointIntention = require('../Intention/PointIntention')
 const LookAtIntention = require('../Intention/LookAtIntention')
@@ -28,6 +29,8 @@ const Field = {
 const AvoidWall_Decay = TensorMath.new.mult(-1).sum(1).finish
 const AvoidWall_Speed = 300
 const AvoidWall_Corridor = 200
+
+const OffsetBallDistance = 75
 
 module.exports = class Attacker extends IntentionPlayer {
   setup(){
@@ -138,17 +141,44 @@ module.exports = class Attacker extends IntentionPlayer {
 
     this.$prepareAttack.addIntetion(new PointIntention('followBall', {
       // target: ball,
-      target: () => { return {x: this.ball.x - 75, y: this.ball.y} },
+      target: () => { return {x: this.ball.x - OffsetBallDistance, y: this.ball.y} },
       radius: 150,
       radiusMax: false,
       decay: TensorMath.new.finish,
       multiplier: 500,
     }))
+
+    // ============================================== Attack with Acceleration
+    this.$attackAccelerated = new Intention('attackAccelerated')
+    this.addIntetion(this.$attackAccelerated)
+
+    this.$attackAccelerated.addIntetion(new PointIntention('goBall', {
+      target: ball,
+      radius: OffsetBallDistance + 50,
+      radiusMax: OffsetBallDistance + 50,
+      decay: this.currentAttackAcceleratedDecay.bind(this),
+      multiplier: 900,
+    }))
+
   }
+
+  currentAttackAcceleratedDecay(dist) {
+    // return 0
+    let withinAttackArea = (this.position.x < this.ball.x)
+    
+    if (!withinAttackArea) {
+      return 0
+    }
+
+    
+    // let toBall = Vector.sub(this.ball, this.position)
+  }
+
 
   loop(){
     this.$avoidWalls.weight = 0
     this.$prepareAttack.weight = 1
+    this.$attackAccelerated.weight = 1
     // console.log(this.intentionGroup.output)
   }
 }
