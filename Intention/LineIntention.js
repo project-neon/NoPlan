@@ -76,7 +76,7 @@ module.exports = class LineIntention extends Intention{
 
     let force = util.applyReflectedDecay(this.decay, toLineScalarNorm)
 
-    console.log(force, toLineScalarNorm, toLineNorm)
+    // console.log(force, toLineScalarNorm, toLineNorm)
     
     return {
       vx: toLineNorm.x * force * this.multiplier,

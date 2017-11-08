@@ -33,8 +33,13 @@ module.exports = class IntentionPlayer extends BasePlayer {
     super(id, match, options)
 
     this.intentionGroup = new Intention('RootIntentionGroup')
+    
+    this.lastBall = null
+    this.ballSpeed = {x: 0, y: 0}
+    this._ballSpeedsRaw = []
 
     this.setup()
+
 
     // this.orientation = 0
   }
@@ -93,8 +98,36 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
     // Update ball position
     if(frame.balls[0]){
-      this.ball.x = frame.balls[0].x//.x.toFixed(2)
-      this.ball.y = frame.balls[0].y//.y.toFixed(2)
+      this.lastBall = this.ball
+
+      let dt = this.frame.t_capture - this.lastBallTimestamp
+      this.lastBallTimestamp = this.frame.t_capture
+
+      this.ball = frame.balls[0]
+
+      if (dt && dt < 0.04 && this.lastBall) {
+
+        this._ballSpeedsRaw.unshift({
+          x: (this.ball.x - this.lastBall.x) / dt,
+          y: (this.ball.y - this.lastBall.y) / dt,
+        })
+
+        this._ballSpeedsRaw = this._ballSpeedsRaw.slice(0, 10)
+
+        let avgSpeed = this._ballSpeedsRaw.reduce((last, speed) => {
+          return {x: last.x + speed.x, y: last.y + speed.y}
+        }, {x: 0, y: 0})
+
+        avgSpeed.x = avgSpeed.x / this._ballSpeedsRaw.length
+        avgSpeed.y = avgSpeed.y / this._ballSpeedsRaw.length
+
+        this.ballSpeed = avgSpeed
+        // console.log(avgSpeed)
+
+        // console.log(dt + '\t' + avgSpeed.x.toFixed(0) + '\t' + avgSpeed.y.toFixed(0))
+      }
+      // // Compute ball average speed
+      // let sum = this.lastBalls.reduce((prev, ball) => {prev})
     }
 
     await this.loop()
