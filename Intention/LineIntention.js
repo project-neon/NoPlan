@@ -1,20 +1,34 @@
-const Vector = require('../lib/Vector')
-
+const util = require('./util')
 const Intention = require('./')
+const assert = require('assert')
+const Vector = require('../lib/Vector')
 
 module.exports = class LineIntention extends Intention{
   constructor(name, params) {
     super(name, params)
 
+    assert(params)
     this.params = params
+
+    assert.notEqual(this.params.target, null)
+    this.target = this.params.target
+
+    assert.notEqual(this.params.decay, null)
+    this.decay = this.params.decay
+    
+    this.lineSize = this.params.lineSize
+
+    this.multiplier = this.params.multiplier || 1
   }
 
   compute({x, y, theta}) {
 
-    let position = typeof this.params.pos === "function" ? this.params.pos(): this.params.pos
+    let targetLine = util.callOrReturn(this.target)
 
-    let distToPoint = Vector.sub({x, y}, position)
-    let relToPoint = Vector.rotate(distToPoint, -this.params.theta)
+    let toLine = Vector.sub({x, y}, position)
+    let toLineScalar = Vector.size(toLine)
+
+    let toLineWTheta = Vector.rotate(toLine, -this.params.theta)
 
     //   Posição na reta: relToPoint.x
     // Distancia da reta: relToPoint.y
@@ -26,8 +40,17 @@ module.exports = class LineIntention extends Intention{
 
     let distanceToLine = relToPoint.y
     let force = this.params.decay(distanceToLine)
-    let output = Vector.mult(Vector.fromTheta(this.params.theta), force)
+    
 
-    return {vx: output.x, vy: output.y, vtheta: 0}
+    let toLineNorm = Vector.norm(Vector.mult(Vector.fromTheta(this.params.theta), force))
+
+
+    let force = util.applyReflectedDecay(this.decay, toLineScalarNorm)
+
+    return {
+      vx: output.x,
+      vy: output.y, 
+      vtheta: 0
+    }
   }
 }

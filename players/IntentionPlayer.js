@@ -21,26 +21,12 @@ const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 //   // LEFT: 0,
 // }
 
-
-console.log()
-console.log()
-console.log('========================== TESTS')
 function printObj(inp){ 
   let obj = {}
   for (let k in inp) obj[k] = inp[k].toFixed && inp[k].toFixed(1);
   console.log(obj)
 }
-
-// printObj(Vector.rotate({x: 0, y: 1}, -Math.PI/2))
-// printObj(Vector.rotate({x: 0, y: 1}, Math.PI / 2))
-// console.log(Vector.rotate({x: 0, y: 1}, Math.PI))
-// console.log(Vector.rotate({x: 1, y: 1}, Math.PI))
-
-console.log('========================== =====')
-console.log()
-console.log()
-
-
+      
 module.exports = class IntentionPlayer extends BasePlayer {
   constructor (id, match, options) {
     super(id, match, options)

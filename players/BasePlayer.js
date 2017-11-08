@@ -13,7 +13,7 @@ module.exports = class BasePlayer {
     this.linear = 0
     this.angular = 0
     
-    this.position = {x : 0, y : 0}
+    this.position = {x : 600, y : 100}
     this.orientation = 0
 
     if (options.predict) {

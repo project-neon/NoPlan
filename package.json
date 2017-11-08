@@ -16,6 +16,7 @@
     "lodash": "^4.17.4",
     "require-smart": "^1.1.1",
     "serialport": "^5.0.0",
+    "serve-favicon": "^2.4.5",
     "socket.io": "^2.0.3",
     "ssl-vision": "^1.0.2"
   }

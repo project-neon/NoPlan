@@ -30,7 +30,7 @@ module.exports = class Intention {
     //   console.log(this.output)
     //   this._isStabilized = 0
     // }
-    // console.log('int:', this.name, this.output && this.output.vx)
+      // console.log('int:', this.name, this.output && this.output.vx)
 
     // Is Last compute too old?
     if (Date.now() > this.time + FRESH_OUTPUT_TIME) return false;

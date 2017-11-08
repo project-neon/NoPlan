@@ -16,7 +16,18 @@
 			border: 12px;
 		}
 		.start {
-	    background-color: #4CAF50; /* Green */
+			background-color: #5d5d5d;
+	    border: none;
+	    color: white;
+	    padding: 15px 32px;
+	    text-align: center;
+	    text-decoration: none;		
+	    display: inline-block;
+	    font-size: 16px;
+	    width: 180px;
+	    margin: 10px;
+		}.side {
+	    background-color: #0000FF; /* Blue */
 	    border: none;
 	    color: white;
 	    padding: 15px 32px;
@@ -30,6 +41,7 @@
 		.field{
 			float: left;
 		}
+
 	</style>
 </head>
 	<body>
@@ -39,8 +51,8 @@
 					<h1 style="font-family:Verdana; text-align: center;">NoPlan</h1>
 				</div>
 				<div class="buttons" align="center">
-				    <button class="start" onclick="changeState()">Toggle Game</button>
-				    <button class="start" onclick="changeSide()">Change Side</button>
+						<button class="start" id="match" onclick="changeState()">Toggle Game</button>
+						<button class="side" id="side" onclick="changeSide()">Change Side</button>
 				</div>
 			</div>
 			<div class="field" style="max-width: 100%;">
@@ -53,15 +65,19 @@
 		<script type="text/javascript">
 			
 			var socket = io.connect('http://localhost')
-
+			let matchState = false
+			let matchSide = false
 			function changeState() {
+				matchState ? document.getElementById('match').style.backgroundColor = "#FF0000" : document.getElementById('match').style.backgroundColor = "#4CAF50"
 				socket.emit('state', {state:"toggle"})
-						console.log("Clicked State")
+				matchState = !matchState
 			}
 			
 			function changeSide() {
+				matchSide ? document.getElementById('side').style.backgroundColor = "#0000FF" : document.getElementById('side').style.backgroundColor = "#FFFF00"
+
 				socket.emit('state', {state:"side"})
-						console.log("Clicked Side")
+				matchSide = !matchSide
 			}
 
 			var canvas = document.getElementById("field_canvas");

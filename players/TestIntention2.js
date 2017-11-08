@@ -14,7 +14,9 @@ const ANGULAR_MULTIPLIER = 10
 module.exports = class TestIntention2 extends IntentionPlayer {
   setup(){
     let ball = () => {
-      return {x: this.ball.x, y: this.ball.y}
+      return {x: this.ball.x,
+              y: this.ball.y
+             }
     }
 
     // ----------------------------- Go Center Up
@@ -64,29 +66,14 @@ module.exports = class TestIntention2 extends IntentionPlayer {
     this.$playerAvoidance.addIntetion(new PointIntention('center', {
       // target: ball,
       target: {x: 0, y: 0},
-      // radius: 200,
       radiusMax: 150,
       decay: TensorMath.new.pow(3).finish,
       multiplier: -FORWARD_SPEED,
     }))
 
-    // this.addIntetion(this.$playerAvoidance)
-
-
     this.startTime = Date.now()
     this.states = [this.$goGoalUp, this.$goCenterUp]
 
-    // this.intentionGroup.addIntetion(new LookAtIntention('look_up', {
-    //   // target: ,
-    //   theta: Math.PI / 2,
-    //   decay: TensorMath.new.finish,
-    //   multiplier: 10,
-    // }))
-    // this.intentionGroup.addIntetion(new PointIntention('to_mid',{
-    //   pos:{x:0,y:0},
-    //   theta: 0,
-    //   decay: TensorMath.new.finish
-    // }))
   }
   loop(){
 
@@ -95,10 +82,11 @@ module.exports = class TestIntention2 extends IntentionPlayer {
     current.weight = 1
 
     if (current.isStabilized()) {
-      let now = Date.now()
-      let timeTaken = ((now - this.startTime) / 1000).toFixed(2)
-      this.startTime = now
-      console.log('completed', current.name, 'in', timeTaken+'s')
+
+      // let now = Date.now()
+      // let timeTaken = ((now - this.startTime) / 1000).toFixed(2)
+      // this.startTime = now
+      // console.log('completed', current.name, 'in', timeTaken+'s')
 
       current.output = null
       this.states.unshift(this.states.pop())
