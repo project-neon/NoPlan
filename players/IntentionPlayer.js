@@ -9,6 +9,7 @@ const BasePlayer = require('./BasePlayer')
 
 const SPEED_IMPORTANCE_MIN=10
 const SPEED_IMPORTANCE_MAX=15
+const MAX_ROBOT_SPEED=990
 
 const speedImportance = TensorMath.new.map(SPEED_IMPORTANCE_MAX,SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
 
@@ -35,11 +36,11 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
     this.setup()
 
-    this.orientation = 0
+    // this.orientation = 0
   }
 
-  addIntetion(name, intention) {
-    this.intentionGroup.addIntetion(name, intention)
+  addIntetion(intention) {
+    this.intentionGroup.addIntetion(intention)
     return intention
   }
 
@@ -51,6 +52,12 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let targetSpeedVector = {x: vx, y: vy}
     // Escalar
     let targetSpeed = Vector.size(targetSpeedVector)
+
+    // Limit to robot limit
+    if (targetSpeed > MAX_ROBOT_SPEED) {
+      targetSpeed = MAX_ROBOT_SPEED
+      targetSpeedVector = Vector.mult(Vector.norm(targetSpeedVector), MAX_ROBOT_SPEED)
+    }
 
     // Normalize Vector to robot's Xs and Ys
     let robotWorldSpeed = Vector.rotate(targetSpeedVector, -this.orientation)

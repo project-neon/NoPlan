@@ -9,6 +9,7 @@ module.exports = class TestIntention1 extends IntentionPlayer {
     let ball = () => {
       return {x: this.ball.x, y: this.ball.y}
     }
+
     this.intentionGroup.addIntetion(new LineIntention('to_mid_field_x', {
       pos: ball,
       theta: 0,

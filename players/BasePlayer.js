@@ -13,8 +13,8 @@ module.exports = class BasePlayer {
     this.linear = 0
     this.angular = 0
     
-    this.position = {x : 600, y : 100}
-    this.orientation = 0
+    this.position = {x : -600, y : 400}
+    this.orientation = 2
 
     if (options.predict) {
       console.log('Enabled prediction for', id)
