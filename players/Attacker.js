@@ -25,6 +25,10 @@ const Field = {
   BottomRight: {x: 775, y: -675}
 }
 
+const AvoidWall_Decay = TensorMath.new.mult(-1).sum(1).finish
+const AvoidWall_Speed = 300
+const AvoidWall_Corridor = 200
+
 module.exports = class Attacker extends IntentionPlayer {
   setup(){
     
@@ -45,77 +49,106 @@ module.exports = class Attacker extends IntentionPlayer {
     //   multiplier: FORWARD_SPEED,
     // }))
 
-    this.addIntetion(new LineIntention('avoidBallOwnGoal', {
+    // ============================================== Avoid Robots
+    this.$avoidRobots = new Intention('avoidRobots')
+    this.addIntetion(this.$avoidRobots)
+
+    // for (let i = 0; i < 3; i ++) {
+    //   this.$avoidRobots.addIntetion(new PointIntention('avoidRobot#'+i, {
+    //     // target: ball,
+    //     target: (),
+    //     theta: Direction.RIGHT,
+    //     lineSize: Field.width, // Largura do segmento de reta
+    //     lineSizeSingleSide: true,
+
+    //     lineDist: 300, // Tamanho da repelência
+    //     lineDistMax: 300, // Tamanho da repelência
+    //     lineDistSingleSide: true,
+        
+    //     decay: TensorMath.new.mult(-1).finish,
+    //     multiplier: 300,
+    //   }))
+    // }
+
+
+    // ============================================== Avoid Walls
+    this.$avoidWalls = new Intention('avoidWalls')
+    this.addIntetion(this.$avoidWalls)
+
+    this.$avoidWalls.addIntetion(new LineIntention('topWall', {
+      // target: ball,
+      target: Field.TopLeft,
+      theta: Direction.RIGHT,
+      lineSize: Field.width, // Largura do segmento de reta
+      // lineSizeSingleSide: true,
+
+      lineDist: AvoidWall_Corridor, // Tamanho da repelência
+      lineDistMax: AvoidWall_Corridor, // Tamanho da repelência
+      // lineDistSingleSide: true,
+      
+      decay: AvoidWall_Decay,
+      multiplier: AvoidWall_Speed,
+    }))
+
+    this.$avoidWalls.addIntetion(new LineIntention('bottomWall', {
+      // target: ball,
+      target: Field.BottomRight,
+      theta: Direction.LEFT,
+      lineSize: Field.width, // Largura do segmento de reta
+      // lineSizeSingleSide: true,
+
+      lineDist: AvoidWall_Corridor, // Tamanho da repelência
+      lineDistMax: AvoidWall_Corridor, // Tamanho da repelência
+      // lineDistSingleSide: true,
+      
+      decay: AvoidWall_Decay,
+      multiplier: AvoidWall_Speed,
+    }))
+
+    // ============================================== Prepare Attack
+    this.$prepareAttack = new Intention('prepareAttack')
+    this.addIntetion(this.$prepareAttack)
+
+    this.$prepareAttack.addIntetion(new LineIntention('avoidBallOwnGoal', {
       // target: ball,
       target: ball,
       theta: Direction.DOWN,
       lineSize: 100, // Largura do segmento de reta
-      lineDist: 120, // Tamanho da repelência
-      lineDistMax: 100, // Tamanho da repelência
+      lineDist: 180, // Tamanho da repelência
+      lineDistMax: 180, // Tamanho da repelência
       lineDistSingleSide: true,
-      decay: TensorMath.new.pow(3).finish,
-      multiplier: 700,
+      decay: TensorMath.new.mult(-1).sum(1).finish,
+      multiplier: 600,
     }))
 
-    // this.addIntetion(new LineIntention('topWall', {
-    //   // target: ball,
-    //   target: Field.TopLeft,
-    //   theta: Direction.RIGHT,
-    //   lineSize: Field.width, // Largura do segmento de reta
-    //   lineSizeSingleSide: true,
-
-    //   lineDist: 300, // Tamanho da repelência
-    //   lineDistMax: 300, // Tamanho da repelência
-    //   lineDistSingleSide: true,
-      
-    //   decay: TensorMath.new.mult(-1).finish,
-    //   multiplier: 300,
-    // }))
-
-    // this.addIntetion(new LineIntention('bottomWall', {
-    //   // target: ball,
-    //   target: Field.BottomRight,
-    //   theta: Direction.LEFT,
-    //   lineSize: Field.width, // Largura do segmento de reta
-    //   lineSizeSingleSide: true,
-
-    //   lineDist: 300, // Tamanho da repelência
-    //   lineDistMax: 300, // Tamanho da repelência
-    //   lineDistSingleSide: true,
-      
-    //   decay: TensorMath.new.mult(-1).finish,
-    //   multiplier: 300,
-    // }))
-
-    this.addIntetion(new LineIntention('openBallSpaceFromOtherSide', {
+    this.$prepareAttack.addIntetion(new LineIntention('openBallSpaceFromOtherSide', {
       // target: ball,
       target: ball,
       theta: Direction.RIGHT,
       lineSize: 350, // Largura do segmento de reta
       lineSizeSingleSide: true,
 
-      lineDist: 200, // Tamanho da repelência
-      lineDistMax: 200, // Tamanho da repelência
+      lineDist: 250, // Tamanho da repelência
+      lineDistMax: 250, // Tamanho da repelência
       // lineDistSingleSide: true,
       
-      decay: TensorMath.new.finish,
-      multiplier: 700,
+      decay: TensorMath.new.mult(-1).sum(1).finish,
+      multiplier: 500,
     }))
 
-    this.addIntetion(new PointIntention('followBall', {
+    this.$prepareAttack.addIntetion(new PointIntention('followBall', {
       // target: ball,
       target: () => { return {x: this.ball.x - 75, y: this.ball.y} },
       radius: 150,
       radiusMax: false,
-      decay: TensorMath.new.pow(3).finish,
-      multiplier: FORWARD_SPEED,
+      decay: TensorMath.new.finish,
+      multiplier: 500,
     }))
-
-
-    // this.addIntetion(this.$goGoalUp)
   }
 
   loop(){
+    this.$avoidWalls.weight = 0
+    this.$prepareAttack.weight = 1
     // console.log(this.intentionGroup.output)
   }
 }
