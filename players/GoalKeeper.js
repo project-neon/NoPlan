@@ -49,6 +49,19 @@ module.exports = class GoalKeeper extends IntentionPlayer {
       multiplier: 700,
     }))
 
+    this.$prepareAttack = new Intention('prepareAttack')
+    this.addIntetion(this.$prepareAttack)
+
+    this.$keepCenterGoal = new PointIntention('center_goal', {
+      target: {x: -680, y: 0},
+      radius: 150,
+      radiusMax: false,
+      decay: TensorMath.new.constant(1).finish,
+      multiplier: 500,
+    })
+
+    this.$prepareAttack.addIntetion(this.$keepCenterGoal)
+
     this.$followXIntetion.addIntetion(new LineIntention('follow_goalline', {
       target: {x: -680 , y: 0},
       theta: Direction.UP,
@@ -110,12 +123,12 @@ module.exports = class GoalKeeper extends IntentionPlayer {
   }
 
   loop(){
-    // if (this.ball.y < -300 || this.ball.y > 300) {
-    //   console.log('not OK!', this.ball)
-    //   this.$followXIntetion.weight = 0
-    // } else {
-    //   console.log('OK!', this.ball)
-    //   this.$followXIntetion.weight = 1
-    // }
+    if (this.ball.x > Field.width/3) {
+      this.$followXIntetion.weight = 0
+      this.$keepCenterGoal.weight = 1
+    } else {
+      this.$followXIntetion.weight = 1
+      this.$keepCenterGoal.weight = 0
+    }
   }
 }
