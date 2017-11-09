@@ -2475,37 +2475,37 @@
 		<Var name="Camera Calibrator" type="list">
 			<Var name="Camera Parameters" type="list">
 				<Var name="focal length" type="double" minval="" maxval="">
-					645,817822
+					620,854755
 				</Var>
 				<Var name="principal point x" type="double" minval="" maxval="">
-					481,263839
+					320,126122
 				</Var>
 				<Var name="principal point y" type="double" minval="" maxval="">
-					20,094995
+					239,879706
 				</Var>
 				<Var name="distortion" type="double" minval="0,000000" maxval="2,000000">
-					0,030000
+					0,000000
 				</Var>
 				<Var name="q0" type="double" minval="" maxval="">
-					-0,999892
+					-0,999653
 				</Var>
 				<Var name="q1" type="double" minval="" maxval="">
-					-0,001852
+					0,022189
 				</Var>
 				<Var name="q2" type="double" minval="" maxval="">
-					-0,001125
+					-0,006678
 				</Var>
 				<Var name="q3" type="double" minval="" maxval="">
-					-0,014568
+					-0,012529
 				</Var>
 				<Var name="tx" type="double" minval="" maxval="">
-					-499,702409
+					-133,987426
 				</Var>
 				<Var name="ty" type="double" minval="" maxval="">
-					672,313349
+					23,996032
 				</Var>
 				<Var name="tz" type="double" minval="0,000000" maxval="5000,000000">
-					2079,000000
+					2020,000000
 				</Var>
 			</Var>
 			<Var name="Calibration Parameters" type="list">
@@ -2514,13 +2514,13 @@
 						Top Left
 					</Var>
 					<Var name="Control point 0 image x" type="double" minval="" maxval="">
-						63,000000
+						36,000000
 					</Var>
 					<Var name="Control point 0 image y" type="double" minval="" maxval="">
-						35,000000
+						50,000000
 					</Var>
 					<Var name="Control point 0 field x" type="double" minval="" maxval="">
-						-875,000000
+						-775,000000
 					</Var>
 					<Var name="Control point 0 field y" type="double" minval="" maxval="">
 						675,000000
@@ -2531,13 +2531,13 @@
 						Top Right
 					</Var>
 					<Var name="Control point 1 image x" type="double" minval="" maxval="">
-						598,000000
+						505,000000
 					</Var>
 					<Var name="Control point 1 image y" type="double" minval="" maxval="">
-						25,000000
+						29,000000
 					</Var>
 					<Var name="Control point 1 field x" type="double" minval="" maxval="">
-						875,000000
+						775,000000
 					</Var>
 					<Var name="Control point 1 field y" type="double" minval="" maxval="">
 						675,000000
@@ -2548,13 +2548,13 @@
 						Bottom Right
 					</Var>
 					<Var name="Control point 2 image x" type="double" minval="" maxval="">
-						612,000000
+						523,000000
 					</Var>
 					<Var name="Control point 2 image y" type="double" minval="" maxval="">
-						433,000000
+						445,000000
 					</Var>
 					<Var name="Control point 2 field x" type="double" minval="" maxval="">
-						875,000000
+						775,000000
 					</Var>
 					<Var name="Control point 2 field y" type="double" minval="" maxval="">
 						-675,000000
@@ -2565,13 +2565,13 @@
 						Bottom Left
 					</Var>
 					<Var name="Control point 3 image x" type="double" minval="" maxval="">
-						44,000000
+						47,000000
 					</Var>
 					<Var name="Control point 3 image y" type="double" minval="" maxval="">
-						415,000000
+						472,000000
 					</Var>
 					<Var name="Control point 3 field x" type="double" minval="" maxval="">
-						-875,000000
+						-775,000000
 					</Var>
 					<Var name="Control point 3 field y" type="double" minval="" maxval="">
 						-675,000000
