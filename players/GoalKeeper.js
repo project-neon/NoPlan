@@ -55,7 +55,7 @@ module.exports = class GoalKeeper extends IntentionPlayer {
       theta: Direction.UP,
       lineSize: 1700,
       lineDist: 200,
-      lineDistMax: 200,
+      //lineDistMax: 200,
       decay: TensorMath.new.mult(-1).finish,
       multiplier: 800,
     }))
@@ -102,7 +102,7 @@ module.exports = class GoalKeeper extends IntentionPlayer {
       target: ball,
       radius: OffsetBallDistance * 1.5,
       radiusMax: OffsetBallDistance * 1.5,
-      decay: TensorMath.new.abs(1).finish,
+      decay: TensorMath.new.constant(1).finish,
       multiplier: 780,
     }))
 
