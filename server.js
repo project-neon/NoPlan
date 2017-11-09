@@ -29,8 +29,8 @@ async function startup(){
     vision: { PORT, HOST },
     robots: {
       // fretado: {vision. Id: 0, radioId: 2, class: players.TestIntention2, predict: usePrediction}, 
-      piso_vermelho: {visionId: 2, radioId: 1, class: players.Attacker, predict: usePrediction},
-      // piso_vermelho: {visionId: 0, radioId: 2, class: players.Attacker, predict: usePrediction},
+      // piso_vermelho: {visionId: 2, radioId: 1, class: players.Attacker, predict: usePrediction},
+      piso_vermelho: {visionId: 0, radioId: 2, class: players.Attacker, predict: usePrediction},
       // torre_do_relogio: {visionId: 4, radioId: 3, class: players.TestIntention2, predict: usePrediction}
     },
     driver: {

@@ -27,10 +27,10 @@ const Field = {
 }
 
 const AvoidWall_Decay = TensorMath.new.mult(-1).sum(1).finish
-const AvoidWall_Speed = 300
+const AvoidWall_Speed = 100
 const AvoidWall_Corridor = 200
 
-const OffsetBallDistance = 110
+const OffsetBallDistance = 70
 const MinAttackSpeed = 150
 
 module.exports = class Attacker extends IntentionPlayer {
@@ -145,24 +145,24 @@ module.exports = class Attacker extends IntentionPlayer {
       target: () => {
         return {x: this.ball.x - OffsetBallDistance, y: this.ball.y} 
       },
-      radius: 100,
+      radius: 150,
       radiusMax: false,
       decay: TensorMath.new.finish,
       multiplier: 500,
     }))
 
     // ============================================== Attack with Acceleration
-    this.$attackAccelerated = new Intention('attackAccelerated')
-    this.addIntetion(this.$attackAccelerated)
+    // this.$attackAccelerated = new Intention('attackAccelerated')
+    // this.addIntetion(this.$attackAccelerated)
 
-    this.$attackAccelerated.addIntetion(new PointIntention('goBall', {
+    this.$attackAccelerated = this.addIntetion(new PointIntention('goBall', {
       target: () => {
-        let prop = Vector.size(Vector.sub(this.ball, this.position))
-        if (prop < 100) {
-          return {x: 800, y: 0}
-        }
-        console.log('dist', prop.toFixed(0))
-        return {x: this.ball.x, y: this.ball.y * 1.3} 
+        // let prop = Vector.size(Vector.sub(this.ball, this.position))
+        // if (prop < 100) {
+        //   return {x: 800, y: 0}
+        // }
+        // console.log('dist', prop.toFixed(0))
+        return {x: this.ball.x, y: this.ball.y} 
       },
       radius: OffsetBallDistance + 150,
       radiusMax: OffsetBallDistance + 150,
@@ -170,31 +170,60 @@ module.exports = class Attacker extends IntentionPlayer {
       multiplier: this.currentAttackMultiplier.bind(this),
     }))
 
+    this.$goGoal = this.addIntetion(new PointIntention('goGoal', {
+      target: {x: 800, y: 0},
+      // () => {
+      //   // let prop = Vector.size(Vector.sub(this.ball, this.position))
+      //   // if (prop < 100) {
+      //     return {x: 800, y: 0}
+      //   // }
+      //   // console.log('dist', prop.toFixed(0))
+      //   // return {x: this.ball.x, y: this.ball.y} 
+      // },
+      radius: 150,
+      radiusMax: false,
+      decay: TensorMath.new.finish,
+      multiplier: 500,
+    }))
+
   }
 
   currentAttackMultiplier(dist) {
-    // return 0
-    let withinAttackArea = (this.position.x < this.ball.x) //  && Math.abs(this.position.y) < 130
-    
-    if (!withinAttackArea) {
-      this.$prepareAttack.weight = 1
-      return 0
-    }
-    // console.log('outside!')
+    // this.$prepareAttack.weight = 0
 
-    this.$prepareAttack.weight = 0
-
-    let speed = Math.max(160, Vector.size(this.ballSpeed) + 70) * 2
-    console.log('speed', speed.toFixed(0))
-    return speed
-    // let toBall = Vector.sub(this.ball, this.position)
+    let speed = Math.max(160, Vector.size(this.ballSpeed)*1.4 + 70)
+    // console.log('speed', speed.toFixed(0))
+    return speed / 2
   }
 
 
   loop(){
-    this.$avoidWalls.weight = 0
-    this.$prepareAttack.weight = 1
-    this.$attackAccelerated.weight = 1
+    let toBall = Vector.sub({x: this.ball.x + 50, y: this.ball.y}, this.position)
+    let toBallAngle = Vector.toDegrees(Vector.angle(toBall))
+    let withinAttackArea = (toBall.x > 0) && Math.abs(toBallAngle) < (35)
+    
+    if (!withinAttackArea) {
+      this.$prepareAttack.weight = 1
+      this.$attackAccelerated.weight = 0
+      this.$goGoal.weight = 0
+      console.log('outside', (toBallAngle).toFixed(0))
+    } else {
+      this.$prepareAttack.weight = 1
+      this.$attackAccelerated.weight = 1
+      this.$goGoal.weight = 0.3
+      console.log('inside')
+    }
+
+    // this.$prepareAttack.weight = 0
+
+    // let speed = Math.max(160, Vector.size(this.ballSpeed) + 70) * 2
+    // console.log('speed', speed.toFixed(0))
+    // return speed
+
+
+    this.$avoidWalls.weight = 1
+    // this.$prepareAttack.weight = 1
+    // this.$attackAccelerated.weight = 1
     // console.log(this.intentionGroup.output)
   }
 }
