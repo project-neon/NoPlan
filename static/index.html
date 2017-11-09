@@ -80,6 +80,27 @@
 				matchSide = !matchSide
 			}
 
+			document.onkeydown = checkKey;
+
+			function checkKey(e) {
+
+			    e = e || window.event;
+
+			    if (e.keyCode == '38') {
+			        socket.emit('simulation', {key: 'up'})
+			    }
+			    else if (e.keyCode == '40') {
+			        socket.emit('simulation', {key: 'down'})
+			    }
+			    else if (e.keyCode == '37') {
+			       socket.emit('simulation', {key: 'left'})
+			    }
+			    else if (e.keyCode == '39') {
+			       socket.emit('simulation', {key: 'right'})
+			    }
+
+			}
+
 			var canvas = document.getElementById("field_canvas");
 			var ctx = canvas.getContext("2d");
 			
@@ -96,42 +117,40 @@
 
 			window.onload = function () {
 
+				socket.on('detection', function(msg){
+					//var drawStart = Date.now()
+					detection_json = msg
+					drawField(ctx, canvas.width, canvas.height);
+					// start ball drawing
+					// end ball drawing
 
-
-					socket.on('detection', function(msg){
-						//var drawStart = Date.now()
-						detection_json = msg
-						drawField(ctx, canvas.width, canvas.height);
-						// start ball drawing
-						// end ball drawing
-
-						// start player drawing
-						detection_json.robots_blue.forEach(function(robot) {
-							player_pos = translatePosition(robot.x, robot.y)
-							tag = robot.robot_id
-							angle = robot.orientation
-							confidence = robot.confidence
-							drawPlayer(ctx, player_pos.x, player_pos.y, -angle, 'blue', tag, confidence)
-						});
-
-						detection_json.robots_yellow.forEach(function(robot) {
-							player_pos = translatePosition(robot.x, robot.y)
-							tag = robot.robot_id
-							angle = robot.orientation
-							confidence = robot.confidence
-							drawPlayer(ctx, player_pos.x, player_pos.y, -angle, 'yellow', tag, confidence)
-						});
-						// end player drawing
-						//console.log(Date.now()-drawStart)
-						if(detection_json.balls.length >= 1) {
-							ball_pos = [
-								detection_json.balls[0].x,
-								detection_json.balls[0].y
-							]
-							ball_pos = translatePosition(ball_pos[0], ball_pos[1])
-							drawBall(ctx, ball_pos.x, ball_pos.y, 12, 'orange')
-						}
+					// start player drawing
+					detection_json.robots_blue.forEach(function(robot) {
+						player_pos = translatePosition(robot.x, robot.y)
+						tag = robot.robot_id
+						angle = robot.orientation
+						confidence = robot.confidence
+						drawPlayer(ctx, player_pos.x, player_pos.y, -angle, 'blue', tag, confidence)
 					});
+
+					detection_json.robots_yellow.forEach(function(robot) {
+						player_pos = translatePosition(robot.x, robot.y)
+						tag = robot.robot_id
+						angle = robot.orientation
+						confidence = robot.confidence
+						drawPlayer(ctx, player_pos.x, player_pos.y, -angle, 'yellow', tag, confidence)
+					});
+					// end player drawing
+					//console.log(Date.now()-drawStart)
+					if(detection_json.balls.length >= 1) {
+						ball_pos = [
+							detection_json.balls[0].x,
+							detection_json.balls[0].y
+						]
+						ball_pos = translatePosition(ball_pos[0], ball_pos[1])
+						drawBall(ctx, ball_pos.x, ball_pos.y, 12, 'orange')
+					}
+				});
 				}
 			
 
