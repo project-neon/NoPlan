@@ -151,18 +151,31 @@ module.exports = class Attacker extends IntentionPlayer {
       multiplier: 500,
     }))
 
+    // ============================================== Rules
+    this.$rules = new LineIntention('avoid_defence_fault', {
+      target: {x: -540 , y: 0},
+      theta: Direction.UP,
+      lineSize: 100000, //360,
+      lineDist: 100,
+      lineDistMax: 100,
+      decay: TensorMath.new.constant(1).finish,
+      multiplier: 500,
+    })
+    this.addIntetion(this.$rules)
+
     // ============================================== Attack with Acceleration
     // this.$attackAccelerated = new Intention('attackAccelerated')
     // this.addIntetion(this.$attackAccelerated)
 
     this.$attackAccelerated = this.addIntetion(new PointIntention('goBall', {
       target: () => {
-        // let prop = Vector.size(Vector.sub(this.ball, this.position))
-        // if (prop < 100) {
-        //   return {x: 800, y: 0}
-        // }
+
+        let prop = Vector.size(Vector.sub(this.ball, this.position))
+        if (prop < 100) {
+          return {x: 800, y: 0}
+        }
         // console.log('dist', prop.toFixed(0))
-        return {x: this.ball.x, y: this.ball.y} 
+        return {x: this.ball.x, y: this.ball.y * 1.3} 
       },
       radius: OffsetBallDistance + 150,
       radiusMax: OffsetBallDistance + 150,
