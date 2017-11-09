@@ -17,11 +17,10 @@ const Direction = {
   LEFT: Math.PI,
 }
 
-const AvoidWall_Decay = TensorMath.new.sum(1).finish
-const AvoidWall_Speed = 700
+const AvoidWall_Decay = TensorMath.new.finish
+const AvoidWall_Speed = 980
 const AvoidWall_Corridor_max = 420
 const AvoidWall_Corridor = 420
-
 const OffsetBallDistance = 130
 
 const Field = {
@@ -51,7 +50,7 @@ module.exports = class GoalKeeper extends IntentionPlayer {
     }))
 
     this.$followXIntetion.addIntetion(new LineIntention('follow_goalline', {
-      target: {x: -740 , y: 0},
+      target: {x: -680 , y: 0},
       theta: Direction.UP,
       lineSize: 1700,
       lineDist: 200,
@@ -64,37 +63,37 @@ module.exports = class GoalKeeper extends IntentionPlayer {
     this.addIntetion(this.$followXIntetion)
     // ============================================== Avoid Walls
 
-    this.$avoidWalls = new Intention('avoid_walls')
-    this.$avoidWalls.addIntetion(new LineIntention('topWall', {
-      // target: ball,
-      target: Field.TopRight,
-      theta: Direction.RIGHT,
-      lineSize: Field.width, // Largura do segmento de reta
-      // lineSizeSingleSide: true,
+    // this.$avoidWalls = new Intention('avoid_walls')
+    // this.$avoidWalls.addIntetion(new LineIntention('topWall', {
+    //   // target: ball,
+    //   target: Field.TopRight,
+    //   theta: Direction.RIGHT,
+    //   lineSize: Field.width, // Largura do segmento de reta
+    //   // lineSizeSingleSide: true,
 
-      lineDist: AvoidWall_Corridor, // Tamanho da repelência
-      lineDistMax: AvoidWall_Corridor_max, // Tamanho da repelência
-      // lineDistSingleSide: true,
+    //   lineDist: AvoidWall_Corridor, // Tamanho da repelência
+    //   lineDistMax: AvoidWall_Corridor_max, // Tamanho da repelência
+    //   // lineDistSingleSide: true,
       
-      decay: AvoidWall_Decay,
-      multiplier: AvoidWall_Speed,
-    }))
+    //   decay: AvoidWall_Decay,
+    //   multiplier: AvoidWall_Speed,
+    // }))
 
-    this.$avoidWalls.addIntetion(new LineIntention('bottomWall', {
-      // target: ball,
-      target: Field.BottomLeft,
-      theta: Direction.LEFT,
-      lineSize: Field.width, // Largura do segmento de reta
-      // lineSizeSingleSide: true,
+    // this.$avoidWalls.addIntetion(new LineIntention('bottomWall', {
+    //   // target: ball,
+    //   target: Field.BottomLeft,
+    //   theta: Direction.LEFT,
+    //   lineSize: Field.width, // Largura do segmento de reta
+    //   // lineSizeSingleSide: true,
 
-      lineDist: AvoidWall_Corridor, // Tamanho da repelência
-      lineDistMax: AvoidWall_Corridor_max, // Tamanho da repelência
-      // lineDistSingleSide: true,
+    //   lineDist: AvoidWall_Corridor, // Tamanho da repelência
+    //   lineDistMax: AvoidWall_Corridor_max, // Tamanho da repelência
+    //   // lineDistSingleSide: true,
       
-      decay: AvoidWall_Decay,
-      multiplier: AvoidWall_Speed,
-    }))
-    this.addIntetion(this.$avoidWalls)
+    //   decay: AvoidWall_Decay,
+    //   multiplier: AvoidWall_Speed,
+    // }))
+    // this.addIntetion(this.$avoidWalls)
 
     // ============================================== comportamento de libero
     this.$attackAccelerated = new Intention('attackAccelerated')
@@ -102,10 +101,10 @@ module.exports = class GoalKeeper extends IntentionPlayer {
 
     this.$attackAccelerated.addIntetion(new PointIntention('goBall', {
       target: ball,
-      radius: OffsetBallDistance * 1.5,
-      radiusMax: OffsetBallDistance * 1.5,
+      radius: OffsetBallDistance * 2,
+      radiusMax: OffsetBallDistance * 2,
       decay: TensorMath.new.constant(1).finish,
-      multiplier: 780,
+      multiplier: 990,
     }))
 
   }

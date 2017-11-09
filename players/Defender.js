@@ -71,20 +71,20 @@ module.exports = class Defender extends IntentionPlayer {
       theta: Direction.UP,
       lineSize: 1700,
       decay: TensorMath.new.pow(3).mult(-1).finish,
-      multiplier: 990
+      multiplier: 500
     })
+    this.addIntetion(this.$backToDefend)
 
 
     this.$rules = new LineIntention('avoid_defence_fault', {
-      target: {x: -640 , y: 0},
+      target: {x: -700 , y: 0},
       theta: Direction.UP,
-      lineSize: 280,
-      lineDist: 50,
-      lineDistMax: 50,
+      lineSize: 10000, //360,
+      lineDist: 180,
+      lineDistMax: 200,
       decay: TensorMath.new.constant(1).finish,
       multiplier: 500,
     })
-    
     this.addIntetion(this.$rules)
 
     this.$followGoalline = new LineIntention('follow_goalline', {
@@ -97,8 +97,8 @@ module.exports = class Defender extends IntentionPlayer {
       multiplier: 500,
     })
 
+
     this.$followXIntetion.addIntetion(this.$followGoalline)
-    this.addIntetion(this.$backToDefend)
     this.addIntetion(this.$prepareAttack)
 
     this.$followBall.addIntetion(new PointIntention('goBall', {
@@ -123,6 +123,7 @@ module.exports = class Defender extends IntentionPlayer {
   }
 
     loop(){
+      console.log('ball x:', this.ball.x)
       if(this.$backToDefend.weight == 1 && (
         parseInt(this.position.x) > -Field.width/6 - 10 && parseInt(this.position.x) < -Field.width/6 + 10)) {
         this.$backToDefend.weight = 0
@@ -130,7 +131,7 @@ module.exports = class Defender extends IntentionPlayer {
       } else if (this.$backToDefend.weight == 0 && this.position.x > -10) {
         this.$backToDefend.weight = 1
         //this.$followBall.weight = 0
-      } 
+      }
       if (this.ball.x < 0) {
         this.$followBall.weight = 1
       }
