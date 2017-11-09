@@ -22,6 +22,8 @@ module.exports = class Intention {
       return;
 
     this.intentions.push(intention)
+
+    return intention
   }
 
   isStabilized() {

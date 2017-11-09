@@ -29,11 +29,12 @@ module.exports = class PointIntention extends Intention{
 
   compute({x, y, theta}) {
     let targetGoto = util.callOrReturn(this.target)
+    let radiusMax = util.callOrReturn(this.radiusMax)
+    let multiplier = util.callOrReturn(this.multiplier)
 
     let toTarget = Vector.sub(targetGoto, {x, y})
     let toTargetScalar = Vector.size(toTarget)
 
-    let radiusMax = util.callOrReturn(this.radiusMax)
     if (radiusMax && toTargetScalar > radiusMax) {
       // console.log('too far', toTargetScalar, radiusMax)
       return {vx: 0, vy: 0, vtheta: 0}
@@ -46,8 +47,8 @@ module.exports = class PointIntention extends Intention{
     let force = util.applyReflectedDecay(this.decay, toTargetScalarNorm)
 
     return {
-      vx: toTargetNorm.x * force * this.multiplier,
-      vy: toTargetNorm.y * force * this.multiplier,
+      vx: toTargetNorm.x * force * multiplier,
+      vy: toTargetNorm.y * force * multiplier,
       vtheta: 0
     }
   }
