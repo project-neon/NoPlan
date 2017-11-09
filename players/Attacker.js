@@ -30,7 +30,8 @@ const AvoidWall_Decay = TensorMath.new.mult(-1).sum(1).finish
 const AvoidWall_Speed = 300
 const AvoidWall_Corridor = 200
 
-const OffsetBallDistance = 75
+const OffsetBallDistance = 110
+const MinAttackSpeed = 150
 
 module.exports = class Attacker extends IntentionPlayer {
   setup(){
@@ -141,8 +142,10 @@ module.exports = class Attacker extends IntentionPlayer {
 
     this.$prepareAttack.addIntetion(new PointIntention('followBall', {
       // target: ball,
-      target: () => { return {x: this.ball.x - OffsetBallDistance, y: this.ball.y} },
-      radius: 150,
+      target: () => {
+        return {x: this.ball.x - OffsetBallDistance, y: this.ball.y} 
+      },
+      radius: 100,
       radiusMax: false,
       decay: TensorMath.new.finish,
       multiplier: 500,
@@ -153,24 +156,37 @@ module.exports = class Attacker extends IntentionPlayer {
     this.addIntetion(this.$attackAccelerated)
 
     this.$attackAccelerated.addIntetion(new PointIntention('goBall', {
-      target: ball,
-      radius: OffsetBallDistance + 50,
-      radiusMax: OffsetBallDistance + 50,
-      decay: this.currentAttackAcceleratedDecay.bind(this),
-      multiplier: 900,
+      target: () => {
+        let prop = Vector.size(Vector.sub(this.ball, this.position))
+        if (prop < 100) {
+          return {x: 800, y: 0}
+        }
+        console.log('dist', prop.toFixed(0))
+        return {x: this.ball.x, y: this.ball.y * 1.3} 
+      },
+      radius: OffsetBallDistance + 150,
+      radiusMax: OffsetBallDistance + 150,
+      decay: TensorMath.new.constant(1).finish,
+      multiplier: this.currentAttackMultiplier.bind(this),
     }))
 
   }
 
-  currentAttackAcceleratedDecay(dist) {
+  currentAttackMultiplier(dist) {
     // return 0
-    let withinAttackArea = (this.position.x < this.ball.x)
+    let withinAttackArea = (this.position.x < this.ball.x) //  && Math.abs(this.position.y) < 130
     
     if (!withinAttackArea) {
+      this.$prepareAttack.weight = 1
       return 0
     }
+    // console.log('outside!')
 
-    
+    this.$prepareAttack.weight = 0
+
+    let speed = Math.max(160, Vector.size(this.ballSpeed) + 70) * 2
+    console.log('speed', speed.toFixed(0))
+    return speed
     // let toBall = Vector.sub(this.ball, this.position)
   }
 
