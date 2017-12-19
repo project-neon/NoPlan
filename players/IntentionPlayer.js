@@ -9,7 +9,7 @@ const BasePlayer = require('./BasePlayer')
 
 const SPEED_IMPORTANCE_MIN=10
 const SPEED_IMPORTANCE_MAX=15
-const MAX_ROBOT_SPEED=990
+const MAX_ROBOT_SPEED=300
 
 const speedImportance = TensorMath.new.map(SPEED_IMPORTANCE_MAX,SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
 
@@ -40,6 +40,65 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
     this.setup()
 
+
+    // Avoid other goal
+    this.addIntetion(new LineIntention('avoidOtherGoal', {
+      target: {x: 850, y: 0},
+      theta: Math.PI/2,
+
+      lineSize: 250, // Largura do segmento de reta
+      lineSizeSingleSide: true,
+
+      lineDist: 120, // Tamanho da repelência
+      lineDistMax: 120, // Tamanho da repelência
+
+      decay: TensorMath.new.mult(-1).sum(1).finish,
+      multiplier: 4000,
+    }))
+
+    this.addIntetion(new LineIntention('avoidOtherGoalInside', {
+      target: {x: 850, y: 0},
+      theta: Math.PI,
+
+      lineSize: 100, // Largura do segmento de reta
+      lineSizeSingleSide: true,
+
+      lineDist: 250, // Tamanho da repelência
+      lineDistMax: 250, // Tamanho da repelência
+
+      decay: TensorMath.new.mult(-1).finish,
+      multiplier: 4000,
+    }))
+
+
+    // Avoid other goal
+    this.addIntetion(new LineIntention('avoidOwnGoal', {
+      target: {x: -850, y: 0},
+      theta: Math.PI/2,
+
+      lineSize: 250, // Largura do segmento de reta
+      lineSizeSingleSide: true,
+
+      lineDist: 120, // Tamanho da repelência
+      lineDistMax: 120, // Tamanho da repelência
+
+      decay: TensorMath.new.mult(-1).sum(1).finish,
+      multiplier: 4000,
+    }))
+
+    this.addIntetion(new LineIntention('avoidOwnGoalInside', {
+      target: {x: -850, y: 0},
+      theta: Math.PI,
+
+      lineSize: 100, // Largura do segmento de reta
+      lineSizeSingleSide: true,
+
+      lineDist: 250, // Tamanho da repelência
+      lineDistMax: 250, // Tamanho da repelência
+
+      decay: TensorMath.new.mult(-1).finish,
+      multiplier: 4000,
+    }))
 
     // this.orientation = 0
   }
@@ -93,43 +152,46 @@ module.exports = class IntentionPlayer extends BasePlayer {
       await this.send(0,0,0)
       return
     }
+    if(this.frame){
 
-    let frame = this.frame
+      let frame = this.frame
+      // Update ball position
+      // console.log(frame)
+      if(frame.balls[0]){
+        this.lastBall = this.ball
 
-    // Update ball position
-    if(frame.balls[0]){
-      this.lastBall = this.ball
+        let dt = this.frame.t_capture - this.lastBallTimestamp
+        this.lastBallTimestamp = this.frame.t_capture
 
-      let dt = this.frame.t_capture - this.lastBallTimestamp
-      this.lastBallTimestamp = this.frame.t_capture
+        this.ball = frame.balls[0]
 
-      this.ball = frame.balls[0]
+        if (dt && dt < 0.04 && this.lastBall) {
 
-      if (dt && dt < 0.04 && this.lastBall) {
+          this._ballSpeedsRaw.unshift({
+            x: (this.ball.x - this.lastBall.x) / dt,
+            y: (this.ball.y - this.lastBall.y) / dt,
+          })
 
-        this._ballSpeedsRaw.unshift({
-          x: (this.ball.x - this.lastBall.x) / dt,
-          y: (this.ball.y - this.lastBall.y) / dt,
-        })
+          this._ballSpeedsRaw = this._ballSpeedsRaw.slice(0, 10)
 
-        this._ballSpeedsRaw = this._ballSpeedsRaw.slice(0, 10)
+          let avgSpeed = this._ballSpeedsRaw.reduce((last, speed) => {
+            return {x: last.x + speed.x, y: last.y + speed.y}
+          }, {x: 0, y: 0})
 
-        let avgSpeed = this._ballSpeedsRaw.reduce((last, speed) => {
-          return {x: last.x + speed.x, y: last.y + speed.y}
-        }, {x: 0, y: 0})
+          avgSpeed.x = avgSpeed.x / this._ballSpeedsRaw.length
+          avgSpeed.y = avgSpeed.y / this._ballSpeedsRaw.length
 
-        avgSpeed.x = avgSpeed.x / this._ballSpeedsRaw.length
-        avgSpeed.y = avgSpeed.y / this._ballSpeedsRaw.length
+          this.ballSpeed = avgSpeed
+          // console.log(avgSpeed)
 
-        this.ballSpeed = avgSpeed
-        // console.log(avgSpeed)
-
-        // console.log(dt + '\t' + avgSpeed.x.toFixed(0) + '\t' + avgSpeed.y.toFixed(0))
+          // console.log(dt + '\t' + avgSpeed.x.toFixed(0) + '\t' + avgSpeed.y.toFixed(0))
+        }
+        // // Compute ball average speed
+        // let sum = this.lastBalls.reduce((prev, ball) => {prev})
       }
-      // // Compute ball average speed
-      // let sum = this.lastBalls.reduce((prev, ball) => {prev})
+    } else{
+      console.error("Frame not present in IntentionPlayer")
     }
-
     await this.loop()
 
     // // Prepare input for intentions
