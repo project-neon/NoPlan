@@ -16,14 +16,24 @@ Line intention is a Intention defined by a line. The field that brings the robot
 To compute this intention we use the base vector from the robot to the target. The distance to the line is the x component of this vector (this is used for lineDist). The position of the robot on the line is the y component of this vector (this is used for lineSize).
 
 >new LineIntention('exampleName', {
+
       target: {x,y} or function,
+
       theta: direction in radians,
+
       lineSize: size in cm, 
+
       lineDist: function work dist in cm,
+
       lineDistMax: max field work dist in cm,
+
       lineDistSingleSide: boolean,
+
       lineSizeSingleSide: boolean,
+
       decay: TensorMath.new.mult(-1).sum(1).finish,
+
       multiplier: value to multiply the normalized value, usually near 500,
+      
     })
 
