@@ -27,6 +27,14 @@ module.exports = class PointIntention extends Intention{
     this.multiplier = this.params.multiplier || 1
   }
 
+  getIntentionInfo() {
+    return {
+      'type': PointIntention.name,
+      'name': this.name,
+      'params': JSON.parse(JSON.stringify(util.mapDict(this.params, x => util.callOrReturn(x))))// util.mapDict(this.params , function(v, k, o) { return util.callOrReturn(v)})
+    }
+  }
+
   compute({x, y, theta}) {
     let targetGoto = util.callOrReturn(this.target)
     let radiusMax = util.callOrReturn(this.radiusMax)

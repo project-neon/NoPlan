@@ -26,6 +26,10 @@ module.exports = class Intention {
     return intention
   }
 
+  getIntentionInfo() {
+    return this.intentions.map(x => x.getIntentionInfo())
+  }
+
   isStabilized() {
     // this._isStabilized = this._isStabilized + 1 || 1
     // if (this._isStabilized > 100) {

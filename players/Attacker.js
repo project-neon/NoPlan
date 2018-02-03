@@ -39,7 +39,7 @@ module.exports = class Attacker extends IntentionPlayer {
     let ball = () => this.ball
 
     this.orientation = Math.PI / 2
-    this.position = {x: 300, y: 40}
+    this.position = {x: 0, y: 40}
 
     // this.$goGoalUp = new Intention('goGoalUp')
     // this.$goGoalUp.addIntetion(new LineIntention('goal', {
@@ -219,12 +219,12 @@ module.exports = class Attacker extends IntentionPlayer {
       this.$prepareAttack.weight = 1
       this.$attackAccelerated.weight = 0
       this.$goGoal.weight = 0
-      console.log('outside', (toBallAngle).toFixed(0))
+      // console.log('outside', (toBallAngle).toFixed(0))
     } else {
       this.$prepareAttack.weight = 1
       this.$attackAccelerated.weight = 1
       this.$goGoal.weight = 0.3
-      console.log('inside')
+      // console.log('inside')
     }
 
     // this.$prepareAttack.weight = 0
@@ -233,8 +233,8 @@ module.exports = class Attacker extends IntentionPlayer {
     // console.log('speed', speed.toFixed(0))
     // return speed
 
-
     this.$avoidWalls.weight = 1
+    console.log(this.getIntentionsInfo())
     // this.$prepareAttack.weight = 1
     // this.$attackAccelerated.weight = 1
     // console.log(this.intentionGroup.output)

@@ -108,6 +108,10 @@ module.exports = class IntentionPlayer extends BasePlayer {
     return intention
   }
 
+  getIntentionsInfo() {
+    return this.intentionGroup.intentions.map(x => x.getIntentionInfo())
+  }
+
   setup() {}
   loop() {}
 

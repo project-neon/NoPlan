@@ -119,7 +119,9 @@
 
 				socket.on('detection', function(msg){
 					//var drawStart = Date.now()
-					detection_json = msg
+					detection_json = msg['detection']
+					intetions = msg['intentions']
+					console.log(msg['intentions'])
 					drawField(ctx, canvas.width, canvas.height);
 					// start ball drawing
 					// end ball drawing
