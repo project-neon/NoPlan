@@ -38,7 +38,7 @@ module.exports = class Defender extends IntentionPlayer {
     let ball = () => this.ball
 
     this.orientation = Math.PI / 2
-    this.position = {x: 400, y: 40}
+    this.position = {x: Math.random() * 200 + 200, y: 40}
 
     // // ============================================== Prepare Attack
     this.$prepareAttack = new Intention('prepareAttack')

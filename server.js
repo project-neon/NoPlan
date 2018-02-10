@@ -31,21 +31,21 @@ async function startup(){
       robo_1: {
         visionId: 2,
         radioId: 1,
-        class: players.TestIntention3,
+        class: players.GoalKeeper,
         predict: usePrediction,
-        GOAL_LINE_X: 650
+        GOAL_LINE_X: 200
       },
       robo_2: {
         visionId: 9,
         radioId: 3,
-        class: players.TestIntention3,
+        class: players.GoalKeeper,
         predict: usePrediction,
         GOAL_LINE_X: 330,
       },
       robo_3: {
         visionId: 0,
         radioId: 2,
-        class: players.TestIntention3,
+        class: players.Attacker,
         predict: usePrediction,
       },
     },

@@ -22,6 +22,14 @@ module.exports = class LookAtIntention extends Intention{
     this.multiplier = this.params.multiplier || 1
   }
 
+  getIntentionInfo() {
+    return {
+      'type': LookAtIntention.name,
+      'name': this.name,
+      'params': JSON.parse(JSON.stringify(util.mapDict(this.params, x => util.callOrReturn(x))))// util.mapDict(this.params , function(v, k, o) { return util.callOrReturn(v)})
+    }
+  }
+
   compute({x, y, theta}) {
 
     let absRobotAngle = theta

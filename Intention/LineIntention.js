@@ -34,6 +34,15 @@ module.exports = class LineIntention extends Intention{
     this.multiplier = this.params.multiplier || 1
   }
 
+  getIntentionInfo() {
+    return {
+      'type': LineIntention.name,
+      'name': this.name,
+      'params': JSON.parse(JSON.stringify(util.mapDict(this.params, x => util.callOrReturn(x))))
+    }
+  }
+
+
   compute({x, y, theta}) {
 
     let targetLine = util.callOrReturn(this.target)
@@ -44,7 +53,6 @@ module.exports = class LineIntention extends Intention{
     let toLineScalar = Vector.size(toLine)
 
     let toLineWithTheta = Vector.rotate(toLine, -targetTheta)
-
 
     //   Posição na reta: toLineWithTheta.y
     // Distancia da reta: toLineWithTheta.x
@@ -71,7 +79,7 @@ module.exports = class LineIntention extends Intention{
       return {vx: 0, vy: 0, vtheta: 0}
     }
 
-    let toLineNorm = Vector.norm(Vector.rotate({y: toLineWithTheta.y, x: 0}, targetTheta))//Vector.norm(toLine)
+    let toLineNorm = Vector.norm(Vector.rotate({y: toLineWithTheta.y, x: 0}, targetTheta))
     let toLineScalarNorm = Math.max(0, Math.min(1, (Math.abs(toLineWithTheta.y) / this.lineDist)))
 
     let force = util.applyReflectedDecay(this.decay, toLineScalarNorm)

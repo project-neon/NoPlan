@@ -119,8 +119,14 @@
 
 				socket.on('detection', function(msg){
 					//var drawStart = Date.now()
-					detection_json = msg
+					detection_json = msg['detection']
+					intentions = msg['intentions']
+
 					drawField(ctx, canvas.width, canvas.height);
+					intentions = Object.keys(intentions).map(function(key){
+						return intentions[key];
+					});
+					drawIntentions(ctx, intentions)
 					// start ball drawing
 					// end ball drawing
 
@@ -153,6 +159,25 @@
 				});
 				}
 			
+
+			
+			function drawIntentions(ctx, intentions){
+				for(i in intentions) {
+					intention = intentions[i]
+					if (intention.constructor.name == 'Array') {
+						drawIntentions(ctx, intention)
+					} else {
+						switch(intention.type) {
+							case 'LineIntention':
+								console.log('line intention: '+intention.name)
+								break
+							case 'PointIntention':
+								console.log('point intention: '+intention.name)
+								break
+						}
+					}
+				}
+			}
 
 			function drawField(ctx, w, h) {
 				// Render field
