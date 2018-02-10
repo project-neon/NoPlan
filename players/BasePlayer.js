@@ -64,6 +64,20 @@ module.exports = class BasePlayer {
     // }
   }
 
+  // isActive() {
+  //   if (!this.frame) {
+  //     return false
+  //   }
+  //   // frame_number: 308954,
+  //   // t_capture: 33517.520055,
+  //   // t_sent: 1513650099.136511,
+  //   // camera_id: 1,
+  //   let delta = Date.now() / 1000 - this.frame.t_sent
+  //   console.log(this.id, 'delta:', this.detection)
+
+  //   return Math.abs(delta) < 4
+  // }
+
   simulate(dt) {
     // Compute dt if not assigned
     if (!dt) {

@@ -17,3 +17,9 @@ NoPlan is the software used to guide our Very Small Size Soccer Robots
 
 ### Running The Game Manager
   - To run use  `sudo node server`
+
+
+### TODO
+  - Inside Intention/index.js try normalizing weight instead of cropping
+
+

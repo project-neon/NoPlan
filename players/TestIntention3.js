@@ -178,7 +178,13 @@ module.exports = class TestIntention2 extends IntentionPlayer {
     return TARGET_PRIORITIES[targetIndex]
   }
 
+  stop() {
+    this.send(1, 20, 0.7)
+  }
+
   loop(){
+    setInterval(this.stop.bind(this), 40)
+
     if(this.frame){
       
       let frame = this.frame

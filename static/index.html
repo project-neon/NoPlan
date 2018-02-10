@@ -45,7 +45,7 @@
 	</style>
 </head>
 	<body>
-		<div class="main">
+		<div class="main" width= >
 			<div class="panel">
 				<div class="title">
 					<h1 style="font-family:Verdana; text-align: center;">NoPlan</h1>
@@ -97,6 +97,9 @@
 			    }
 			    else if (e.keyCode == '39') {
 			       socket.emit('simulation', {key: 'right'})
+			    }
+			    else if (e.keyCode == '32') {
+			       socket.emit('simulation', {key: 'stop'})
 			    }
 
 			}
