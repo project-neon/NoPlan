@@ -72,6 +72,7 @@ module.exports = class PointIntention extends Intention{
     // Apply decay to normalized scalar distance
     let force = util.applyReflectedDecay(this.decay, toTargetScalarNorm)
 
+    console.log(force)
     return {
       // Returning result vector times the multiplier as output
       vx: toTargetNorm.x * force * multiplier,

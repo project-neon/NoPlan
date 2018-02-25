@@ -72,9 +72,23 @@ module.exports = class LineIntention extends Intention{
 
     // Position at line: toLineWithTheta.y
     // Distance from line: toLineWithTheta.x
+   
+    // Normalizing vector
+    let toLineNorm = Vector.norm(Vector.rotate({y: toLineWithTheta.y, x: 0}, targetTheta))
 
+    // Normalized Scalar
+    let toLineScalarNorm = Math.max(0, Math.min(1, (Math.abs(toLineWithTheta.y) / this.lineDist)))
+    //console.log(toLineNorm, toLineScalarNorm, )
+
+    // Apply decay function to normalized distance from the beginning to the end of the field
+    let force = util.applyReflectedDecay(this.decay, toLineScalarNorm)
+
+    //console.log(targetLine)
+    // console.log(force, toLineScalarNorm, toLineNorm)
+
+    //console.log(toLine)
     // Output 0 if outside line segment
-    if (this.lineSize && Math.abs(toLineWithTheta.x) > this.lineSize) {
+    if (this.lineSize && Math.abs(toLineWithTheta.y) > this.lineSize) {
       // console.log('outside line segment')
       return {vx: 0, vy: 0, vtheta: 0}
     }
@@ -96,18 +110,8 @@ module.exports = class LineIntention extends Intention{
       // console.log('on other side of line dist')
       return {vx: 0, vy: 0, vtheta: 0}
     }
+    // console.log(force)
 
-
-    // Normalizing vector
-    let toLineNorm = Vector.norm(Vector.rotate({y: toLineWithTheta.y, x: 0}, targetTheta))
-
-    // Normalized Scalar
-    let toLineScalarNorm = Math.max(0, Math.min(1, (Math.abs(toLineWithTheta.y) / this.lineDist)))
-
-    // Apply decay function to normalized distance from the beginning to the end of the field
-    let force = util.applyReflectedDecay(this.decay, toLineScalarNorm)
-
-    // console.log(force, toLineScalarNorm, toLineNorm)
     
     return {
       // Returning result vector times the multiplier as output. 

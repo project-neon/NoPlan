@@ -6,7 +6,6 @@ const LineIntention = require('../Intention/LineIntention')
 const PointIntention = require('../Intention/PointIntention')
 const LookAtIntention = require('../Intention/LookAtIntention')
 
-// const FORWARD_SPEED = 500 // ~4.3s
 const FORWARD_SPEED = 500 // ~4.3s
 
 const ANGULAR_MULTIPLIER = 10
@@ -36,8 +35,8 @@ const MinAttackSpeed = 150
 module.exports = class NewAttacker extends IntentionPlayer {
   setup(){
     
-    let ball = () => this.ball
-
+    let ball = () => {return this.ball}
+    // console.log(this.ball)
     this.orientation = Math.PI / 2
     this.position = {x: 0, y: 40}
 
@@ -109,94 +108,46 @@ module.exports = class NewAttacker extends IntentionPlayer {
     this.$prepareAttack = new Intention('prepareAttack')
     this.addIntetion(this.$prepareAttack)
 
-    // this.$prepareAttack.addIntetion(new LineIntention('avoidBallOwnGoal', {
-    //   target: ball,
-    //   theta: Direction.DOWN,
-    //   lineSize: 50, // Largura do segmento de reta
-    //   lineDist: 180, // Tamanho da repelência
-    //   lineDistMax: 180, // Tamanho da repelência
-    //   lineDistSingleSide: true,
-    //   decay: TensorMath.new.mult(-1).sum(1).finish,
-    //   multiplier: 600,
+    // this.$prepareAttack.addIntetion(new LineIntention('angularAvoidOwnGoal', 
+    //   {
+    //     target: ball,
+    //     theta: Direction.RIGHT,
+    //     lineSize: 200,
+    //     lineSizeSingleSide: true,
+    //     lineDist: 100,
+    //     decay: TensorMath.new.sub(1).finish,
+    //     multiplier: 450,
+    //   }
+    // ))
+
+    // this.$prepareAttack.addIntetion(new LineIntention('angularAvoidOwnGoal2', 
+    //   {
+    //     target: ball,
+    //     theta: 3*Math.PI/4,
+    //     lineSize: 200,
+    //     lineSizeSingleSide: true,
+    //     lineDist: 100,
+    //     decay: TensorMath.new.mult(-1).sum(1).finish,
+    //     multiplier: 600,
+    //   }
+    // ))
+
+    // this.$prepareAttack.addIntetion(new PointIntention('followBall', {
+    //   target: () => {
+    //     return {x: this.ball.x - OffsetBallDistance, y: this.ball.y} 
+    //   },
+    //   radius: 150,
+    //   radiusMax: false,
+    //   decay: TensorMath.new.finish,
+    //   multiplier: 500,
     // }))
-
-    // this.$prepareAttack.addIntetion(new LineIntention('openBallSpaceFromOtherSide', {
-    //   target: ball,
-    //   theta: Direction.RIGHT,
-    //   lineSize: 350, // Largura do segmento de reta
-    //   //lineSizeSingleSide: true,
-    //   lineDist: 250, // Tamanho da repelência
-    //   lineDistMax: 250, // Tamanho da repelência
-    //   decay: TensorMath.new.mult(-1).sum(1).finish,
-    //   multiplier: 600,
-    // }))
-
-    this.$prepareAttack.addIntetion(new LineIntention('angularAvoidOwnGoal1', 
-      {
-        target: ball,
-        theta: Math.PI/4,
-        lineSize: 350,
-        lineSizeSingleSide: true,
-        lineDist: 250,
-        decay: TensorMath.new.mult(-1).sum(1).finish,
-        multiplier: 600
-      }
-    ))
-
-    this.$prepareAttack.addIntetion(new LineIntention('angularAvoidOwnGoal2', 
-      {
-        target: ball,
-        theta: 3*Math.PI/4,
-        lineSize: 350,
-        lineSizeSingleSide: true,
-        lineDist: 250,
-        decay: TensorMath.new.mult(-1).sum(1).finish,
-        multiplier: 600
-      }
-    ))
 
     this.$prepareAttack.addIntetion(new PointIntention('followBall', {
-      target: () => {
-        return {x: this.ball.x - OffsetBallDistance, y: this.ball.y} 
-      },
+      target: {x: -600, y: 100},
       radius: 150,
-      radiusMax: false,
       decay: TensorMath.new.finish,
       multiplier: 500,
     }))
-
-    // this.$lateralAttack = new Intention('lateralAttack')
-
-    // this.$lateralAttack.addIntetion(
-    //   new LookAtIntention('lateralLookAtAttack', 
-    //     {
-    //       target: ball,
-    //       decay: TensorMath.new.finish,
-    //       multiplier: 800
-    //     }
-    //   )
-    // )
-
-
-    // this.addIntetion(
-    //   new PointIntention('TopRightPointIntention', {
-    //     target: Field.TopRight,
-    //     radius: 350,
-    //     radiusMax: 350,
-    //     decay: TensorMath.new.pow(-2).sum(1).finish,
-    //     multiplier: -500,
-    //   })
-    // )
-
-    // this.addIntetion(
-    //   new PointIntention('BottomRightPointIntention', {
-    //     target: Field.BottomRight,
-    //     radius: 350,
-    //     radiusMax: 350,
-    //     decay: TensorMath.new.pow(-2).sum(1).finish,
-    //     multiplier: -500,
-    //   })
-    // )
 
     // ============================================== Rules
     // this.$rules = new LineIntention('avoid_defence_fault', {
@@ -230,21 +181,21 @@ module.exports = class NewAttacker extends IntentionPlayer {
     //   multiplier: this.currentAttackMultiplier.bind(this),
     // }))
 
-    this.$goGoal = this.addIntetion(new PointIntention('goGoal', {
-      target: {x: 900, y: 0},
-      // () => {
-      //   // let prop = Vector.size(Vector.sub(this.ball, this.position))
-      //   // if (prop < 100) {
-      //     return {x: 800, y: 0}
-      //   // }
-      //   // console.log('dist', prop.toFixed(0))
-      //   // return {x: this.ball.x, y: this.ball.y} 
-      // },
-      radius: 150,
-      radiusMax: false,
-      decay: TensorMath.new.finish,
-      multiplier: 500,
-    }))
+    // this.$goGoal = this.addIntetion(new PointIntention('goGoal', {
+    //   target: {x: 900, y: 0},
+    //   // () => {
+    //   //   // let prop = Vector.size(Vector.sub(this.ball, this.position))
+    //   //   // if (prop < 100) {
+    //   //     return {x: 800, y: 0}
+    //   //   // }
+    //   //   // console.log('dist', prop.toFixed(0))
+    //   //   // return {x: this.ball.x, y: this.ball.y} 
+    //   // },
+    //   radius: 150,
+    //   radiusMax: false,
+    //   decay: TensorMath.new.finish,
+    //   multiplier: 500,
+    // }))
 
     // this.$goGoal = this.addIntetion(new LineIntention('goGoal', {
     //   target: {x: 900, y: 0},
@@ -271,15 +222,6 @@ module.exports = class NewAttacker extends IntentionPlayer {
 
   }
 
-  currentAttackMultiplier(dist) {
-    // this.$prepareAttack.weight = 0
-
-    let speed = Math.max(260, Vector.size(this.ballSpeed)*2.0 + 260)
-    // console.log('speed', speed.toFixed(0))
-    return speed
-  }
-
-
   loop(){
     let toBall = Vector.sub({x: this.ball.x + 50, y: this.ball.y}, this.position)
     let toBallDist = Vector.size(toBall)
@@ -289,29 +231,8 @@ module.exports = class NewAttacker extends IntentionPlayer {
 
     let diffBetweenAngles = toBallAngle - toGoalAngle
 
-    if (Math.abs(diffBetweenAngles) < 10) {
-      this.$goGoal.weight = 1
-    } else {
-      this.$goGoal.weight = 0
-    }
-
-    let withinAttackArea = (toBall.x > 0) && Math.abs(toBallAngle) < (10) // 35
-    
-    if (!withinAttackArea) {
-      this.$prepareAttack.weight = 1
-    } else {
-      this.$prepareAttack.weight = 0
-    }
-
     let inLaterals = Math.abs(this.position.y) > 645
 
-    // if(inLaterals) {
-    //   this.$lateralAttack.weight = 1
-    //   this.$prepareAttack.weight = 0
-    // } else {
-    //   this.$lateralAttack.weight = 0
-    // }
-    // this.$attackAccelerated.weight = 1
 // // <<<<<<< Updated upstream
 //        this.$goGoal.weight = 0.3
 // //       // console.log('inside')

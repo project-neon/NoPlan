@@ -9,7 +9,7 @@ const BasePlayer = require('./BasePlayer')
 
 const SPEED_IMPORTANCE_MIN=10
 const SPEED_IMPORTANCE_MAX=15
-const MAX_ROBOT_SPEED=300
+const MAX_ROBOT_SPEED=990
 
 const speedImportance = TensorMath.new.map(SPEED_IMPORTANCE_MAX,SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
 
@@ -25,7 +25,7 @@ const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 function printObj(inp){ 
   let obj = {}
   for (let k in inp) obj[k] = inp[k].toFixed && inp[k].toFixed(1);
-  console.log(obj)
+  //console.log(obj)
 }
       
 module.exports = class IntentionPlayer extends BasePlayer {
@@ -100,7 +100,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
       multiplier: 4000,
     }))
 
-    // this.orientation = 0
+    this.orientation = 0
   }
 
   addIntetion(intention) {
@@ -186,7 +186,6 @@ module.exports = class IntentionPlayer extends BasePlayer {
           avgSpeed.y = avgSpeed.y / this._ballSpeedsRaw.length
 
           this.ballSpeed = avgSpeed
-          // console.log(avgSpeed)
 
           // console.log(dt + '\t' + avgSpeed.x.toFixed(0) + '\t' + avgSpeed.y.toFixed(0))
         }
