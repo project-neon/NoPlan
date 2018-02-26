@@ -39,8 +39,8 @@ module.exports = class LineIntention extends Intention{
     this.lineDistMax = this.params.lineDistMax || false
     
     // LineDist has to exist    
-    assert.notEqual(this.params.lineDist || this.lineDistMax, null)
-    this.lineDist = this.params.lineDist || this.lineDistMax
+    assert.notEqual(this.params.lineDist, null)
+    this.lineDist = this.params.lineDist
     
     // Use this to make the line work on only one size
     this.lineSizeSingleSide = this.params.lineSizeSingleSide || false
@@ -88,7 +88,7 @@ module.exports = class LineIntention extends Intention{
 
     //console.log(toLine)
     // Output 0 if outside line segment
-    if (this.lineSize && Math.abs(toLineWithTheta.y) > this.lineSize) {
+    if (this.lineSize && Math.abs(toLineWithTheta.x) > this.lineSize) {
       // console.log('outside line segment')
       return {vx: 0, vy: 0, vtheta: 0}
     }

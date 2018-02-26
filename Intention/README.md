@@ -8,7 +8,7 @@ The concept of `intentions` is used to create all of the fields on the match. A 
 
   - **target, theta**: The line intention is defined from a point and an angle.
   - **decay**: Is a param that defines the function that controls the intention ex: exponential field, constant field.
-  - **lineSize**: Defines the line boundaries, the point that created the is the middle point of this .
+  - **lineSize**: Distance in mm from the middle(). Defines the line boundaries, the point that created the is the middle point of this .
   - **lineDist**: Distance to where the field decay works. From this point the field is always 1(full).
   - **lineDistMax**: Maximum distance to where the outer portion of the field works. From this point the field is 0(turned off).
   - **lineSizeSingleSide**: Boolean to use lineSize on only one side.

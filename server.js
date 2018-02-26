@@ -31,9 +31,8 @@ async function startup(){
       robo_1: {
         visionId: 0,
         radioId: 1,
-        class: players.GoalKeeper,
+        class: players.NewAttacker,
         predict: usePrediction,
-        GOAL_LINE_X: 650,
       },
       // robo_2: {
       //   visionId: 9,

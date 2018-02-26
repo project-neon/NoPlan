@@ -241,10 +241,6 @@ module.exports = class Attacker extends IntentionPlayer {
     } else {
       this.$prepareAttack.weight = 0.5
       this.$attackAccelerated.weight = 1
-// <<<<<<< Updated upstream
-//       this.$goGoal.weight = 0.3
-//       // console.log('inside')
-// =======
 
       if (toBallDist > 300 || (toBallDist < 120 && this.ballSpeed.x > 300)) {
         console.log('inside GO GOAL!', toBallDist.toFixed(0) + '\t'+this.ballSpeed.x.toFixed(0))

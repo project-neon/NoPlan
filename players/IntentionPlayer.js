@@ -100,7 +100,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
       multiplier: 4000,
     }))
 
-    this.orientation = 0
+    // this.orientation = 0
   }
 
   addIntetion(intention) {
@@ -146,7 +146,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let vthetaWeight = 1 - speedWeight
     // console.log(vthetaWeight)
 
-    let angular = (robotAngleToSpeed * 5 * speedWeight) + (vtheta * vthetaWeight)
+    let angular = (robotAngleToSpeed * 4 * speedWeight) + (vtheta * vthetaWeight)
 
     return {linear, angular}
   }

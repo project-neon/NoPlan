@@ -2,8 +2,8 @@ const util = require('./util')
 
 const FRESH_OUTPUT_TIME = 100
 const MIN_WEIGHT_ACTIVE = 0.05
-const STABILIZED_MIN_LINEAR = 15
-const STABILIZED_MIN_ANGULAR = 0.1
+const STABILIZED_MIN_LINEAR = 30
+const STABILIZED_MIN_ANGULAR = 0.5
 
 module.exports = class Intention {
   constructor(name, params) {

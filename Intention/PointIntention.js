@@ -29,7 +29,7 @@ module.exports = class PointIntention extends Intention{
     this.decay = this.params.decay
 
     // Radius has to be declared
-    assert.notEqual(this.params.radius || this.radiusMax, null)
+    assert.notEqual(this.params.radius , null)
     this.radius = this.params.radius || this.radiusMax
 
     // Is there a maximum radius?
@@ -72,7 +72,7 @@ module.exports = class PointIntention extends Intention{
     // Apply decay to normalized scalar distance
     let force = util.applyReflectedDecay(this.decay, toTargetScalarNorm)
 
-    console.log(force)
+    // console.log("Name: ",this.name, force)
     return {
       // Returning result vector times the multiplier as output
       vx: toTargetNorm.x * force * multiplier,
