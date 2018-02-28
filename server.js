@@ -42,9 +42,9 @@ async function startup(){
       //   GOAL_LINE_X: 330,
       // },
       // robo_3: {
-      //   visionId: 0,
-      //   radioId: 1,
-      //   class: players.NewAttacker,
+      //   visionId: 2,
+      //   radioId: 4,
+      //   class: players.Attacker,
       //   predict: usePrediction,
       // },
     },

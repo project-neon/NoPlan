@@ -35,13 +35,13 @@ module.exports = class LineIntention extends Intention{
     // Linesize has to exist
     assert.notEqual(this.params.lineSize, null)
     this.lineSize = this.params.lineSize
-
-    this.lineDistMax = this.params.lineDistMax || false
     
     // LineDist has to exist    
     assert.notEqual(this.params.lineDist, null)
     this.lineDist = this.params.lineDist
     
+    this.lineDistMax = this.params.lineDistMax || false
+
     // Use this to make the line work on only one size
     this.lineSizeSingleSide = this.params.lineSizeSingleSide || false
     this.lineDistSingleSide = this.params.lineDistSingleSide || false
@@ -57,7 +57,6 @@ module.exports = class LineIntention extends Intention{
       'params': JSON.parse(JSON.stringify(util.mapDict(this.params, x => util.callOrReturn(x))))
     }
   }
-
 
   compute({x, y, theta}) {
     // Instanciate target values
@@ -83,25 +82,22 @@ module.exports = class LineIntention extends Intention{
     // Apply decay function to normalized distance from the beginning to the end of the field
     let force = util.applyReflectedDecay(this.decay, toLineScalarNorm)
 
-    //console.log(targetLine)
-    // console.log(force, toLineScalarNorm, toLineNorm)
 
-    //console.log(toLine)
     // Output 0 if outside line segment
     if (this.lineSize && Math.abs(toLineWithTheta.x) > this.lineSize) {
-      // console.log('outside line segment')
+      // console.log('Outside line segment')
       return {vx: 0, vy: 0, vtheta: 0}
     }
 
     // Output 0 if on the other side of the line and single side is active
     if (this.lineSizeSingleSide && toLineWithTheta.x < 0) {
-      // console.log('on other side of line size')
+      // console.log('On other side of line size')
       return {vx: 0, vy: 0, vtheta: 0}
     }
 
     // Output 0 if outside maximum distance
     if (lineDistMax && Math.abs(toLineWithTheta.y) > lineDistMax) {
-      // console.log('outside maximum distance')
+      // console.log('Outside maximum distance')
       return {vx: 0, vy: 0, vtheta: 0}
     }
 
@@ -110,9 +106,7 @@ module.exports = class LineIntention extends Intention{
       // console.log('on other side of line dist')
       return {vx: 0, vy: 0, vtheta: 0}
     }
-    // console.log(force)
 
-    
     return {
       // Returning result vector times the multiplier as output. 
       vx: toLineNorm.x * force * this.multiplier,

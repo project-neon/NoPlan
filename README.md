@@ -6,7 +6,7 @@ NoPlan is the software used to guide our Very Small Size Soccer Robots
 
 ### Requirements
   - `Node > 8.4.0`
-  -  Being able to sudo
+  - Being able to sudo
   - Having SSL Vision Installed
 
 ### SSL-Vision
@@ -21,5 +21,3 @@ NoPlan is the software used to guide our Very Small Size Soccer Robots
 
 ### TODO
   - Inside Intention/index.js try normalizing weight instead of cropping
-
-

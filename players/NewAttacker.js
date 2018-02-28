@@ -1,5 +1,8 @@
+// Math and vetor libs
 const Vector = require('../lib/Vector')
 const TensorMath = require('../lib/TensorMath')
+
+// Intentions lib
 const Intention = require('../Intention')
 const IntentionPlayer = require('./IntentionPlayer')
 const LineIntention = require('../Intention/LineIntention')
@@ -12,6 +15,7 @@ const ANGULAR_MULTIPLIER = 10
 
 const GOAL_POSITION_X = 800
 
+// Def for directions
 const Direction = {
   UP: Math.PI / 2,
   DOWN: - Math.PI / 2,
@@ -60,40 +64,6 @@ module.exports = class NewAttacker extends IntentionPlayer {
     //   }))
     // }
 
-    // ============================================== Avoid Walls
-    // this.$avoidWalls = new Intention('avoidWalls')
-    // this.addIntetion(this.$avoidWalls)
-
-    // this.$avoidWalls.addIntetion(new LineIntention('topWall', {
-    //   // target: ball,
-    //   target: Field.TopLeft,
-    //   theta: Direction.RIGHT,
-    //   lineSize: Field.width, // Largura do segmento de reta
-    //   // lineSizeSingleSide: true,
-
-    //   lineDist: AvoidWall_Corridor, // Tamanho da repelência
-    //   lineDistMax: AvoidWall_Corridor, // Tamanho da repelência
-    //   // lineDistSingleSide: true,
-      
-    //   decay: AvoidWall_Decay,
-    //   multiplier: AvoidWall_Speed,
-    // }))
-
-    // this.$avoidWalls.addIntetion(new LineIntention('bottomWall', {
-    //   // target: ball,
-    //   target: Field.BottomRight,
-    //   theta: Direction.LEFT,
-    //   lineSize: Field.width, // Largura do segmento de reta
-    //   // lineSizeSingleSide: true,
-
-    //   lineDist: AvoidWall_Corridor, // Tamanho da repelência
-    //   lineDistMax: AvoidWall_Corridor, // Tamanho da repelência
-    //   // lineDistSingleSide: true,
-      
-    //   decay: AvoidWall_Decay,
-    //   multiplier: AvoidWall_Speed,
-    // }))
-
     // ============================================== Prepare Attack
     this.$prepareAttack = new Intention('prepareAttack')
     this.addIntetion(this.$prepareAttack)
@@ -114,7 +84,6 @@ module.exports = class NewAttacker extends IntentionPlayer {
     this.$prepareAttack.addIntetion(new PointIntention('followBall', {
       target: () => {
         let OffsetGoal = ((OffsetBallDistance*this.position.y)/(GOAL_POSITION_X-this.position.x))
-        // console.log(OffsetGoal)
         return {x: this.ball.x - OffsetBallDistance, y: this.ball.y + OffsetGoal} 
       },
       radius: 450,
@@ -127,24 +96,10 @@ module.exports = class NewAttacker extends IntentionPlayer {
 
     this.$makeGoal = this.addIntetion(new PointIntention('goGoal', {
       target: {x: GOAL_POSITION_X, y: 0},
-      // () => {
-      //   // let prop = Vector.size(Vector.sub(this.ball, this.position))
-      //   // if (prop < 100) {
-      //     return {x: 800, y: 0}
-      //   // }
-      //   // console.log('dist', prop.toFixed(0))
-      //   // return {x: this.ball.x, y: this.ball.y} 
-      // },
       radius: 100,
       decay: TensorMath.new.sub(1).mult(-1).finish,
       multiplier: 500,
     }))
-    // this.$makeGoal.addIntetion(new PointIntention('followBallToGoal', {
-    //   target: ball,
-    //   radius: 300,
-    //   decay: TensorMath.new.finish,
-    //   multiplier: 500,
-    // }))
 
     // ============================================== Rules
     // this.$rules = new LineIntention('avoid_defence_fault', {
@@ -158,49 +113,6 @@ module.exports = class NewAttacker extends IntentionPlayer {
     // })
     // this.addIntetion(this.$rules)
 
-    // ============================================== Attack with Acceleration
-    // this.$attackAccelerated = new Intention('attackAccelerated')
-    // this.addIntetion(this.$attackAccelerated)
-
-    // this.$attackAccelerated = this.addIntetion(new PointIntention('goBall', {
-    //   target: () => {
-
-    //     // let prop = Vector.size(Vector.sub(this.ball, this.position))
-    //     // if (prop < 100) {
-    //     //   return {x: 800, y: 0}
-    //     // }
-    //     // console.log('dist', prop.toFixed(0))
-    //     return {x: this.ball.x, y: this.ball.y} 
-    //   },
-    //   radius: OffsetBallDistance + 150,
-    //   radiusMax: OffsetBallDistance + 150,
-    //   decay: TensorMath.new.constant(1).finish,
-    //   multiplier: this.currentAttackMultiplier.bind(this),
-    // }))
-
-
-    // this.$goGoal = this.addIntetion(new LineIntention('goGoal', {
-    //   target: {x: 900, y: 0},
-    //   theta: Direction.LEFT,
-
-    //   lineSize: 100000, //360,
-    //   lineDist: 650,
-    //   lineDistMax: 650,
-    //   decay: TensorMath.new.mult(-1).sum(1).finish,
-    //   multiplier: 800,
-    //   // () => {
-    //   //   // let prop = Vector.size(Vector.sub(this.ball, this.position))
-    //   //   // if (prop < 100) {
-    //   //     return {x: 800, y: 0}
-    //   //   // }
-    //   //   // console.log('dist', prop.toFixed(0))
-    //   //   // return {x: this.ball.x, y: this.ball.y} 
-    //   // },
-    //   // radius: 150,
-    //   // radiusMax: false,
-    //   // decay: TensorMath.new.finish,
-    //   // multiplier: 600,
-    // }))
     this.ballSpeedInit = this.ballSpeed
 
   }
@@ -209,35 +121,14 @@ module.exports = class NewAttacker extends IntentionPlayer {
     
     let toBall = Vector.sub(this.ball, this.position)
     let toBallDist = Vector.size(toBall)
+
+    let bola = this.ballSpeed
+    let realBallSpeed = Vector.size(Vector.sub(bola,this.ballSpeedInit)).toFixed(1)
     
     let toBallAngle = Vector.toDegrees(Vector.angle(toBall))
     let toGoalAngle = Vector.toDegrees(Vector.angle({x: GOAL_POSITION_X, y: this.position.y}))
 
     let diffBetweenAngles =  toGoalAngle+toBallAngle
-
-    // let inLaterals = Math.abs(this.position.y) > 645
-
-    // console.log(diffBetweenAngles)
-    // console.log(toBallAngle,toGoalAngle,diffBetweenAngles)
-
-    let bola = this.ballSpeed
-    let realBallSpeed = Vector.size(Vector.sub(bola,this.ballSpeedInit)).toFixed(1)
-
-    let prepareAttackWeight = Math.abs(diffBetweenAngles)/30
-    let makeGoalWeight = Math.pow(0.9, (Math.abs(diffBetweenAngles)/2))
-
-    this.$makeGoal.weight = makeGoalWeight
-    this.$prepareAttack.weight = prepareAttackWeight
-
-    // if (Math.abs(diffBetweenAngles) < 8) {
-    //     this.$makeGoal.weight = 1
-    //     this.$prepareAttack.weight = 0
-    // } else {
-    //     this.$makeGoal.weight = 0
-    //     this.$prepareAttack.weight = 1
-    // }
-
-    console.log(this.$makeGoal.weight, this.$prepareAttack.weight)
 
 // // <<<<<<< Updated upstream
 //        this.$goGoal.weight = 0.3

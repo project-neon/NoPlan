@@ -1,31 +1,35 @@
-
+//  Math and vector libs
 const Vector = require('../lib/Vector')
 const TensorMath = require('../lib/TensorMath')
 
+// Intentions libs
 const Intention = require('../Intention')
 const LineIntention = require('../Intention/LineIntention')
 
+// Base player lib
 const BasePlayer = require('./BasePlayer')
 
+// Speeds
 const SPEED_IMPORTANCE_MIN=10
 const SPEED_IMPORTANCE_MAX=15
 const MAX_ROBOT_SPEED=990
+
+// Def for directions
+const Direction = {
+  UP: Math.PI / 2,
+  DOWN: - Math.PI / 2,
+  RIGHT: 0,
+  LEFT: Math.PI,
+}
 
 const speedImportance = TensorMath.new.map(SPEED_IMPORTANCE_MAX,SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
 
 const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 
-// const Intentions = {
-//   UP: Math.PI / 2,
-//   //DOWN: {0},
-//   // RIGHT: 0,
-//   // LEFT: 0,
-// }
 
 function printObj(inp){ 
   let obj = {}
   for (let k in inp) obj[k] = inp[k].toFixed && inp[k].toFixed(1);
-  //console.log(obj)
 }
       
 module.exports = class IntentionPlayer extends BasePlayer {
@@ -40,32 +44,24 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
     this.setup()
 
-
     // Avoid other goal
     this.addIntetion(new LineIntention('avoidOtherGoal', {
       target: {x: 850, y: 0},
       theta: Math.PI/2,
-
-      lineSize: 250, // Largura do segmento de reta
+      lineSize: 250,
       lineSizeSingleSide: true,
-
-      lineDist: 120, // Tamanho da repelência
-      lineDistMax: 120, // Tamanho da repelência
-
+      lineDist: 120,
+      lineDistMax: 120,
       decay: TensorMath.new.mult(-1).sum(1).finish,
       multiplier: 4000,
     }))
-
     this.addIntetion(new LineIntention('avoidOtherGoalInside', {
       target: {x: 850, y: 0},
       theta: Math.PI,
-
-      lineSize: 100, // Largura do segmento de reta
+      lineSize: 100,
       lineSizeSingleSide: true,
-
-      lineDist: 250, // Tamanho da repelência
-      lineDistMax: 250, // Tamanho da repelência
-
+      lineDist: 250,
+      lineDistMax: 250,
       decay: TensorMath.new.mult(-1).finish,
       multiplier: 4000,
     }))
@@ -75,31 +71,23 @@ module.exports = class IntentionPlayer extends BasePlayer {
     this.addIntetion(new LineIntention('avoidOwnGoal', {
       target: {x: -850, y: 0},
       theta: Math.PI/2,
-
-      lineSize: 250, // Largura do segmento de reta
+      lineSize: 250,
       lineSizeSingleSide: true,
-
-      lineDist: 120, // Tamanho da repelência
-      lineDistMax: 120, // Tamanho da repelência
-
+      lineDist: 120,
+      lineDistMax: 120,
       decay: TensorMath.new.mult(-1).sum(1).finish,
       multiplier: 4000,
     }))
-
     this.addIntetion(new LineIntention('avoidOwnGoalInside', {
       target: {x: -850, y: 0},
       theta: Math.PI,
-
-      lineSize: 100, // Largura do segmento de reta
+      lineSize: 100,
       lineSizeSingleSide: true,
-
-      lineDist: 250, // Tamanho da repelência
-      lineDistMax: 250, // Tamanho da repelência
-
+      lineDist: 250,
+      lineDistMax: 250,
       decay: TensorMath.new.mult(-1).finish,
       multiplier: 4000,
     }))
-
     // this.orientation = 0
   }
 
@@ -189,7 +177,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
           // console.log(dt + '\t' + avgSpeed.x.toFixed(0) + '\t' + avgSpeed.y.toFixed(0))
         }
-        // // Compute ball average speed
+        // Compute ball average speed
         // let sum = this.lastBalls.reduce((prev, ball) => {prev})
       }
     } else{
@@ -197,19 +185,18 @@ module.exports = class IntentionPlayer extends BasePlayer {
     }
     await this.loop()
 
-    // // Prepare input for intentions
+    // Prepare input for intentions
     let input = {
       x: this.position.x,
       y: this.position.y,
       theta: this.orientation,
     }
 
-    // // Get intention output
+    // Get intention output
     let output = this.intentionGroup.compute(input)
 
     // Convert to robot model
     let {linear, angular} = this.computeRobotModelForIntention(output)
-    // console.log(angular)
 
     // Apply to robot
     this.send(1, linear, angular)

@@ -16,19 +16,19 @@ module.exports = class PointIntention extends Intention{
   constructor(name, params) {
     super(name, params)
 
-    // Asserting that the params exist
+    // Asserting that the parameters exist
     assert(params)
     this.params = params
 
-    // Target has to be declared
+    // Target has to be exist
     assert.notEqual(this.params.target, null)
     this.target = this.params.target
 
-    // Decay has to be declared
+    // Decay has to be exist
     assert.notEqual(this.params.decay, null)
     this.decay = this.params.decay
 
-    // Radius has to be declared
+    // Radius has to be exist
     assert.notEqual(this.params.radius , null)
     this.radius = this.params.radius || this.radiusMax
 
@@ -59,7 +59,7 @@ module.exports = class PointIntention extends Intention{
 
     // Out of max radius ? output is 0 
     if (radiusMax && toTargetScalar > radiusMax) {
-      // console.log('too far', toTargetScalar, radiusMax)
+      // console.log('Outside radius')
       return {vx: 0, vy: 0, vtheta: 0}
     }
 
