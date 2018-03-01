@@ -14,14 +14,6 @@ const SPEED_IMPORTANCE_MIN=10
 const SPEED_IMPORTANCE_MAX=15
 const MAX_ROBOT_SPEED=990
 
-// Def for directions
-const Direction = {
-  UP: Math.PI / 2,
-  DOWN: - Math.PI / 2,
-  RIGHT: 0,
-  LEFT: Math.PI,
-}
-
 const speedImportance = TensorMath.new.map(SPEED_IMPORTANCE_MAX,SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
 
 const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
@@ -47,7 +39,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     // Avoid other goal
     this.addIntetion(new LineIntention('avoidOtherGoal', {
       target: {x: 850, y: 0},
-      theta: Math.PI/2,
+      theta: Vector.direction("up"),
       lineSize: 250,
       lineSizeSingleSide: true,
       lineDist: 120,
@@ -57,7 +49,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     }))
     this.addIntetion(new LineIntention('avoidOtherGoalInside', {
       target: {x: 850, y: 0},
-      theta: Math.PI,
+      theta: Vector.direction("left"),
       lineSize: 100,
       lineSizeSingleSide: true,
       lineDist: 250,
@@ -70,7 +62,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     // Avoid other goal
     this.addIntetion(new LineIntention('avoidOwnGoal', {
       target: {x: -850, y: 0},
-      theta: Math.PI/2,
+      theta: Vector.direction("up"),
       lineSize: 250,
       lineSizeSingleSide: true,
       lineDist: 120,
@@ -80,7 +72,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     }))
     this.addIntetion(new LineIntention('avoidOwnGoalInside', {
       target: {x: -850, y: 0},
-      theta: Math.PI,
+      theta: Vector.direction("left"),
       lineSize: 100,
       lineSizeSingleSide: true,
       lineDist: 250,

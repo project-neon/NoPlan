@@ -15,14 +15,6 @@ const ANGULAR_MULTIPLIER = 10
 
 const GOAL_POSITION_X = 800
 
-// Def for directions
-const Direction = {
-  UP: Math.PI / 2,
-  DOWN: - Math.PI / 2,
-  RIGHT: 0,
-  LEFT: Math.PI,
-}
-
 const Field = {
   width: 1700,
   TopLeft: {x: -775, y: 675},
@@ -42,27 +34,8 @@ module.exports = class NewAttacker extends IntentionPlayer {
   setup(){
     
     let ball = () => {return this.ball}
-    // console.log(this.ball)
     this.orientation = Math.PI / 2
     this.position = {x: 0, y: 40}
-
-    // ============================================== Avoid Robots
-    // for (let i = 0; i < 3; i ++) {
-    //   this.$avoidRobots.addIntetion(new PointIntention('avoidRobot#'+i, {
-    //     // target: ball,
-    //     target: (),
-    //     theta: Direction.RIGHT,
-    //     lineSize: Field.width, // Largura do segmento de reta
-    //     lineSizeSingleSide: true,
-
-    //     lineDist: 300, // Tamanho da repelência
-    //     lineDistMax: 300, // Tamanho da repelência
-    //     lineDistSingleSide: true,
-        
-    //     decay: TensorMath.new.mult(-1).finish,
-    //     multiplier: 300,
-    //   }))
-    // }
 
     // ============================================== Prepare Attack
     this.$prepareAttack = new Intention('prepareAttack')
@@ -71,7 +44,7 @@ module.exports = class NewAttacker extends IntentionPlayer {
     this.$prepareAttack.addIntetion(new LineIntention('angularAvoidOwnGoal1', 
       {
         target: ball,
-        theta: Direction.RIGHT,
+        theta: Vector.direction("right"),
         lineSize: 400,
         lineSizeSingleSide: true,
         lineDist: 120,
@@ -83,8 +56,12 @@ module.exports = class NewAttacker extends IntentionPlayer {
 
     this.$prepareAttack.addIntetion(new PointIntention('followBall', {
       target: () => {
-        let OffsetGoal = ((OffsetBallDistance*this.position.y)/(GOAL_POSITION_X-this.position.x))
-        return {x: this.ball.x - OffsetBallDistance, y: this.ball.y + OffsetGoal} 
+        let OffsetForGoal = ((OffsetBallDistance*this.position.y)/(GOAL_POSITION_X-this.position.x))
+        if (Math.abs(this.ball.y + OffsetForGoal) < 645){
+          return {x: this.ball.x - OffsetBallDistance, y: this.ball.y + OffsetForGoal} 
+        } else {
+          return {x: this.ball.x - OffsetBallDistance, y: this.ball.y}
+        }
       },
       radius: 450,
       decay: TensorMath.new.finish,
@@ -100,18 +77,6 @@ module.exports = class NewAttacker extends IntentionPlayer {
       decay: TensorMath.new.sub(1).mult(-1).finish,
       multiplier: 500,
     }))
-
-    // ============================================== Rules
-    // this.$rules = new LineIntention('avoid_defence_fault', {
-    //   target: {x: -850 , y: 0},
-    //   theta: Direction.UP,
-    //   lineSize: 100000, //360,
-    //   lineDist: 650,
-    //   lineDistMax: 650,
-    //   decay: TensorMath.new.mult(-1).sum(1).finish,
-    //   multiplier: 2200,
-    // })
-    // this.addIntetion(this.$rules)
 
     this.ballSpeedInit = this.ballSpeed
 
