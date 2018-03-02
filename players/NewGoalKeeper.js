@@ -23,8 +23,8 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
     this.$defend.addIntetion(new PointIntention('followBallToDefend', 
       {
           target: () => {
-            let OffsetForBall = (this.ball.y/(800+this.ball.x))*100
-            return {x: this.CENTER_OWN_GOAL + 160, y: OffsetForBall} 
+            let OffsetForBall = (this.ball.y/(800+this.ball.x))*-100
+            return {x: this.CENTER_OWN_GOAL + 180, y: OffsetForBall} 
           },
           radius: 200,
           decay: TensorMath.new.finish,
@@ -33,47 +33,34 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
     ))
     this.$defend.addIntetion(new LookAtIntention('lookAtBall', 
     {
-      target: ball,
+      target: () => {return {x: this.ball.x - 50, y: this.ball.y}},
       decay: TensorMath.new.finish,
-      multiplier: 10
+      multiplier: 20
     }))
 
     this.$prepareAttack = new Intention()
     this.addIntetion(this.$prepareAttack)
 
     this.$prepareAttack.addIntetion(new PointIntention('followBallToAttack', {
-      target: ball,
-      radius: 500,
+      target: () => {return {x: this.ball.x - 10, y: this.ball.y}},
+      radius: 250,
       decay: TensorMath.new.pow(0.5).sub(0.05).finish,
       multiplier: () => {
-        return Vector.size(this.ballSpeed) * 2 + 300
+        return Vector.size(this.ballSpeed) + 300
       }
     }))
-    // this.$defend.addIntetion(new LineIntention('followBall', 
-    //   {
-    //     target: () => {
-    //       let OffsetForBall = (this.ball.y/(800+this.ball.x))*100
-    //       return {x: 0, y: OffsetForBall} 
-    //   },
-    //     theta: Vector.direction("right"),
-    //     lineSize: 1700,
-    //     lineDist: 80,
-    //     decay: TensorMath.new.mult(-1).finish,
-    //     multiplier: () => {
-    //       console.log(Vector.size(this.ballSpeed) + 300 )
-    //       return Vector.size(this.ballSpeed)*1.5 + 300
-    //     }
-    // }))
-
-    // this.$defend.addIntetion(new LineIntention('followGoalLine', 
-    //   {
-    //     target: {x: this.CENTER_OWN_GOAL + 180, y: 0},
-    //     theta: Vector.direction("up"),
-    //     lineSize: 1350,
-    //     lineDist: 200,
-    //     decay: TensorMath.new.mult(-1).finish,
-    //     multiplier: 700,
-    // }))
+    this.$prepareAttack.addIntetion(new LineIntention('angularAvoidOwnGoal1', 
+      {
+        target: () => {return {x: this.ball.x + 20, y: this.ball.y}},
+        theta: Vector.direction("right"),
+        lineSize: 400,
+        lineSizeSingleSide: true,
+        lineDist: 120,
+        lineDistMax: 120,
+        decay: TensorMath.new.sub(1).mult(-1).finish,
+        multiplier: 500,
+      }
+    ))
 
     // this.ballSpeedInit = this.ballSpeed
   }
