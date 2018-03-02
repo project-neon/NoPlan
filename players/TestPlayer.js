@@ -10,7 +10,7 @@ const FORWARD_SPEED = 500 // ~4.3s
 
 const ANGULAR_MULTIPLIER = 10
 
-module.exports = class TestIntention2 extends IntentionPlayer {
+module.exports = class TestPlayer extends IntentionPlayer {
   setup(){
     let ball = () => {
       return {x: this.ball.x,

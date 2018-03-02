@@ -13,6 +13,8 @@ module.exports = class IntentionPlayer extends BasePlayer {
   constructor (id, match, options) {
     super(id, match, options)
     // Constants
+
+    // Position of Field Edges
     this.Field = {
       width: 1700,
       TopLeft: {x: -775, y: 675},
@@ -21,16 +23,20 @@ module.exports = class IntentionPlayer extends BasePlayer {
       BottomRight: {x: 775, y: -675}
     }
 
+    // Util function to sleep
     this.sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 
+    // The Offset between the real ball position and the position that robot will follow
     this.AtkOffsetBallDistance = 150
 
+    // Centers of your own goal and enemy goal
     this.CENTER_OWN_GOAL = -835
     this.CENTER_ENEMY_GOAL = 835
 
-    this.SPEED_IMPORTANCE_MAX=15
-
+    // Self-explanatory
     this.MAX_ROBOT_SPEED=990
+
+    this.SPEED_IMPORTANCE_MAX=15
 
     this.speedImportance = TensorMath.new.map(
       this.SPEED_IMPORTANCE_MAX,this.SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish

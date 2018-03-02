@@ -9,10 +9,6 @@ const LineIntention = require('../Intention/LineIntention')
 const PointIntention = require('../Intention/PointIntention')
 const LookAtIntention = require('../Intention/LookAtIntention')
 
-const FORWARD_SPEED = 500 // ~4.3s
-
-const MinAttackSpeed = 120
-
 module.exports = class NewAttacker extends IntentionPlayer {
   setup(){
     
