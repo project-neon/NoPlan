@@ -9,25 +9,23 @@ const LineIntention = require('../Intention/LineIntention')
 // Base player lib
 const BasePlayer = require('./BasePlayer')
 
-// Speeds
-const SPEED_IMPORTANCE_MIN=10
-const SPEED_IMPORTANCE_MAX=15
-const MAX_ROBOT_SPEED=990
-
-const speedImportance = TensorMath.new.map(SPEED_IMPORTANCE_MAX,SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
-
-const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
-
-
-function printObj(inp){ 
-  let obj = {}
-  for (let k in inp) obj[k] = inp[k].toFixed && inp[k].toFixed(1);
-}
-      
 module.exports = class IntentionPlayer extends BasePlayer {
   constructor (id, match, options) {
     super(id, match, options)
+    // Constants
+    this.Field = {
+      width: 1700,
+      TopLeft: {x: -775, y: 675},
+      TopRight: {x: 775, y: 675},
+      BottomLeft: {x: -775, y: -675},
+      BottomRight: {x: 775, y: -675}
+    }
 
+    this.sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
+
+    this.CENTER_OWN_GOAL = -835
+    this.CENTER_ENEMY_GOAL = 835
+    // =======================
     this.intentionGroup = new Intention('RootIntentionGroup')
     
     this.lastBall = null
