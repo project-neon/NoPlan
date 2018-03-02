@@ -63,6 +63,7 @@ module.exports = class LineIntention extends Intention{
     let targetLine = util.callOrReturn(this.target)
     let targetTheta = util.callOrReturn(this.theta)
     let lineDistMax = util.callOrReturn(this.lineDistMax)
+    let multiplier = util.callOrReturn(this.multiplier)
     
     // Create vectors
     let toLine = Vector.sub({x, y}, targetLine)
@@ -109,8 +110,8 @@ module.exports = class LineIntention extends Intention{
 
     return {
       // Returning result vector times the multiplier as output. 
-      vx: toLineNorm.x * force * this.multiplier,
-      vy: toLineNorm.y * force * this.multiplier,
+      vx: toLineNorm.x * force * multiplier,
+      vy: toLineNorm.y * force * multiplier,
       vtheta: 0
     }
   }
