@@ -23,8 +23,17 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
     this.sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 
+    this.AtkOffsetBallDistance = 150
+
     this.CENTER_OWN_GOAL = -835
     this.CENTER_ENEMY_GOAL = 835
+
+    this.SPEED_IMPORTANCE_MAX=15
+
+    this.MAX_ROBOT_SPEED=990
+
+    this.speedImportance = TensorMath.new.map(
+      this.SPEED_IMPORTANCE_MAX,this.SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
     // =======================
     this.intentionGroup = new Intention('RootIntentionGroup')
     
@@ -100,9 +109,9 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let targetSpeed = Vector.size(targetSpeedVector)
 
     // Limit to robot limit
-    if (targetSpeed > MAX_ROBOT_SPEED) {
-      targetSpeed = MAX_ROBOT_SPEED
-      targetSpeedVector = Vector.mult(Vector.norm(targetSpeedVector), MAX_ROBOT_SPEED)
+    if (targetSpeed > this.MAX_ROBOT_SPEED) {
+      targetSpeed = this.MAX_ROBOT_SPEED
+      targetSpeedVector = Vector.mult(Vector.norm(targetSpeedVector), this.MAX_ROBOT_SPEED)
     }
 
     // Normalize Vector to robot's Xs and Ys
@@ -120,7 +129,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     // Use speed vector as robot angle
     let robotAngleToSpeed = -Vector.angle(robotWorldSpeed)
 
-    let speedWeight = speedImportance(targetSpeed)
+    let speedWeight = this.speedImportance(targetSpeed)
     let vthetaWeight = 1 - speedWeight
     // console.log(vthetaWeight)
 

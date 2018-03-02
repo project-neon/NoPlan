@@ -9,27 +9,6 @@ const LineIntention = require('../Intention/LineIntention')
 const PointIntention = require('../Intention/PointIntention')
 const LookAtIntention = require('../Intention/LookAtIntention')
 
-const FORWARD_SPEED = 500 // ~4.3s
-
-const ANGULAR_MULTIPLIER = 10
-
-const GOAL_POSITION_X = 800
-
-const Field = {
-  width: 1700,
-  TopLeft: {x: -775, y: 675},
-  TopRight: {x: 775, y: 675},
-  BottomLeft: {x: -775, y: -675},
-  BottomRight: {x: 775, y: -675}
-}
-
-const AvoidWall_Decay = TensorMath.new.mult(-1).sum(1).finish
-const AvoidWall_Speed = 100
-const AvoidWall_Corridor = 200
-
-const OffsetBallDistance = 150
-const MinAttackSpeed = 120
-
 module.exports = class NewAttacker extends IntentionPlayer {
   setup(){
     
@@ -64,22 +43,7 @@ module.exports = class NewAttacker extends IntentionPlayer {
         multiplier: 700,
     }))
 
-    // this.$defend.addIntetion(new PointIntention('followBall', {
-    //   target: () => {
-    //     let UseX = this.ball.x
-    //     if(UseX == 0){
-    //       UseX = 1
-    //     }
-    //     let OffsetForBall = ((800 + this.ball.y)/UseX) * -100
-    //     return {x: -700, y: OffsetForBall} 
-    //   },
-    //   radius: 450,
-    //   decay: TensorMath.new.finish,
-    //   multiplier: 500,
-    // }))
-
     this.ballSpeedInit = this.ballSpeed
-
   }
 
   loop(){
@@ -90,7 +54,7 @@ module.exports = class NewAttacker extends IntentionPlayer {
     let realBallSpeed = Vector.size(Vector.sub(bola,this.ballSpeedInit)).toFixed(1)
     
     let toBallAngle = Vector.toDegrees(Vector.angle(toBall))
-    let toGoalAngle = Vector.toDegrees(Vector.angle({x: GOAL_POSITION_X, y: this.position.y}))
+    let toGoalAngle = Vector.toDegrees(Vector.angle({x: this.CENTER_ENEMY_GOAL, y: this.position.y}))
 
     let diffBetweenAngles =  toGoalAngle+toBallAngle
   }

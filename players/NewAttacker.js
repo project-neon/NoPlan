@@ -11,23 +11,6 @@ const LookAtIntention = require('../Intention/LookAtIntention')
 
 const FORWARD_SPEED = 500 // ~4.3s
 
-const ANGULAR_MULTIPLIER = 10
-
-const GOAL_POSITION_X = 800
-
-const Field = {
-  width: 1700,
-  TopLeft: {x: -775, y: 675},
-  TopRight: {x: 775, y: 675},
-  BottomLeft: {x: -775, y: -675},
-  BottomRight: {x: 775, y: -675}
-}
-
-const AvoidWall_Decay = TensorMath.new.mult(-1).sum(1).finish
-const AvoidWall_Speed = 100
-const AvoidWall_Corridor = 200
-
-const OffsetBallDistance = 150
 const MinAttackSpeed = 120
 
 module.exports = class NewAttacker extends IntentionPlayer {
@@ -56,11 +39,11 @@ module.exports = class NewAttacker extends IntentionPlayer {
 
     this.$prepareAttack.addIntetion(new PointIntention('followBall', {
       target: () => {
-        let OffsetForGoal = ((OffsetBallDistance*this.position.y)/(GOAL_POSITION_X-this.position.x))
-        if (Math.abs(this.ball.y + OffsetForGoal) < 645){
-          return {x: this.ball.x - OffsetBallDistance, y: this.ball.y + OffsetForGoal} 
+        let OffsetForGoal = ((this.AtkOffsetBallDistance*this.position.y)/(Math.abs(this.CENTER_ENEMY_GOAL)-this.position.x))
+        if (Math.abs(this.ball.y + this.AtkOffsetForGoal) < 645){
+          return {x: this.ball.x - this.AtkOffsetBallDistance, y: this.ball.y + OffsetForGoal} 
         } else {
-          return {x: this.ball.x - OffsetBallDistance, y: this.ball.y}
+          return {x: this.ball.x - this.AtkOffsetBallDistance, y: this.ball.y}
         }
       },
       radius: 450,
@@ -72,14 +55,13 @@ module.exports = class NewAttacker extends IntentionPlayer {
     this.addIntetion(this.$makeGoal)
 
     this.$makeGoal = this.addIntetion(new PointIntention('goGoal', {
-      target: {x: GOAL_POSITION_X, y: 0},
+      target: {x: this.CENTER_ENEMY_GOAL, y: 0},
       radius: 100,
       decay: TensorMath.new.sub(1).mult(-1).finish,
       multiplier: 500,
     }))
 
     this.ballSpeedInit = this.ballSpeed
-
   }
 
   loop(){
@@ -91,30 +73,8 @@ module.exports = class NewAttacker extends IntentionPlayer {
     let realBallSpeed = Vector.size(Vector.sub(bola,this.ballSpeedInit)).toFixed(1)
     
     let toBallAngle = Vector.toDegrees(Vector.angle(toBall))
-    let toGoalAngle = Vector.toDegrees(Vector.angle({x: GOAL_POSITION_X, y: this.position.y}))
+    let toGoalAngle = Vector.toDegrees(Vector.angle({x: this.CENTER_ENEMY_GOAL, y: this.position.y}))
 
     let diffBetweenAngles =  toGoalAngle+toBallAngle
-
-// // <<<<<<< Updated upstream
-//        this.$goGoal.weight = 0.3
-// //       // console.log('inside')
-// // =======
-// >>>>>>> Stashed changes
-    // this.$prepareAttack.weight = 0
-
-    // let speed = Math.max(160, Vector.size(this.ballSpeed) + 70) * 2
-    // console.log('speed', speed.toFixed(0))
-    // return speed
-
-// <<<<<<< Updated upstream
-//     this.$avoidWalls.weight = 1
-//     console.log(this.getIntentionsInfo())
-// =======
-
-    // this.$avoidWalls.weight = 0.3
-// >>>>>>> Stashed changes
-    // this.$prepareAttack.weight = 1
-    // this.$attackAccelerated.weight = 1
-    // console.log(this.intentionGroup.output)
   }
 }
