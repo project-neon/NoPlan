@@ -10,7 +10,7 @@ const PointIntention = require('../Intention/PointIntention')
 const LookAtIntention = require('../Intention/LookAtIntention')
 
 const MIN_BASE_LINEAR_SPEED = 600
-const AvoidWall_Decay = TensorMath.new.finish
+const AvoidWall_Decay = TensorMath.new.constant(1).finish
 const AvoidWall_Speed = 980
 const AvoidWall_Corridor_max = 430
 const AvoidWall_Corridor = 430
@@ -73,9 +73,9 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
     this.$avoidWalls.addIntetion(new LineIntention('topWall', {
       // target: ball,
       target: this.Field.TopRight,
-      theta: Vector.direction("right"),
+      theta: Vector.direction("left"),
       lineSize: this.Field.width, // Largura do segmento de reta
-      // lineSizeSingleSide: true,
+      lineSizeSingleSide: true,
       lineDist: AvoidWall_Corridor, // Tamanho da repelência
       lineDistMax: AvoidWall_Corridor_max, // Tamanho da repelência
       // lineDistSingleSide: true,
@@ -87,9 +87,9 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
     this.$avoidWalls.addIntetion(new LineIntention('bottomWall', {
       // target: ball,
       target: this.Field.BottomLeft,
-      theta: Vector.direction("left"),
+      theta: Vector.direction("right"),
       lineSize: this.Field.width, // Largura do segmento de reta
-      // lineSizeSingleSide: true,
+      lineSizeSingleSide: true,
 
       lineDist: AvoidWall_Corridor, // Tamanho da repelência
       lineDistMax: AvoidWall_Corridor_max, // Tamanho da repelência
