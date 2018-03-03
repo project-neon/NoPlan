@@ -28,18 +28,18 @@ async function startup(){
   let match = new MatchClass({
     vision: { PORT, HOST },
     robots: {
-      attacker: {
-        visionId: 2,
-        radioId: 2,
-        class: players.Attacker,
-        predict: usePrediction,
-      },
-      goalKeeper: {
-        visionId: 0,
-        radioId: 1,
-        class: players.NewGoalKeeper,
-        predict: usePrediction,
-      },
+      // attacker: {
+      //   visionId: 2,
+      //   radioId: 2,
+      //   class: players.Attacker,
+      //   predict: usePrediction,
+      // },
+      // goalKeeper: {
+      //   visionId: 0,
+      //   radioId: 1,
+      //   class: players.NewGoalKeeper,
+      //   predict: usePrediction,
+      // },
       defender: {
         visionId: 9,
         radioId: 3,

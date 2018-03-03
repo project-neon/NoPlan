@@ -112,6 +112,30 @@ module.exports = class Defender extends IntentionPlayer {
     this.$attackAccelerated = new Intention('attackAccelerated')
     this.addIntetion(this.$attackAccelerated)
 
+    // ============================================== Make Goal
+    this.$makeGoal = new Intention("makeGoal")
+    this.addIntetion(this.$makeGoal)
+
+    this.$makeGoal = this.addIntetion(new PointIntention('goGoal', {
+      target: {x: this.CENTER_ENEMY_GOAL, y: 0},
+      radius: 800,
+      radiusMax: 2000,
+      decay: TensorMath.new.sub(1).mult(-2).finish,
+      multiplier: 500,
+    }))
+
+    this.$makeGoal.addIntetion(new LineIntention('followYBall', {
+      target: ball,
+      theta: Vector.direction('left'),
+      lineSize: 200,
+      lineSizeSingleSide: true,
+      lineDist: 150,
+      multiplier: () => {
+        return Vector.size(this.ballSpeed) * 3 + 500
+      },
+      decay: TensorMath.new.finish
+    }))
+
     this.$attackAccelerated.addIntetion(new PointIntention('goBall', {
       target: ball,
       radius: 400,
@@ -136,10 +160,12 @@ module.exports = class Defender extends IntentionPlayer {
   loop(){
     if (this.ball.x > 0) {
       this.$followXIntetion.weight = 1
+      this.$makeGoal.weight = 0
       this.$attackAccelerated.weight = 0
     } else {
       this.$followXIntetion.weight = 0
       this.$attackAccelerated.weight = 1
+      this.$makeGoal.weight = 1
 
     }
   }
