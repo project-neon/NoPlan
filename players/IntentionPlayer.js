@@ -51,7 +51,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
     // Avoid other goal
     this.addIntetion(new LineIntention('avoidOtherGoal', {
-      target: {x: 850, y: 0},
+      target: {x: 800, y: 0},
       theta: Vector.direction("up"),
       lineSize: 250,
       lineSizeSingleSide: true,
@@ -61,7 +61,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
       multiplier: 4000,
     }))
     this.addIntetion(new LineIntention('avoidOtherGoalInside', {
-      target: {x: 850, y: 0},
+      target: {x: 800, y: 0},
       theta: Vector.direction("left"),
       lineSize: 100,
       lineSizeSingleSide: true,
@@ -74,7 +74,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
     // Avoid other goal
     this.addIntetion(new LineIntention('avoidOwnGoal', {
-      target: {x: -850, y: 0},
+      target: {x: -800, y: 0},
       theta: Vector.direction("up"),
       lineSize: 250,
       lineSizeSingleSide: true,
@@ -84,7 +84,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
       multiplier: 4000,
     }))
     this.addIntetion(new LineIntention('avoidOwnGoalInside', {
-      target: {x: -850, y: 0},
+      target: {x: -800, y: 0},
       theta: Vector.direction("left"),
       lineSize: 100,
       lineSizeSingleSide: true,

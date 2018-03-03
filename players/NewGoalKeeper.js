@@ -35,7 +35,7 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
     this.$defend.addIntetion(new LineIntention("followBallToDefend", {
       target: () => {
             let OffsetForBall = (this.ball.y/(800+this.ball.x))*-100
-            return {x: this.CENTER_OWN_GOAL + 180, y: OffsetForBall} 
+            return {x: this.CENTER_OWN_GOAL + 180, y: this.ball.y } 
           },
       theta: Vector.direction("right"),
       multiplier: 500,
@@ -74,7 +74,7 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
       {
         target: () => {return {x: this.ball.x + 20, y: this.ball.y}},
         theta: Vector.direction("right"),
-        lineSize: 400,
+        lineSize: 200,
         lineSizeSingleSide: true,
         lineDist: 120,
         lineDistMax: 120,
@@ -98,7 +98,7 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
 
     let diffBetweenAngles =  toGoalAngle+toBallAngle
 
-    if (this.bal < -380) {
+    if (this.ball.x < -380) {
       this.$defend.weight = 0
       this.$prepareAttack.weight = 1
     }else {

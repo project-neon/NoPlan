@@ -28,22 +28,28 @@ async function startup(){
   let match = new MatchClass({
     vision: { PORT, HOST },
     robots: {
-      // attacker: {
-      //   visionId: 9,
-      //   radioId: 2,
-      //   class: players.NewAttacker,
-      //   predict: usePrediction,
-      // },
+      attacker: {
+        visionId: 2,
+        radioId: 2,
+        class: players.Attacker,
+        predict: usePrediction,
+      },
       goalKeeper: {
         visionId: 0,
         radioId: 1,
-        class: players.NewAttacker,
+        class: players.NewGoalKeeper,
+        predict: usePrediction,
+      },
+      defender: {
+        visionId: 9,
+        radioId: 3,
+        class: players.Defender,
         predict: usePrediction,
       },
     },
     driver: {
       port: (isSimulated ? null : await getPort('/dev/ttyUSB0')),
-      debug: true,
+      debug: false,
       baudRate: 500000,
     }
   })

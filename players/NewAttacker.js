@@ -16,6 +16,10 @@ module.exports = class NewAttacker extends IntentionPlayer {
     this.orientation = Math.PI / 2
     this.position = {x: 0, y: 40}
 
+
+
+
+
     // ============================================== Prepare Attack
     this.$prepareAttack = new Intention('prepareAttack')
     this.addIntetion(this.$prepareAttack)
@@ -29,25 +33,24 @@ module.exports = class NewAttacker extends IntentionPlayer {
         lineDist: 120,
         lineDistMax: 120,
         decay: TensorMath.new.sub(1).mult(-1).finish,
-        multiplier: 500,
+        multiplier: 450,
       }
     ))
 
     this.$prepareAttack.addIntetion(new PointIntention('followBall', {
       target: () => {
-        let OffsetForGoal = ((this.AtkOffsetBallDistance*this.position.y)/(Math.abs(this.CENTER_ENEMY_GOAL)-this.position.x))
-        if (Math.abs(this.ball.y + OffsetForGoal) < 630){
-          return {x: this.ball.x - this.AtkOffsetBallDistance, y: this.ball.y + OffsetForGoal} 
-        } else {
-          return {x: this.ball.x - this.AtkOffsetBallDistance, y: this.ball.y}
-        }
+        return {x: this.ball.x -100, y: this.ball.y}
       },
-      radius: 450,
-      decay: TensorMath.new.pow(0.5).sub(0.05).finish,
-      multiplier: () => {
-        return Vector.size(this.ballSpeed) * 4 + 500
-      }
+      radius: 400,
+      radiusMax: 2000,
+      decay: TensorMath.new.finish,
+      multiplier: 500
       }))
+
+
+
+
+
 
     // ============================================== Make Goal
     this.$makeGoal = new Intention("makeGoal")
@@ -55,10 +58,10 @@ module.exports = class NewAttacker extends IntentionPlayer {
 
     this.$makeGoal = this.addIntetion(new PointIntention('goGoal', {
       target: {x: this.CENTER_ENEMY_GOAL, y: 0},
-      radius: 1800,
-      radiusMax: false,
+      radius: 800,
+      radiusMax: 2000,
       decay: TensorMath.new.sub(1).mult(-2).finish,
-      multiplier: 700,
+      multiplier: 500,
     }))
 
     this.$makeGoal.addIntetion(new LineIntention('followYBall', {
@@ -68,34 +71,58 @@ module.exports = class NewAttacker extends IntentionPlayer {
       lineSizeSingleSide: true,
       lineDist: 150,
       multiplier: () => {
-        return Vector.size(this.ballSpeed) * 4 + 500
+        return Vector.size(this.ballSpeed) * 3 + 500
       },
       decay: TensorMath.new.finish
     }))
 
-    this.ballSpeedInit = this.ballSpeed
+
+
+
+
+// ======================
+
+    this.$pushBall = new Intention("pushBall")
+    this.addIntetion(this.$pushBall)
+
+    this.$pushBall = this.addIntetion(new LookAtIntention('lookball', {
+      target: ball,
+      decay: TensorMath.new.finish,
+      multiplier: 10,
+    }))
+
+    this.$pushBall.addIntetion(new PointIntention('followBall', {
+      target: ball,
+      radius: 400,
+      multiplier: () => {
+        return Vector.size(this.ballSpeed) * 2 + 300
+      },
+      decay: TensorMath.new.finish
+    }))
+
+    // this.ballSpeedInit = this.ballSpeed
 
     this.$followBallOnBoarder = new Intention("followBallOnBoarder")
 
-    this.$followBallOnBoarder = this.addIntetion(new PointIntention('followBallOnBoard', {
-      target: ball,
-      radius: 1800,
-      radiusMax: false,
-      decay: TensorMath.new.sub(1).mult(-2).finish,
-      multiplier: () => {
-        return Vector.size(this.ballSpeed) * 4 + 500
-      },
-    }))
+    // this.$followBallOnBoarder = this.addIntetion(new PointIntention('followBallOnBoard', {
+    //   target: ball,
+    //   radius: 700,
+    //   radiusMax: false,
+    //   decay: TensorMath.new.sub(1).mult(-2).finish,
+    //   multiplier: () => {
+    //     return Vector.size(this.ballSpeed) * 2 + 300
+    //   },
+    // }))
 
     this.$rules = new Intention('rules')
 
-    this.$rules = this.addIntetion(new PointIntention('avoidGoalArea', {
-      target: {x: -300, y: 0},
-      theta: Vector.direction('up'),
-      radius: 150,
-      decay: TensorMath.new.finish,
-      multiplier: 700
-    }))
+    // this.$rules = this.addIntetion(new PointIntention('avoidGoalArea', {
+    //   target: {x: -300, y: 0},
+    //   theta: Vector.direction('up'),
+    //   radius: 250,
+    //   decay: TensorMath.new.finish,
+    //   multiplier: 4000
+    // }))
   }
 
   loop(){
@@ -109,29 +136,48 @@ module.exports = class NewAttacker extends IntentionPlayer {
     let diffBetweenAngles =  toGoalAngle+toBallAngle
 
     let absoluteDiffAngles = Math.abs(diffBetweenAngles)
+    // if(absoluteDiffAngles < 20) {
+    //   let goalWeight = (30 - absoluteDiffAngles)/30
+    //   if (goalWeight < 0.1) {
+    //     // this.$makeGoal.weight = 1  
+    //   }else {
+    //     // this.$makeGoal.weight = goalWeight
+    //   }
+    // } else {
+    //   // this.$makeGoal.weight = 0
+    // }
     if(absoluteDiffAngles < 30) {
-      let goalWeight = (30 - absoluteDiffAngles)/30
-      if (goalWeight < 0.1) {
-        this.$makeGoal.weight = 1  
-      }else {
-        this.$makeGoal.weight = goalWeight
-      }
-    } else {
-      this.$makeGoal.weight = 0
-    } 
-
-    if(this.ball.x < -400) {
-      this.$rules.weight = 1
+      this.$makeGoal.weight = 1
       this.$prepareAttack.weight = 0
-    } else {
-      this.$rules.weight = 0
+      this.$pushBall.weight = 0
+      console.log("Inside Make")
+
+    }else if(absoluteDiffAngles >= 30 && absoluteDiffAngles < 60){
+      this.$makeGoal.weight = 0
+      this.$prepareAttack.weight = 0
+      this.$pushBall.weight = 1
+      console.log("Inside Push")
+    }
+    else{
+      this.$makeGoal.weight = 0
       this.$prepareAttack.weight = 1
+      this.$pushBall.weight = 0
+      console.log("Inside Prepare")
     }
 
+
+    // if(this.ball.x < -400) {
+    //   this.$rules.weight = 1
+    //   this.$prepareAttack.weight = 0
+    // } else {
+    //   this.$rules.weight = 0
+    //   this.$prepareAttack.weight = 1
+    // }
+
     if(Math.abs(this.ball.y) > 640) {
-      this.$followBallOnBoarder.weight = 1
+      this.$pushBall.weight = 1
     } else {
-      this.$followBallOnBoarder.weight = 0
+      this.$pushBall.weight = 0
     }
   }
 }

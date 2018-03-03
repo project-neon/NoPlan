@@ -121,7 +121,7 @@ module.exports = class Attacker extends IntentionPlayer {
       lineDistMax: 180, // Tamanho da repelência
       lineDistSingleSide: true,
       decay: TensorMath.new.mult(-1).sum(1).finish,
-      multiplier: 600,
+      multiplier: 500,
     }))
 
     this.$prepareAttack.addIntetion(new LineIntention('openBallSpaceFromOtherSide', {
@@ -132,7 +132,7 @@ module.exports = class Attacker extends IntentionPlayer {
       lineDist: 250, // Tamanho da repelência
       lineDistMax: 250, // Tamanho da repelência
       decay: TensorMath.new.mult(-1).sum(1).finish,
-      multiplier: 600,
+      multiplier: 400,
     }))
 
     this.$prepareAttack.addIntetion(new PointIntention('followBall', {
@@ -142,7 +142,7 @@ module.exports = class Attacker extends IntentionPlayer {
       radius: 150,
       radiusMax: false,
       decay: TensorMath.new.finish,
-      multiplier: 700,
+      multiplier: 500,
     }))
 
     // ============================================== Rules
