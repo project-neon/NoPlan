@@ -50,13 +50,13 @@ module.exports = class LineIntention extends Intention{
     this.multiplier = this.params.multiplier || 1
   }
 
-  getIntentionInfo() {
-    return {
-      'type': LineIntention.name,
-      'name': this.name,
-      'params': JSON.parse(JSON.stringify(util.mapDict(this.params, x => util.callOrReturn(x))))
-    }
-  }
+  // getIntentionInfo() {
+  //   return {
+  //     'type': LineIntention.name,
+  //     'name': this.name,
+  //     'params': JSON.parse(JSON.stringify(util.mapDict(this.params, x => util.callOrReturn(x))))
+  //   }
+  // }
 
   compute({x, y, theta}) {
     // Instanciate target values
@@ -73,17 +73,6 @@ module.exports = class LineIntention extends Intention{
     // Position at line: toLineWithTheta.y
     // Distance from line: toLineWithTheta.x
    
-    // Normalizing vector
-    let toLineNorm = Vector.norm(Vector.rotate({y: toLineWithTheta.y, x: 0}, targetTheta))
-
-    // Normalized Scalar
-    let toLineScalarNorm = Math.max(0, Math.min(1, (Math.abs(toLineWithTheta.y) / this.lineDist)))
-    //console.log(toLineNorm, toLineScalarNorm, )
-
-    // Apply decay function to normalized distance from the beginning to the end of the field
-    let force = util.applyReflectedDecay(this.decay, toLineScalarNorm)
-
-
     // Output 0 if outside line segment
     if (this.lineSize && Math.abs(toLineWithTheta.x) > this.lineSize) {
       // console.log('Outside line segment')
@@ -107,6 +96,16 @@ module.exports = class LineIntention extends Intention{
       // console.log('on other side of line dist')
       return {vx: 0, vy: 0, vtheta: 0}
     }
+    
+    // Normalizing vector
+    let toLineNorm = Vector.norm(Vector.rotate({y: toLineWithTheta.y, x: 0}, targetTheta))
+
+    // Normalized Scalar
+    let toLineScalarNorm = Math.max(0, Math.min(1, (Math.abs(toLineWithTheta.y) / this.lineDist)))
+    //console.log(toLineNorm, toLineScalarNorm, )
+
+    // Apply decay function to normalized distance from the beginning to the end of the field
+    let force = util.applyReflectedDecay(this.decay, toLineScalarNorm)
 
     return {
       // Returning result vector times the multiplier as output. 

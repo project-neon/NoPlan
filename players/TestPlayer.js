@@ -1,5 +1,4 @@
 const IntentionPlayer = require('./IntentionPlayer')
-
 const TensorMath = require('../lib/TensorMath')
 const Intention = require('../Intention')
 const LineIntention = require('../Intention/LineIntention')

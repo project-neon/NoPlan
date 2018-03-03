@@ -46,7 +46,7 @@ module.exports = class GoalKeeper extends IntentionPlayer {
       lineSize: 1700,
       lineDist: 80,
       decay: TensorMath.new.mult(-1).finish,
-      multiplier: 700,
+      multiplier: 900,
     }))
 
     this.$prepareAttack = new Intention('prepareAttack')
@@ -57,7 +57,7 @@ module.exports = class GoalKeeper extends IntentionPlayer {
       radius: 150,
       radiusMax: false,
       decay: TensorMath.new.constant(1).finish,
-      multiplier: 500,
+      multiplier: 900,
     })
 
     this.$prepareAttack.addIntetion(this.$keepCenterGoal)
@@ -71,7 +71,7 @@ module.exports = class GoalKeeper extends IntentionPlayer {
       // lineDist: 80,
       // lineDistMax: 200,
       decay: TensorMath.new.mult(-1).finish,
-      multiplier: 800,
+      multiplier: 900,
     }))
     this.addIntetion(this.$followXIntetion)
     // ============================================== Avoid Walls
@@ -117,7 +117,7 @@ module.exports = class GoalKeeper extends IntentionPlayer {
       radius: OffsetBallDistance * 2,
       radiusMax: OffsetBallDistance * 2,
       decay: TensorMath.new.constant(1).finish,
-      multiplier: 990,
+      multiplier: 1200,
     }))
 
   }
