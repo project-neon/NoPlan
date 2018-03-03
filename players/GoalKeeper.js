@@ -53,7 +53,7 @@ module.exports = class GoalKeeper extends IntentionPlayer {
     this.addIntetion(this.$prepareAttack)
 
     this.$keepCenterGoal = new PointIntention('center_goal', {
-      target: {x: -680, y: 0},
+      target: {x: this.CENTER_OWN_GOAL + 180, y: 0},
       radius: 150,
       radiusMax: false,
       decay: TensorMath.new.constant(1).finish,
@@ -63,7 +63,7 @@ module.exports = class GoalKeeper extends IntentionPlayer {
     this.$prepareAttack.addIntetion(this.$keepCenterGoal)
 
     this.$followXIntetion.addIntetion(new LineIntention('follow_goalline', {
-      target: {x: -680 , y: 0},
+      target: {x: this.CENTER_OWN_GOAL + 180 , y: 0},
       theta: Direction.UP,
       lineSize: 1700,
       lineDist: 200,

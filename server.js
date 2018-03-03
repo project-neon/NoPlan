@@ -9,7 +9,7 @@ const Match = require('./lib/Match')
 const MatchSimulated = require('./lib/MatchSimulated')
 const players = require('require-smart')('./players')
 const PORT = 10006
-const HOST = '224.5.23.2'
+const HOST = '224.5.23.3'
 
 const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 
@@ -37,13 +37,13 @@ async function startup(){
       goalKeeper: {
         visionId: 0,
         radioId: 1,
-        class: players.NewGoalKeeper,
+        class: players.NewAttacker,
         predict: usePrediction,
       },
     },
     driver: {
       port: (isSimulated ? null : await getPort('/dev/ttyUSB0')),
-      debug: false,
+      debug: true,
       baudRate: 500000,
     }
   })
