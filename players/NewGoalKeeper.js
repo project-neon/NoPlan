@@ -61,8 +61,8 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
 
     this.$prepareAttack.addIntetion(new PointIntention('goBall', {
       target: ball,
-      radius: OffsetBallDistance * 2,
-      radiusMax: OffsetBallDistance * 2,
+      radius: OffsetBallDistance * 4,
+      radiusMax: OffsetBallDistance * 4,
       decay: TensorMath.new.constant(1).finish,
       multiplier: MIN_BASE_LINEAR_SPEED + 100,
     }))
@@ -119,10 +119,12 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
       this.$defend.weight = 0
       this.$prepareAttack.weight = 1
       this.$avoidWalls.weight = 0
+      console.log('On Prepare')
     }else {
       this.$defend.weight = 1
       this.$prepareAttack.weight = 0
       this.$avoidWalls.weight = 1
+      console.log('On Defend')
     }
   }
 }
