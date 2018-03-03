@@ -40,6 +40,7 @@ module.exports = class Defender extends IntentionPlayer {
        
     // ============================================== Follow Ball in y
     this.$followXIntetion = new Intention('goalkeeper_following')
+    
     this.$followXIntetion.addIntetion(new LineIntention('follow_y', {
       target: ball,
       theta: Direction.RIGHT,
@@ -48,19 +49,6 @@ module.exports = class Defender extends IntentionPlayer {
       decay: TensorMath.new.mult(-1).finish,
       multiplier: 500,
     }))
-
-    // this.$prepareAttack = new Intention('prepareAttack')
-    // this.addIntetion(this.$prepareAttack)
-
-    // this.$keepCenterGoal = new PointIntention('center_goal', {
-    //   target: {x: this.CENTER_OWN_GOAL + 300, y: 0},
-    //   radius: 150,
-    //   radiusMax: false,
-    //   decay: TensorMath.new.constant(1).finish,
-    //   multiplier: 500,
-    // })
-
-    //this.$prepareAttack.addIntetion(this.$keepCenterGoal)
 
     this.$followXIntetion.addIntetion(new LineIntention('follow_goalline', {
       target: {x: -250 , y: 0},
@@ -116,14 +104,14 @@ module.exports = class Defender extends IntentionPlayer {
     this.$makeGoal = new Intention("makeGoal")
     this.addIntetion(this.$makeGoal)
 
-    this.$makeGoal = this.addIntetion(new PointIntention('goGoal', {
-      target: {x: this.CENTER_ENEMY_GOAL, y: 0},
-      radius: 800,
-      radiusMax: 2000,
-      decay: TensorMath.new.sub(1).mult(-2).finish,
-      multiplier: 500,
-    }))
-
+    // this.$makeGoal = this.addIntetion(new PointIntention('goGoal', {
+    //   target: {x: this.CENTER_ENEMY_GOAL, y: 0},
+    //   radius: 800,
+    //   radiusMax: 2000,
+    //   decay: TensorMath.new.sub(1).mult(-2).finish,
+    //   multiplier: 500,
+    // }))
+// 
     this.$makeGoal.addIntetion(new LineIntention('followYBall', {
       target: ball,
       theta: Vector.direction('left'),
@@ -144,28 +132,38 @@ module.exports = class Defender extends IntentionPlayer {
       multiplier: 600,
     }))
 
-    this.$attackAccelerated.addIntetion(new LineIntention('angularAvoidOwnGoal1', {
-        target: ball,
-        theta: Vector.direction("right"),
-        lineSize: 400,
-        lineSizeSingleSide: true,
-        lineDist: 120,
-        lineDistMax: 120,
-        decay: TensorMath.new.sub(1).mult(-1).finish,
-        multiplier: 600,
-      }
-    ))
+    // this.$attackAccelerated.addIntetion(new LineIntention('angularAvoidOwnGoal1', {
+    //     target: ball,
+    //     theta: Vector.direction("right"),
+    //     lineSize: 400,
+    //     lineSizeSingleSide: true,
+    //     lineDist: 120,
+    //     lineDistMax: 120,
+    //     decay: TensorMath.new.sub(1).mult(-1).finish,
+    //     multiplier: 600,
+    //   }
+    // ))
   }
 
   loop(){
+    let toBall = Vector.sub({x: this.ball.x, y: this.ball.y}, this.position)
+    let toBallDist = Vector.size(toBall)
+    let toBallAngle = Vector.toDegrees(Vector.angle(toBall))
+    
     if (this.ball.x > 0) {
       this.$followXIntetion.weight = 1
-      this.$makeGoal.weight = 0
+      // this.$makeGoal.weight = 0
       this.$attackAccelerated.weight = 0
     } else {
       this.$followXIntetion.weight = 0
       this.$attackAccelerated.weight = 1
-      this.$makeGoal.weight = 1
+        if (toBallDist < 150) {
+          this.$makeGoal.weight = 1
+          this.$followXIntetion.weight = 0
+          this.$attackAccelerated.weight = 0
+        }
+      
+      console.log("Protect")
 
     }
   }
