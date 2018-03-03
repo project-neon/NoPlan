@@ -96,7 +96,6 @@ module.exports = class NewAttacker extends IntentionPlayer {
       decay: TensorMath.new.finish,
       multiplier: 700
     }))
-
   }
 
   loop(){
@@ -109,8 +108,14 @@ module.exports = class NewAttacker extends IntentionPlayer {
 
     let diffBetweenAngles =  toGoalAngle+toBallAngle
 
-    if(Math.abs(diffBetweenAngles) < 20) {
-      this.$makeGoal.weight = 1
+    let absoluteDiffAngles = Math.abs(diffBetweenAngles)
+    if(absoluteDiffAngles < 30) {
+      let goalWeight = (30 - absoluteDiffAngles)/30
+      if (goalWeight < 0.1) {
+        this.$makeGoal.weight = 1  
+      }else {
+        this.$makeGoal.weight = goalWeight
+      }
     } else {
       this.$makeGoal.weight = 0
     } 
