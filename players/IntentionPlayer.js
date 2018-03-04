@@ -34,7 +34,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     this.CENTER_ENEMY_GOAL = 835
 
     // Self-explanatory
-    this.MAX_ROBOT_SPEED=990
+    this.MAX_ROBOT_SPEED=500
 
     this.SPEED_IMPORTANCE_MAX=15
 
@@ -113,7 +113,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let targetSpeedVector = {x: vx, y: vy}
     // Escalar
     let targetSpeed = Vector.size(targetSpeedVector)
-
+    //console.log(targetSpeedVector, targetSpeed)
     // Limit to robot limit
     if (targetSpeed > this.MAX_ROBOT_SPEED) {
       targetSpeed = this.MAX_ROBOT_SPEED
@@ -140,7 +140,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     // console.log(vthetaWeight)
 
     let angular = (robotAngleToSpeed * 4 * speedWeight) + (vtheta * vthetaWeight)
-
+    //console.log(linear, angular)
     return {linear, angular}
   }
 
@@ -150,7 +150,6 @@ module.exports = class IntentionPlayer extends BasePlayer {
       return
     }
     if(this.frame){
-
       let frame = this.frame
       // Update ball position
       // console.log(frame)

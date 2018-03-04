@@ -9,7 +9,7 @@ const LineIntention = require('../Intention/LineIntention')
 const PointIntention = require('../Intention/PointIntention')
 const LookAtIntention = require('../Intention/LookAtIntention')
 
-const MIN_BASE_LINEAR_SPEED = 600
+const MIN_BASE_LINEAR_SPEED = 300
 const AvoidWall_Decay = TensorMath.new.constant(1).finish
 const AvoidWall_Speed = 980
 const AvoidWall_Corridor_max = 430
@@ -29,7 +29,7 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
     // --------------------------- Follow the y of the ball fixed on a x
     this.$defend.addIntetion(new LineIntention("followBallToDefend", {
       target: () => {
-            return {x: this.CENTER_OWN_GOAL + 180, y: this.ball.y } 
+            return {x: this.CENTER_OWN_GOAL + 200, y: this.ball.y } 
           },
       theta: Vector.direction("right"),
       multiplier: MIN_BASE_LINEAR_SPEED,
@@ -51,7 +51,7 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
       lineSize: 1700,
       lineDist: 200,
       decay: TensorMath.new.mult(-1).finish,
-      multiplier: MIN_BASE_LINEAR_SPEED + 100,
+      multiplier: MIN_BASE_LINEAR_SPEED + 200,
     }))
     // ============================================ end Defend the goal
     
@@ -64,7 +64,7 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
       radius: OffsetBallDistance * 4,
       radiusMax: OffsetBallDistance * 4,
       decay: TensorMath.new.constant(1).finish,
-      multiplier: MIN_BASE_LINEAR_SPEED + 100,
+      multiplier: MIN_BASE_LINEAR_SPEED + 200,
     }))
     // ============================================ end Repel the Ball
 
@@ -119,12 +119,10 @@ module.exports = class NewGoalKeeper extends IntentionPlayer {
       this.$defend.weight = 0
       this.$prepareAttack.weight = 1
       this.$avoidWalls.weight = 0
-      console.log('On Prepare')
     }else {
       this.$defend.weight = 1
       this.$prepareAttack.weight = 0
       this.$avoidWalls.weight = 1
-      console.log('On Defend')
     }
   }
 }
