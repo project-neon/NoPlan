@@ -6,6 +6,13 @@ module.exports = class Play {
 		console.log(this.coach)
 		this.coach = coach
 
+		this.Direction = {
+		  UP: Math.PI / 2,
+		  DOWN: - Math.PI / 2,
+		  RIGHT: 0,
+		  LEFT: Math.PI,
+		}
+
 		this.CENTER_OWN_GOAL = -835
 		this.CENTER_ENEMY_GOAL = 835
 
