@@ -5,7 +5,7 @@ const SerialPort = require('serialport')
 const comm = require('./lib/Comm.js')
 require('draftlog').into(console)
 
-const Coach = require('./coaches/Coach')
+const coaches = require('require-smart')('./coaches')
 
 const Match = require('./lib/Match')
 const MatchSimulated = require('./lib/MatchSimulated')
@@ -37,7 +37,7 @@ async function startup(){
         predict: usePrediction,
       }
     },
-    coach: Coach,
+    coach: coaches.BalancedCoach,
     driver: {
       port: (isSimulated ? null : await getPort('/dev/ttyUSB0')),
       debug: false,
