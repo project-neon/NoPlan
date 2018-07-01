@@ -71,7 +71,6 @@ module.exports = class IntentionPlayer extends BasePlayer {
       multiplier: 4000,
     }))
 
-
     // Avoid other goal
     this.addIntetion(new LineIntention('avoidOwnGoal', {
       target: {x: -800, y: 0},
@@ -146,8 +145,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
   async update() {
     if(this.match.state.state.status == 'stopped'){
-      await this.send(0,0,0)
-      return
+      return [this.radioId, 0, 0, 0]
     }
     if(this.frame){
       let frame = this.frame
@@ -203,6 +201,6 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let {linear, angular} = this.computeRobotModelForIntention(output)
 
     // Apply to robot
-    this.send(1, linear, angular)
+    return [this.radioId, 1, linear, angular]
   }
 }
