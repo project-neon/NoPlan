@@ -5,6 +5,8 @@ const SerialPort = require('serialport')
 const comm = require('./lib/Comm.js')
 require('draftlog').into(console)
 
+const Coach = require('./coaches/Coach')
+
 const Match = require('./lib/Match')
 const MatchSimulated = require('./lib/MatchSimulated')
 const players = require('require-smart')('./players')
@@ -28,25 +30,14 @@ async function startup(){
   let match = new MatchClass({
     vision: { PORT, HOST },
     robots: {
-      attacker: {
+      robot_1: {
         visionId: 0,
         radioId: 1,
-        class: players.Attacker2,
+        class: players.IntentionPlayer,
         predict: usePrediction,
-      },
-      goalKeeper: {
-        visionId: 0,
-        radioId: 2,
-        class: players.NewGoalKeeper,
-        predict: usePrediction,
-      },
-      defender: {
-        visionId: 9,
-        radioId: 3,
-        class: players.Attacker,
-        predict: usePrediction,
-      },
+      }
     },
+    coach: Coach,
     driver: {
       port: (isSimulated ? null : await getPort('/dev/ttyUSB0')),
       debug: false,

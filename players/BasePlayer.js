@@ -15,7 +15,6 @@ module.exports = class BasePlayer {
     
     this.position = {x : -600, y : 400}
     this.orientation = 2
-
     if (options.predict) {
       console.log('Enabled prediction for', id)
       setInterval(() => {

@@ -233,24 +233,24 @@ module.exports = class Attacker extends IntentionPlayer {
     let toBallAngle = Vector.toDegrees(Vector.angle(toBall))
     let withinAttackArea = (toBall.x > 0) && Math.abs(toBallAngle) < (35) // 35
     
-    if (!withinAttackArea) {
-      this.$prepareAttack.weight = 1
-      this.$attackAccelerated.weight = 0
-      this.$goGoal.weight = 0
-      // console.log('outside', (toBallAngle).toFixed(0))
-    } else {
-      this.$prepareAttack.weight = 0.5
-      this.$attackAccelerated.weight = 1
+    // if (!withinAttackArea) {
+    //   this.$prepareAttack.weight = 1
+    //   this.$attackAccelerated.weight = 0
+    //   this.$goGoal.weight = 0
+    //   // console.log('outside', (toBallAngle).toFixed(0))
+    // } else {
+    //   this.$prepareAttack.weight = 0.5
+    //   this.$attackAccelerated.weight = 1
 
-      if (toBallDist > 300 || (toBallDist < 120 && this.ballSpeed.x > 300)) {
-        console.log('inside GO GOAL!', toBallDist.toFixed(0) + '\t'+this.ballSpeed.x.toFixed(0))
-        this.$goGoal.weight = 1
-      } else {
-        console.log('inside         ', toBallDist.toFixed(0) + '\t'+this.ballSpeed.x.toFixed(0))
-        this.$goGoal.weight = 0
-      }
+    //   if (toBallDist > 300 || (toBallDist < 120 && this.ballSpeed.x > 300)) {
+    //     console.log('inside GO GOAL!', toBallDist.toFixed(0) + '\t'+this.ballSpeed.x.toFixed(0))
+    //     this.$goGoal.weight = 1
+    //   } else {
+    //     console.log('inside         ', toBallDist.toFixed(0) + '\t'+this.ballSpeed.x.toFixed(0))
+    //     this.$goGoal.weight = 0
+    //   }
 // >>>>>>> Stashed changes
-    }
+    // }
 
     // this.$prepareAttack.weight = 0
 
@@ -263,7 +263,7 @@ module.exports = class Attacker extends IntentionPlayer {
 //     console.log(this.getIntentionsInfo())
 // =======
 
-    this.$avoidWalls.weight = 0.3
+    // this.$avoidWalls.weight = 0.3
 // >>>>>>> Stashed changes
     // this.$prepareAttack.weight = 1
     // this.$attackAccelerated.weight = 1
