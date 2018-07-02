@@ -25,18 +25,6 @@ module.exports = class GoalKeeperDefendPlay extends Play {
 	    })
 
 	    this.intentionGroup.addIntetion(this.$keepCenterGoal)
-
-	    this.$attackAccelerated = new Intention('attackAccelerated')
-
-	    this.$attackAccelerated.addIntetion(new PointIntention('goBall', {
-	      target: ball,
-	      radius: OffsetBallDistance * 2,
-	      radiusMax: OffsetBallDistance * 2,
-	      decay: TensorMath.new.constant(1).finish,
-	      multiplier: 1200,
-	    }))
-
-    	this.intentionGroup.addIntetion(this.$attackAccelerated)
 	}
 
 	constructor(coach) {		

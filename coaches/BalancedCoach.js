@@ -10,6 +10,9 @@ module.exports = class BalancedCoach extends Coach {
 		attacker: second priority: nearest to Attack
 		defender: the rest
 	*/
+	constructor(match) {
+		super(match)
+	}
 
 	start_positions(match) {
 		// Initialize the positions that will be consider by this Coach

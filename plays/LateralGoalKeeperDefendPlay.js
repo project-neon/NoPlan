@@ -7,6 +7,8 @@ const TensorMath = require('../lib/TensorMath')
 
 const Play = require('./Play')
 
+const OffsetBallDistance = 130
+
 module.exports = class LateralGoalKeeperDefendPlay extends Play {
 	setup_intentions() {
 	    let ball = () => {
@@ -16,33 +18,15 @@ module.exports = class LateralGoalKeeperDefendPlay extends Play {
 
 		this.$followXIntetion = new Intention()
 
-	    this.$followXIntetion.addIntetion(new LineIntention('follow_goalline', {
-	      target: {x: this.CENTER_OWN_GOAL + 180 , y: 0},
-	      theta: this.Direction.UP,
-	      lineSize: 1700,
-	      lineDist: 200,
-	      //lineDistMax: 200,
-	      // lineDist: 80,
-	      // lineDistMax: 200,
-	      decay: TensorMath.new.mult(-1).finish,
-	      multiplier: 900,
-	    }))
+	    this.$followXIntetion = new PointIntention('lateral_ball_following', {
+	      target: () => { return {x: this.CENTER_OWN_GOAL + 180, y: this.coach.ball.y}},
+	      radius: 150,
+	      radiusMax: false,
+	      decay: TensorMath.new.constant(1).finish,
+	      multiplier: 500,
+	    })
 
 	    this.intentionGroup.addIntetion(this.$followXIntetion)
-
-
-	   	this.$attackAccelerated = new Intention('attackAccelerated')
-
-	    this.$attackAccelerated.addIntetion(new PointIntention('goBall', {
-	      target: ball,
-	      radius: this.OffsetBallDistance * 2,
-	      radiusMax: this.OffsetBallDistance * 2,
-	      decay: TensorMath.new.constant(1).finish,
-	      multiplier: 1200,
-	    }))
-
-    	this.intentionGroup.addIntetion(this.$attackAccelerated)
-
 	}
 
 	constructor(coach) {		

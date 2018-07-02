@@ -41,7 +41,7 @@ async function startup(){
     driver: {
       port: (isSimulated ? null : await getPort('/dev/ttyUSB0')),
       debug: false,
-      baudRate: 500000,
+      baudRate: 115200,
     }
   })
 
