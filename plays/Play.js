@@ -13,6 +13,14 @@ module.exports = class Play {
 		  LEFT: Math.PI,
 		}
 
+		this.Field = {
+	      width: 1700,
+	      TopLeft: {x: -775, y: 675},
+	      TopRight: {x: 775, y: 675},
+	      BottomLeft: {x: -775, y: -675},
+	      BottomRight: {x: 775, y: -675}
+	    }
+
 		this.CENTER_OWN_GOAL = -835
 		this.CENTER_ENEMY_GOAL = 835
 
