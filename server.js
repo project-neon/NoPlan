@@ -9,7 +9,7 @@ const Match = require('./lib/Match')
 const MatchSimulated = require('./lib/MatchSimulated')
 const players = require('require-smart')('./players')
 const PORT = 10006
-const HOST = '224.5.23.3'
+const HOST = '224.5.23.2'
 
 const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 
@@ -29,35 +29,29 @@ async function startup(){
     vision: { PORT, HOST },
     robots: {
       attacker: {
+        visionId: 2,
+        radioId: 2,
+        class: players.GoalKeeper,
+        predict: usePrediction,
+      },
+       defender: {
         visionId: 0,
         radioId: 1,
-        class: players.Attacker2,
-        predict: usePrediction,
-      },
-      goalKeeper: {
-        visionId: 0,
-        radioId: 2,
-        class: players.NewGoalKeeper,
-        predict: usePrediction,
-      },
-      defender: {
-        visionId: 9,
-        radioId: 3,
-        class: players.Attacker,
+        class: players.GoalKeeper,
         predict: usePrediction,
       },
     },
     driver: {
       port: (isSimulated ? null : await getPort('/dev/ttyUSB0')),
       debug: false,
-      baudRate: 500000,
+      baudRate: 115200,
     }
   })
 
   await match.init()
   console.log('Listening in:', PORT)
   
-  await comm(match, {PORT:80})
+  await comm(match, {PORT:8080})
 
 }
 

@@ -54,15 +54,12 @@ module.exports = class BasePlayer {
       this.linear = 0
       this.angular = 0
     }
-    
-    // try{
       _angular = Vector.toDegrees(_angular)
       _linear = _linear/10
+
+      console.log(this.radioId, _state, _linear, _angular)
       return this.radioId, _state, _linear, _angular
-      // this.match.driver.send(this.radioId, _state, _linear, _angular)
-    // } catch(e){
-      // fail++
-    // }
+
   }
 
   // isActive() {
