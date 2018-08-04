@@ -1,0 +1,41 @@
+{
+    frame_number: 687,
+    t_capture: 20.640000000000025,
+    t_sent: 20.640000000000025,
+    camera_id: 1,
+    balls: [{
+        confidence: 0.7377133369445801,
+        area: 118,
+        x: 0,
+        y: 0,
+        z: 0,
+        pixel_x: 323.2542419433594,
+        pixel_y: 387.22882080078125
+    }],
+    robots_yellow: [],
+    robots_blue: [{
+        confidence: 1,
+        robot_id: 0,
+        x: 0,
+        y: 40,
+        orientation: 1.5707963267948966,
+        pixel_x: 0,
+        pixel_y: 0
+    }, {
+        confidence: 1,
+        robot_id: 0,
+        x: 0,
+        y: 40,
+        orientation: 1.5707963267948966,
+        pixel_x: 0,
+        pixel_y: 0
+    }, {
+        confidence: 1,
+        robot_id: 9,
+        x: 0,
+        y: 40,
+        orientation: 1.5707963267948966,
+        pixel_x: 0,
+        pixel_y: 0
+    }]
+}

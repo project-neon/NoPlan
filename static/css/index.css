@@ -1,0 +1,48 @@
+/*body {
+  background-color: #333;
+}
+*/
+.panel {
+  background-color: white;
+  width: 200px;
+  float: left;
+  padding: 20px;
+  margin: 20px;
+  border: 12px;
+}
+
+.start {
+  background-color: #5d5d5d;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 180px;
+  margin: 10px;
+}
+
+.side {
+  background-color: #0000FF;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 180px;
+  margin: 10px;
+}
+
+.field {
+  float: left;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100vh;  /*or use calc(100vh - header_height)*/
+}

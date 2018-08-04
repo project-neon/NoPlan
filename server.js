@@ -43,7 +43,7 @@ async function startup(){
   await match.init()
   console.log('Listening in:', PORT)
   
-  await comm(match, {PORT:80})
+  await comm(match, {PORT:8080})
 
 }
 
