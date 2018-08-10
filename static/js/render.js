@@ -29,8 +29,14 @@ function drawIntentions(ctx, intentions) {
  }
 
  function drawField(ctx, w, h) {
+
+    let field = new Image();
+        field.src = "/img/field.png";
+
+    ctx.drawImage(field, 0, 0, w, h);
+
      // Render field
-     ctx.fillStyle = "#333";
+     /*ctx.fillStyle = "#333";
      ctx.fillRect(0, 0, width, height);
 
      // Draw Field center lines and circle
@@ -141,7 +147,7 @@ function drawIntentions(ctx, intentions) {
 
      ctx.strokeStyle = "white";
      ctx.lineWidth = 0.5 * ratioPxCm;
-     ctx.stroke();
+     ctx.stroke();*/
  }
 
  function translatePosition(pos_x, pos_y) {

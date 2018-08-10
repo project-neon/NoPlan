@@ -1,48 +1,66 @@
-/*body {
-  background-color: #333;
-}
-*/
-.panel {
-  background-color: white;
-  width: 200px;
-  float: left;
-  padding: 20px;
-  margin: 20px;
-  border: 12px;
-}
-
-.start {
-  background-color: #5d5d5d;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  width: 180px;
-  margin: 10px;
-}
-
-.side {
-  background-color: #0000FF;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  width: 180px;
-  margin: 10px;
-}
-
-.field {
-  float: left;
-}
-
-.flex {
+/*Footer fixed on the bottom*/
+body {
   display: flex;
-  flex-wrap: wrap;
-  min-height: 100vh;  /*or use calc(100vh - header_height)*/
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-transform: uppercase;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+/*Tabs personalization*/
+.tabs .indicator{
+  background-color: #388e3c;
+}
+
+/*Console personalization*/
+#console > .row > .col {
+  padding-left: 45px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  color: white;
+}
+
+/*Materialize dropdown personalization*/
+ul.dropdown-content.select-dropdown li span {
+  color: #2E7D32;
+}
+.select-wrapper input.select-dropdown {
+  color: #2E7D32;
+  border-bottom: 1px solid #2E7D32;
+}
+.select-wrapper input.select-dropdown:focus {
+  border-bottom: 1px solid #2E7D32;
+}
+
+/*Materialize form components personalization*/
+/* label color */
+.input-field label {
+  color: #2E7D32;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+  color: #2E7D32 !important;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+  border-bottom: 1px solid #2E7D32 !important;
+  box-shadow: 0 1px 0 0 #2E7D32 !important;
+}
+
+/*ScrollBar personalization*/
+::-webkit-scrollbar-track {
+  background-color: #F4F4F4;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  background: #F4F4F4;
+}
+::-webkit-scrollbar-thumb {
+  background: #dad7d7;
 }

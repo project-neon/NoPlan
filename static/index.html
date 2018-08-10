@@ -8,9 +8,9 @@
 		<link rel="stylesheet" type="text/css" href="/css/materialize.min.css" />
 		<link rel="stylesheet" type="text/css" href="/css/index.css" />
 	</head>
-	<body class="flow-text">
+	<body class="flow-text light-green lighten-5">
 		<header>
-			<nav class="green darken-3">
+			<nav class="green darken-1">
 				<div class="nav-wrapper container">
 					<a href="#" class="brand-logo center">Project Neon</a>
 				</div>
@@ -21,89 +21,231 @@
 		<br />
 		<main id="main">
 			<div class="row">
-				<div class="container">
-					<h3>Match Configurations</h3>
-				</div>
 				<!--LEFT PANEL-->
-				<section id="left_panel" class="col s12 m3 l3 flex">
+				<section id="left_panel" class="col s12 m3 l3">
 					<div class="container">
+						<h5>Match Configurations</h5>
+						<br />
+						<div class="row">
+							<button class="col s12 btn-large waves-effect green darken-1" id="btn_simulated_match">Simulated match</button>
+						</div>
+						<div class="row">
+							<button class="col s12 btn-large waves-effect grey darken-3" id="btn_real_match">Real match</button>
+						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select>
 									<option value="" disabled selected>Choose</option>
-									<option value="1" class="green-text text-darken-3">Right</option>
-									<option value="2" class="green-text text-darken-3">Left</option>
+									<option value="1">Right</option>
+									<option value="2">Left</option>
 								</select>
 								<label>Side</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<select>
 									<option value="" disabled selected>Choose</option>
-									<option value="1" class="green-text text-darken-3">Blue</option>
-									<option value="2" class="green-text text-darken-3">Yellow</option>
+									<option value="1">Blue</option>
+									<option value="2">Yellow</option>
 								</select>
 								<label>Color</label>
 							</div>
 						</div>
 						<div class="row">
-							<button class="col s12 btn-large waves-effect orange darken-3" id="btn_simulated_match">Simulated match</button>
-						</div>
-						<div class="row">
-							<button class="col s12 btn-large waves-effect grey darken-3" id="btn_real_match">Real match</button>
-						</div>
-						<div class="row">
-							<button class="col s12 m7 l7 btn-large waves-effect green darken-1" id="btn_play">Play</button>
-							<button class="col s12 m4 l4 offset-m1 offset-l1 btn-large waves-effect green darken-4" id="btn_pause">Pause</button>
+							<button class="col s12 m7 l7 btn-large waves-effect grey darken-3" id="btn_play">Play</button>
+							<button class="col s12 m4 l4 offset-m1 offset-l1 btn-large waves-effect green darken-1" id="btn_pause">Pause</button>
 						</div>
 					</div>
 				</section>
 		
 				<!-- CENTER PANEL-->
-				<section id="center_panel" class="col s12 m6 l6 flex">
+				<section id="center_panel" class="col s12 m6 l6">
 					<div class="row">
 						<!--<canvas id="field_canvas" width="1200" style="width:75%;align-items: center;"></canvas>-->
-						<canvas id="field_canvas" width="1200" style="width:75%;align-items: center;"></canvas>
+						<canvas id="field_canvas" width="1200" style="width:90%;align-items: center;"></canvas>
 					</div>
 				</section>
 		
 				<!-- RIGHT PANEL-->
-				<section id="right_panel" class="col s12 m3 l3 flex">
-		
+				<section id="right_panel" class="col s12 m3 l3">
+					<div class="container">
+						<h5>Set positions</h5>
+						<br />
+						<div class="row">
+							<button class="col s12 btn-large waves-effect green darken-1" id="btn_position_initial">Initial</button>
+						</div>
+						<div class="row">
+							<button class="col s12 btn-large waves-effect green darken-1" id="btn_position_penalty">Penalty</button>
+						</div>
+						<div class="row">
+							<button class="col s12 btn-large waves-effect grey darken-3" id="btn_position_initial">Advantage 1</button>
+						</div>
+						<div class="row">
+							<button class="col s12 btn-large waves-effect grey darken-3" id="btn_position_penalty">Advantage 2</button>
+						</div>
+					</div>
 				</section>
 			</div>
-			<div class="fixed-action-btn">
-				<a class="btn-floating btn-large green darken-3">
-					<i class="large material-icons">menu</i>
-				</a>
-				<ul>
-					<li><a class="btn-floating green darken-3 btn modal-trigger" href="#console"><i class="material-icons">code</i></a></li>
-				</ul>
-			</div>
 			<div class="row">
-				<div id="console" class="grey darken-3 grey-text text-lighten-5">
-					<div class="container">
-						<p>Consoles</p>
+				<section id="robot_config" class="col s12">
+					<div class="col s12 m4 l4">
+						<div class="card small">
+							<div class="card-content truncate light-green lighten-5 grey-text text-darken-3">
+								<h6 class="center-align">Robot One</h6>
+							</div>
+							<div class="card-tabs">
+								<ul class="tabs tabs-fixed-width green darken-1">
+									<li class="tab"><a class="grey-text text-lighten-5 active" href="#robot1_role">Role</a></li>
+									<li class="tab"><a class="grey-text text-lighten-5" href="#robot1_vision">Vision</a></li>
+									<li class="tab"><a class="grey-text text-lighten-5" href="#robot1_radio">Radio</a></li>
+								</ul>
+							</div>
+							<div class="card-content grey lighten-4">
+								<div id="robot1_role">
+									<div class="row">
+										<div class="input-field col s8">
+											<input placeholder="Role" id="txt_robot1_role" type="text" />
+											<label for="txt_robot1_role">Robot role</label>
+										</div>
+										<div class="col s4">
+											<button class="btn waves-effect green darken-1" id="btn_robot1_role">Change</button>
+										</div>
+									</div>
+								</div>
+								<div id="robot1_vision">
+									<div class="row">
+										<div class="input-field col s8">
+											<input placeholder="Vision" id="txt_robot1_vision" type="text"/>
+											<label for="txt_robot1_vision">Robot vision</label>
+										</div>
+										<div class="col s4">
+											<button class="btn waves-effect green darken-1" id="btn_robot1_vision">Change</button>
+										</div>
+									</div>
+								</div>
+								<div id="robot1_radio">
+									<div class="row">
+										<div class="input-field col s8">
+											<input placeholder="Radio" id="txt_robot1_radio" type="text"/>
+											<label for="txt_robot1_radio">Robot radio</label>
+										</div>
+										<div class="col s4">
+											<button class="btn waves-effect green darken-1" id="btn_robot1_radio">Change</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m4 l4">
+						<div class="card small">
+							<div class="card-content truncate light-green lighten-5 grey-text text-darken-3">
+								<h6 class="center-align">Robot Two</h6>
+							</div>
+							<div class="card-tabs">
+								<ul class="tabs tabs-fixed-width green darken-1">
+									<li class="tab"><a class="grey-text text-lighten-5 active" href="#robot2_role">Role</a></li>
+									<li class="tab"><a class="grey-text text-lighten-5" href="#robot2_vision">Vision</a></li>
+									<li class="tab"><a class="grey-text text-lighten-5" href="#robot2_radio">Radio</a></li>
+								</ul>
+							</div>
+							<div class="card-content light-green lighten-5">
+								<div id="robot2_role">
+									<div class="row">
+										<div class="input-field col s8">
+											<input placeholder="Role" id="txt_robot2_role" type="text" />
+											<label for="txt_robot2_role">Robot role</label>
+										</div>
+										<div class="col s4">
+											<button class="btn waves-effect green darken-1" id="btn_robot2_role">Change</button>
+										</div>
+									</div>
+								</div>
+								<div id="robot2_vision">
+									<div class="row">
+										<div class="input-field col s8">
+											<input placeholder="Vision" id="txt_robot2_vision" type="text"/>
+											<label for="txt_robot2_vision">Robot vision</label>
+										</div>
+										<div class="col s4">
+											<button class="btn waves-effect green darken-1" id="btn_robot2_vision">Change</button>
+										</div>
+									</div>
+								</div>
+								<div id="robot2_radio">
+									<div class="row">
+										<div class="input-field col s8">
+											<input placeholder="Radio" id="txt_robot2_radio" type="text"/>
+											<label for="txt_robot2_radio">Robot radio</label>
+										</div>
+										<div class="col s4">
+											<button class="btn waves-effect green darken-1" id="btn_robot2_radio">Change</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m4 l4">
+						<div class="card small">
+							<div class="card-content truncate light-green lighten-5 grey-text text-darken-3">
+								<h6 class="center-align">Robot Three</h6>
+							</div>
+							<div class="card-tabs">
+								<ul class="tabs tabs-fixed-width green darken-1">
+									<li class="tab"><a class="grey-text text-lighten-5 active" href="#robot3_role">Role</a></li>
+									<li class="tab"><a class="grey-text text-lighten-5" href="#robot3_vision">Vision</a></li>
+									<li class="tab"><a class="grey-text text-lighten-5" href="#robot3_radio">Radio</a></li>
+								</ul>
+							</div>
+							<div class="card-content light-green lighten-5">
+								<div id="robot3_role">
+									<div class="row">
+										<div class="input-field col s8">
+											<input placeholder="Role" id="txt_robot3_role" type="text" />
+											<label for="txt_robot3_role">Robot role</label>
+										</div>
+										<div class="col s4">
+											<button class="btn waves-effect green darken-1" id="btn_robot3_role">Change</button>
+										</div>
+									</div>
+								</div>
+								<div id="robot3_vision">
+									<div class="row">
+										<div class="input-field col s8">
+											<input placeholder="Vision" id="txt_robot3_vision" type="text"/>
+											<label for="txt_robot3_vision">Robot vision</label>
+										</div>
+										<div class="col s4">
+											<button class="btn waves-effect green darken-1" id="btn_robot3_vision">Change</button>
+										</div>
+									</div>
+								</div>
+								<div id="robot3_radio">
+									<div class="row">
+										<div class="input-field col s8">
+											<input placeholder="Radio" id="txt_robot3_radio" type="text"/>
+											<label for="txt_robot3_radio">Robot radio</label>
+										</div>
+										<div class="col s4">
+											<button class="btn waves-effect green darken-1" id="btn_robot3_radio">Change</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</main>
+		<footer class="grey darken-4">
+			<div id="console">
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<p>Oi, eu sou o goku!</p>
 					</div>
 				</div>
 			</div>
-		</main>
-		<footer></footer>
-	<!--
-		<div class="main">
-			<div class="panel">
-				<div class="title">
-					<h1 style="font-family:Verdana; text-align: center;">NoPlan</h1>
-				</div>
-				<div class="buttons" align="center">
-					<button class="start" id="match">Toggle Game</button>
-					<button class="side" id="side">Change Side</button>
-				</div>
-			</div>
-			<div class="field" style="max-width: 100%;">
-				
-			</div>
-		</div>
-	-->
+		</footer>
 	</body>
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="/js/jquery.js"></script>
