@@ -15,15 +15,7 @@ main {
 
 /*Tabs personalization*/
 .tabs .indicator{
-  background-color: #388e3c;
-}
-
-/*Console personalization*/
-#console > .row > .col {
-  padding-left: 45px;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 12px;
-  color: white;
+  background-color: #f1f8e9;
 }
 
 /*Materialize dropdown personalization*/

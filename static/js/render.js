@@ -26,7 +26,69 @@ function drawIntentions(ctx, intentions) {
              }
          }
      }
- }
+}
+
+function renderConsole() {
+
+    //TODO: Add a JSON file with all the console configuration and load it, rather than hard code the propertys.
+
+    let welcomeString    = "NoPlan Console [Version 1.0.1]\n2018 Project Neon. Aberto pra todo mundo.\n\n";
+    let promptLabel      = "   ";
+    let continueLabel    = "   ";
+    let disableAutoFocus = false;
+
+    let jqconsole = $('#console').jqconsole(welcomeString, promptLabel, continueLabel, disableAutoFocus);
+
+    console.log = function(message) {
+        jqconsole.Write(message + "\n", 'jqconsole-output');
+    }
+
+    /* Console Commands */
+    
+    let console_commands = {
+        
+        clear : function() {
+
+            jqconsole.ClearText();
+        },
+
+        help : function() {
+
+            jqconsole.Write("No help for you, otário \n", 'jqconsole-output');
+        }
+
+    };
+
+    /*End console Commands */
+
+    function handler(input) {
+
+        try {
+
+            let tmp = input.split("(");
+
+            if (console_commands.hasOwnProperty(tmp[0])) {
+                console_commands[tmp[0]]();
+            } else {
+                eval(input);
+            }
+            startPrompt();
+
+        } catch(e) {
+
+            jqconsole.Write(e + '\n', 'jqconsole-output');
+            startPrompt();
+
+        }
+
+    };
+
+    let startPrompt = function () {
+        jqconsole.Prompt(true, handler);
+    };
+    startPrompt();
+
+};
 
  function drawField(ctx, w, h) {
 

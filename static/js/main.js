@@ -1,4 +1,4 @@
- (function () {
+(function () {
 
     function init() {
         //main
@@ -52,48 +52,20 @@
             }
 
         });
-    }
-
-    function changeState() {
-
-        matchState ? document.getElementById('match').style.backgroundColor = colors.red : document.getElementById('match').style.backgroundColor = colors.green;
-        socket.emit('state', {
-            state: "toggle"
-        })
-
-        matchState = !matchState
-    }
-
-    function changeSide() {
-
-        matchSide ? document.getElementById('side').style.backgroundColor = colors.blue : document.getElementById('side').style.backgroundColor = colors.yellow
-        let our_side = 0;
-
-        if (!our_side) {
-
-            our_side = 1;
-            socket.emit('state', {
-                state: "side"
-            })
-            socket.emit('state', {
-                state: "team"
-            })
-        }
-        matchSide = !matchSide
-
+        renderConsole();
     }
 
     init();
 
     M.AutoInit();
 
-    let btn_match = document.getElementById("match");
-    btn_match.addEventListener('click', changeState);
+    /*let btn_match = document.getElementById("match");
+        btn_match.addEventListener('click', changeState);
 
     let btn_side = document.getElementById("side");
-    btn_side.addEventListener('click', changeSide);
+        btn_side.addEventListener('click', changeSide);*/
 
-    document.onkeydown = mapKeyEvents;
-    document.onkeyup = mapKeyEvents;
+    //document.addEventListner("onkeydown", mapKeyEvents);
+    //document.addEventListner("onkeyup", mapKeyEvents);
 
- })();
+})();
