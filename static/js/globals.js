@@ -2,6 +2,9 @@
 let socket      = io.connect('http://localhost:8080');
 let matchState  = false;
 let matchSide   = false;
+
+let isPhysicsActive = true;
+
 let colors = {
 
     grey_darken_1: "#757575",
@@ -22,7 +25,7 @@ let colors = {
 
 function changeState() {
 
-    matchState ? document.getElementById('match').style.backgroundColor = colors.red : document.getElementById('match').style.backgroundColor = colors.green;
+    matchState  = 1;
     socket.emit('state', {
         state: "toggle"
     })
@@ -49,4 +52,7 @@ function changeSide() {
 
 }
 
+function noscroll() {
+    window.scrollTo( 0, 0 );
+}
 

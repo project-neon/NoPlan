@@ -1,31 +1,144 @@
-var canvas      = document.getElementById("field_canvas");
-var ctx         = canvas.getContext("2d");
-var canvasH     = 1300;
-var canvasW     = 1700;
-var width       = canvas.width;
-var scale       = width / canvasW;
-var height      = scale * canvasH;
-var xCenter     = width / 2;
-var yCenter     = height / 2;
 
-canvas.height = height;
+const REAL_WORLD_FIELD_HEIGHT = 1300; //canvasH
+const REAL_WORLD_FIELD_WIDTH  = 1700; //canvasW
 
-function drawIntentions(ctx, intentions) {
-     for (i in intentions) {
-         intention = intentions[i]
-         if (intention.constructor.name == 'Array') {
-             drawIntentions(ctx, intention)
-         } else {
-             switch (intention.type) {
-                 case 'LineIntention':
-                     console.log('line intention: ' + intention.name)
-                     break
-                 case 'PointIntention':
-                     console.log('point intention: ' + intention.name)
-                     break
-             }
-         }
-     }
+
+var canvas_width  = 750;
+let scale         = canvas_width / REAL_WORLD_FIELD_WIDTH;
+var canvas_height = scale * REAL_WORLD_FIELD_HEIGHT;
+var xCenter       = canvas_width / 2;
+var yCenter       = canvas_height / 2;
+
+let Engine = Matter.Engine,
+    World  = Matter.World,
+    Bodies = Matter.Bodies;
+
+let engine;
+let world;
+let canvas;
+let boxes = [];
+let background_image;
+
+var ground;
+
+function setup() {
+
+    canvas = createCanvas(canvas_width, canvas_height);
+    canvas.parent("div_field_container");
+
+    background_image = loadImage("/img/field.png");
+
+    engine = Engine.create();
+    world = engine.world;
+
+    Engine.run(engine);
+
+    ground = Bodies.rectangle(176, 958, 958, 100, {isStatic: true});
+    World.add(world, ground);
+
+}
+
+function mousePressed() {
+    boxes.push(new n_box(mouseX, mouseY,random(10, 180), random(10, 40), random(10, 40)));
+}
+
+function draw() {
+
+    background(background_image);
+
+    Engine.update(engine);
+    for (var i = 0; i < boxes.length; i++) {
+        boxes[i].show();
+    }
+    noStroke(255);
+    fill(colors.green_darken_3);
+    rectMode(CENTER);
+    rect(ground.position.x, ground.position.y, width, 10);
+
+    socket.on('detection', function (msg) {
+
+        //var drawStart = Date.now()
+        detection_json = msg['detection']
+        intentions = msg['intentions']
+        
+        /*drawField(ctx, canvas.width, canvas.height);
+        intentions = Object.keys(intentions).map(function (key) {
+            return intentions[key];
+        });*/
+        
+    
+        // start ball drawing
+        // end ball drawing
+        // start player drawing
+        /*detection_json.robots_blue.forEach(function (robot) {
+            player_pos = translatePosition(robot.x, robot.y)
+            tag = robot.robot_id
+            angle = robot.orientation
+            confidence = robot.confidence
+            drawPlayer(ctx, player_pos.x, player_pos.y, -angle, 'blue', tag, confidence)
+        });
+    
+        detection_json.robots_yellow.forEach(function (robot) {
+            player_pos = translatePosition(robot.x, robot.y)
+            tag = robot.robot_id
+            angle = robot.orientation
+            confidence = robot.confidence
+    
+            let color = '';
+            if (matchSide) {
+                color = colors.blue;
+            } else {
+                color = colors.yellow;
+            }
+            drawPlayer(ctx, player_pos.x, player_pos.y, -angle, color, tag, confidence)
+        });
+    
+        // end player drawing
+        //console.log(Date.now()-drawStart)
+        if (detection_json.balls.length >= 1) {
+            ball_pos = [
+                detection_json.balls[0].x,
+                detection_json.balls[0].y
+            ]
+            ball_pos = translatePosition(ball_pos[0], ball_pos[1])
+            drawBall(ctx, ball_pos.x, ball_pos.y, 12, 'orange')
+        }*/
+    
+    });
+
+    
+    //rect(ground.position.x, ground.position.y, 100, 20);
+}
+
+let n_box = function(x, y, w, h, angle) {
+
+    this.body = Bodies.rectangle(x, y, w, h, options);
+    this.w = w;
+    this.h = h;
+
+    var options = {
+        friction: 0.3,
+        restitution: 0
+    }
+
+    World.add(world, this.body);
+
+    this.show = function() {
+
+        let pos   = this.body.position;
+        let angle = this.body.angle;
+
+        push();
+            translate(pos.x, pos.y);
+            rectMode(CENTER);
+            rotate(angle);
+            strokeWeight(1);
+            stroke(255);
+            fill(127);
+            rect(0, 0, this.w, this.h);
+        pop();
+    }
+
 }
 
 function renderConsole() {
@@ -98,7 +211,7 @@ function renderConsole() {
     ctx.drawImage(field, 0, 0, w, h);
 
      // Render field
-     /*ctx.fillStyle = "#333";
+    /* ctx.fillStyle = "#333";
      ctx.fillRect(0, 0, width, height);
 
      // Draw Field center lines and circle

@@ -16,48 +16,11 @@
 					<a href="#" class="brand-logo center">Project Neon</a>
 				</div>
 			</nav>
-		</header>	
-
+		</header>
 		<br />
 		<br />
 		<main id="main">
 			<div class="row">
-				<!--LEFT PANEL-->
-				<section id="left_panel" class="col s12 m3 l3">
-					<div class="container">
-						<h5>Match Configurations</h5>
-						<br />
-						<div class="row">
-							<button class="col s12 btn-large waves-effect green darken-1" id="btn_simulated_match">Simulated match</button>
-						</div>
-						<div class="row">
-							<button class="col s12 btn-large waves-effect grey darken-3" id="btn_real_match" onclick="changeState()">Real match</button>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<select>
-									<option value="" disabled selected>Choose</option>
-									<option value="1">Right</option>
-									<option value="2">Left</option>
-								</select>
-								<label>Side</label>
-							</div>
-							<div class="input-field col s12 m6 l6">
-								<select>
-									<option value="" disabled selected>Choose</option>
-									<option value="1">Blue</option>
-									<option value="2">Yellow</option>
-								</select>
-								<label>Color</label>
-							</div>
-						</div>
-						<div class="row">
-							<button class="col s12 m7 l7 btn-large waves-effect grey darken-3" id="btn_play">Play</button>
-							<button class="col s12 m4 l4 offset-m1 offset-l1 btn-large waves-effect green darken-1" id="btn_pause">Pause</button>
-						</div>
-					</div>
-				</section>
-		
 				<!-- CENTER PANEL-->
 				<section id="center_panel" class="col s12 m6 l6">
 					<div class="row">
@@ -66,27 +29,75 @@
 				</section>
 		
 				<!-- RIGHT PANEL-->
-				<section id="right_panel" class="col s12 m3 l3">
-					<div class="container">
-						<h5>Set positions</h5>
-						<br />
-						<div class="row">
-							<button class="col s12 btn-large waves-effect green darken-1" id="btn_position_initial">Initial</button>
+				<section id="right_panel" class="modal bottom-sheet">
+					<div class="row">
+						<div class="col s12 m4 l4">
+							<div class="container">
+								<h5>Match Configurations</h5>
+								<br />
+								<div class="row">
+									<button class="col s12 btn-large waves-effect green darken-1" id="btn_simulated_match">Simulated match</button>
+								</div>
+								<div class="row">
+									<button class="col s12 btn-large waves-effect grey darken-3" id="btn_real_match" onclick="changeState()">Real match</button>
+								</div>
+								<div class="row">
+									<div class="input-field col s12 m6 l6">
+										<select>
+											<option value="" disabled selected>Choose</option>
+											<option value="1">Right</option>
+											<option value="2">Left</option>
+										</select>
+										<label>Side</label>
+									</div>
+									<div class="input-field col s12 m6 l6">
+										<select>
+											<option value="" disabled selected>Choose</option>
+											<option value="1">Blue</option>
+											<option value="2">Yellow</option>
+										</select>
+										<label>Color</label>
+									</div>
+								</div>
+								<div class="row">
+									<button class="col s12 m7 l7 btn-large waves-effect grey darken-3" id="btn_play">Play</button>
+									<button class="col s12 m4 l4 offset-m1 offset-l1 btn-large waves-effect green darken-1" id="btn_pause">Pause</button>
+								</div>
+							</div>
 						</div>
-						<div class="row">
-							<button class="col s12 btn-large waves-effect green darken-1" id="btn_position_penalty">Penalty</button>
-						</div>
-						<div class="row">
-							<button class="col s12 btn-large waves-effect grey darken-3" id="btn_position_initial">Advantage 1</button>
-						</div>
-						<div class="row">
-							<button class="col s12 btn-large waves-effect grey darken-3" id="btn_position_penalty">Advantage 2</button>
+						<div class="col s12 m4 l4" >
+							<div class="container">
+								<h5>Set positions</h5>
+								<br />
+								<div class="row">
+									<button class="col s12 btn-large waves-effect green darken-1" id="btn_position_initial">Initial</button>
+								</div>
+								<div class="row">
+									<button class="col s12 btn-large waves-effect green darken-1" id="btn_position_penalty">Penalty</button>
+								</div>
+								<div class="row">
+									<button class="col s12 btn-large waves-effect grey darken-3" id="btn_position_initial">Advantage 1</button>
+								</div>
+								<div class="row">
+									<button class="col s12 btn-large waves-effect grey darken-3" id="btn_position_penalty">Advantage 2</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</section>
+
+				<!-- CONSOLE -->
+				<section class="col s12 m6 l6">
+					<div class="row">
+						<div id="console" style="width: 750px; height: 550px; margin-top: 5px;"></div>
+					</div>
+
+				</section>
+
 			</div>
 			<div class="row">
-				<section id="robot_config" class="col s12">
+				<section id="robot_config" class="col s12 modal bottom-sheet">
+					<br />
 					<div class="col s12 m4 l4">
 						<div class="card small">
 							<div class="card-content truncate light-green lighten-5 grey-text text-darken-3">
@@ -235,11 +246,18 @@
 						</div>
 					</div>
 				</section>
+
+				<div class="fixed-action-btn">
+					<a class="btn-floating btn-large grey darken-3">
+						<i class="large material-icons">menu</i>
+					</a>
+					<ul>
+						<li><a class="btn-floating grey darken-3 modal-trigger" href="#robot_config"><i class="material-icons">arrow_upward</i></a></li>
+						<li><a class="btn-floating grey darken-3 modal-trigger" href="#right_panel"><i class="material-icons">arrow_forward</i></a></li>
+					</ul>
+				</div>
 			</div>
 		</main>
-		<footer class="grey darken-4">
-			<div id="console"></div>
-		</footer>
 	</body>
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="/js/jquery.js"></script>
