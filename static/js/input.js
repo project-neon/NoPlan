@@ -1,8 +1,12 @@
 let map = {};
+
 function mapKeyEvents(e) {
+
     window.removeEventListener('scroll', noscroll);
+
     e = e || window.event;
     map[e.keyCode] = (e.type == 'keydown');
+
     checkKey();
 }
 

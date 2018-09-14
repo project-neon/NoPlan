@@ -1,147 +1,226 @@
 
-const REAL_WORLD_FIELD_HEIGHT = 1300; //canvasH
-const REAL_WORLD_FIELD_WIDTH  = 1700; //canvasW
+const REAL_WORLD_FIELD_HEIGHT = 1300;
+const REAL_WORLD_FIELD_WIDTH  = 1700;
+
+const PLAYER_SIZE = 30;
+const BALL_RADIUS = 8;
 
 
-var canvas_width  = 750;
-let scale         = canvas_width / REAL_WORLD_FIELD_WIDTH;
-var canvas_height = scale * REAL_WORLD_FIELD_HEIGHT;
-var xCenter       = canvas_width / 2;
-var yCenter       = canvas_height / 2;
+let isPhysicsActive = false; // Active Physics
 
+//Canva's propertys
+let canvas_width  = 750,
+    scale         = canvas_width / REAL_WORLD_FIELD_WIDTH,
+    canvas_height = scale * REAL_WORLD_FIELD_HEIGHT,
+    xCenter       = canvas_width / 2,
+    yCenter       = canvas_height / 2;
+
+//Aliases for physics engine
 let Engine = Matter.Engine,
     World  = Matter.World,
     Bodies = Matter.Bodies;
 
-let engine;
-let world;
-let canvas;
-let boxes = [];
-let background_image;
+let engine,
+    world,
+    canvas,
+    background_image;
 
-var ground;
+let detection_json;
+
+socket.on('detection', function (msg) {
+
+    detection_json = msg['detection'];
+
+    detection_json.robots_blue.forEach(function(dataset) {
+
+        let position = translatePosition(dataset.x, dataset.y);
+
+        if (SimulatedMatch.blueTeam.hasOwnProperty(dataset.robot_id)) {
+
+            if (dataset.robot_id != SimulatedMatch.blueTeam[dataset.robot_id]._id) {
+                SimulatedMatch.blueTeam[dataset.robot_id]._setId(id);
+            }
+
+            if (dataset.confidence != SimulatedMatch.blueTeam[dataset.robot_id]._confidence) {
+                SimulatedMatch.blueTeam[dataset.robot_id]._setConfidence(dataset.confidence);
+            }
+
+            SimulatedMatch.blueTeam[dataset.robot_id]._update(position.x, position.y, -dataset.orientation);
+
+        } else {
+            let player = new Player(dataset.robot_id, colors.blue, PLAYER_SIZE, PLAYER_SIZE, position.x, position.y, -dataset.orientation);
+                player._add();
+        }
+
+    });
+
+    detection_json.robots_yellow.forEach(function(dataset) {
+
+        let position = translatePosition(dataset.x, dataset.y);
+
+        if (SimulatedMatch.yellowTeam.hasOwnProperty(dataset.robot_id)) {
+
+            if (dataset.robot_id != SimulatedMatch.yellowTeam[dataset.robot_id]._id) {
+                SimulatedMatch.yellowTeam[dataset.robot_id]._setId(id);
+            }
+
+            if (dataset.confidence != SimulatedMatch.yellowTeam[dataset.robot_id]._confidence) {
+                SimulatedMatch.yellowTeam[dataset.robot_id]._setConfidence(dataset.confidence);
+            }
+
+            SimulatedMatch.yellowTeam[dataset.robot_id]._update(position.x, position.y, -dataset.orientation);
+
+        } else {
+            let player = new Player(dataset.robot_id, colors.yellow, 30, 30, position.x, position.y, -dataset.orientation);
+                player._add();
+        }
+
+    });
+
+    //Adding a ball, or updating it's position
+    position = translatePosition(detection_json.balls[0].x, detection_json.balls[0].y);
+
+    if (SimulatedMatch.balls.hasOwnProperty(1)) {
+
+        SimulatedMatch.balls[1]._update(position.x, position.y);
+
+    } else {
+
+        let ball = new Ball(position.x, position.y, BALL_RADIUS, colors.orange);
+        ball._add();
+
+    }
+
+});
 
 function setup() {
 
     canvas = createCanvas(canvas_width, canvas_height);
     canvas.parent("div_field_container");
-
     background_image = loadImage("/img/field.png");
 
     engine = Engine.create();
     world = engine.world;
-
     Engine.run(engine);
 
-    ground = Bodies.rectangle(176, 958, 958, 100, {isStatic: true});
-    World.add(world, ground);
-
-}
-
-function mousePressed() {
-    boxes.push(new n_box(mouseX, mouseY,random(10, 180), random(10, 40), random(10, 40)));
 }
 
 function draw() {
 
     background(background_image);
-
     Engine.update(engine);
-    for (var i = 0; i < boxes.length; i++) {
-        boxes[i].show();
-    }
-    noStroke(255);
-    fill(colors.green_darken_3);
-    rectMode(CENTER);
-    rect(ground.position.x, ground.position.y, width, 10);
 
-    socket.on('detection', function (msg) {
-
-        //var drawStart = Date.now()
-        detection_json = msg['detection']
-        intentions = msg['intentions']
-        
-        /*drawField(ctx, canvas.width, canvas.height);
-        intentions = Object.keys(intentions).map(function (key) {
-            return intentions[key];
-        });*/
-        
-    
-        // start ball drawing
-        // end ball drawing
-        // start player drawing
-        /*detection_json.robots_blue.forEach(function (robot) {
-            player_pos = translatePosition(robot.x, robot.y)
-            tag = robot.robot_id
-            angle = robot.orientation
-            confidence = robot.confidence
-            drawPlayer(ctx, player_pos.x, player_pos.y, -angle, 'blue', tag, confidence)
-        });
-    
-        detection_json.robots_yellow.forEach(function (robot) {
-            player_pos = translatePosition(robot.x, robot.y)
-            tag = robot.robot_id
-            angle = robot.orientation
-            confidence = robot.confidence
-    
-            let color = '';
-            if (matchSide) {
-                color = colors.blue;
-            } else {
-                color = colors.yellow;
-            }
-            drawPlayer(ctx, player_pos.x, player_pos.y, -angle, color, tag, confidence)
-        });
-    
-        // end player drawing
-        //console.log(Date.now()-drawStart)
-        if (detection_json.balls.length >= 1) {
-            ball_pos = [
-                detection_json.balls[0].x,
-                detection_json.balls[0].y
-            ]
-            ball_pos = translatePosition(ball_pos[0], ball_pos[1])
-            drawBall(ctx, ball_pos.x, ball_pos.y, 12, 'orange')
-        }*/
-    
+    Object.keys(SimulatedMatch.blueTeam).forEach(key => {
+        SimulatedMatch.blueTeam[key]._show();
+    });
+    Object.keys(SimulatedMatch.yellowTeam).forEach(key => {
+        SimulatedMatch.yellowTeam[key]._show();
+    });
+    Object.keys(SimulatedMatch.balls).forEach(key => {
+        SimulatedMatch.balls[key]._show();
     });
 
-    
-    //rect(ground.position.x, ground.position.y, 100, 20);
 }
 
-let n_box = function(x, y, w, h, angle) {
+let Player = function(id, team, w, h, x, y, angle) {
 
-    this.body = Bodies.rectangle(x, y, w, h, options);
-    this.w = w;
-    this.h = h;
+    this._id   = id;
+    this._team = team;
+    this._w = w;
+    this._h = h;
+    this._x = x;
+    this._y = y;
+    this._angle = angle;
+    this._colorText = colors.white;
 
-    var options = {
-        friction: 0.3,
-        restitution: 0
+    this._isDragging = false;
+
+    this._setRole = function(role) {
+        this._role = role;
     }
 
-    World.add(world, this.body);
+    this._setConfidence = function(confidence) {
+        this._confidence = confidence;
+    }
 
-    this.show = function() {
+    this._setName = function(name) {
+        this._name = name;
+    }
 
-        let pos   = this.body.position;
-        let angle = this.body.angle;
+    this._setId = function(id) {
+        this._id = id;
+    }
 
+    this._update = function(x, y, angle) {
+        this._x = x;
+        this._y = y;
+        this._angle = angle;
+    }
+
+    this._show = function() {
         push();
-            translate(pos.x, pos.y);
+            translate(this._x, this._y);
             rectMode(CENTER);
-            rotate(angle);
+            rotate(this._angle);
             strokeWeight(1);
-            stroke(255);
-            fill(127);
-            rect(0, 0, this.w, this.h);
+            stroke(colors.grey_darken_4);
+            fill(this._team);
+            rect(0, 0, this._w, this._h, 1, 5, 5, 1);
+            fill("#ffffff");
+            textSize(18);
+            text(this._id, -7, 7);
+        pop();
+    };
+
+    this._add = function() {
+        if (this._team == colors.blue) {
+            SimulatedMatch.blueTeam[this._id] = this;
+        } else if (this._team == colors.yellow) {
+            SimulatedMatch.yellowTeam[this._id] = this;
+        } else {
+            console.log("Robot team is undefined. Id: " + this._id);
+        }
+    }
+
+};
+
+let Ball = function(x, y, radius, color) {
+
+    this._radius = radius;
+    this._id     = 1;
+    this._x      = x;
+    this._y      = y;
+    this._color  = color;
+
+    this._changeColor = function(color) {
+        this._color = color;
+    }
+
+    this._changeRadius = function(radius) {
+        this._radius = radius;
+    }
+
+    this._update = function(x, y) {
+        this._x = x;
+        this._y = y;
+        this._radius = radius;
+    }
+
+    this._show = function() {
+        push();
+            stroke(colors.grey_darken_4);
+            fill(this._color);
+            arc(this._x, this._y, this._radius * 2, this._radius * 2, 0, 4 * PI);
         pop();
     }
 
+    this._add = function() {
+        SimulatedMatch.balls[this._id] = this;
+    }
+
 }
 
-function renderConsole() {
+let Console = function() {
 
     //TODO: Add a JSON file with all the console configuration and load it, rather than hard code the propertys.
 
@@ -152,27 +231,14 @@ function renderConsole() {
 
     let jqconsole = $('#console').jqconsole(welcomeString, promptLabel, continueLabel, disableAutoFocus);
 
-    console.log = function(message) {
-        jqconsole.Write(message + "\n", 'jqconsole-output');
-    }
-
-    /* Console Commands */
-    
     let console_commands = {
-        
         clear : function() {
-
             jqconsole.ClearText();
         },
-
         help : function() {
-
             jqconsole.Write("No help for you, otário \n", 'jqconsole-output');
         }
-
     };
-
-    /*End console Commands */
 
     function handler(input) {
 
@@ -188,10 +254,8 @@ function renderConsole() {
             startPrompt();
 
         } catch(e) {
-
             jqconsole.Write(e + '\n', 'jqconsole-output');
             startPrompt();
-
         }
 
     };
@@ -200,168 +264,13 @@ function renderConsole() {
         jqconsole.Prompt(true, handler);
     };
     startPrompt();
-
 };
 
- function drawField(ctx, w, h) {
-
-    let field = new Image();
-        field.src = "/img/field.png";
-
-    ctx.drawImage(field, 0, 0, w, h);
-
-     // Render field
-    /* ctx.fillStyle = "#333";
-     ctx.fillRect(0, 0, width, height);
-
-     // Draw Field center lines and circle
-     ctx.beginPath();
-     ctx.fillStyle = "#FFF";
-     ctx.arc(xCenter, yCenter, 1, 0, Math.PI * 2, false);
-     ctx.fill();
-     var widthP = w;
-     var heightP = h;
-
-     var widthCm = 170;
-     var heightCm = 130;
-
-     var ratioPxCm = widthP / widthCm;
-
-     var xCenter = widthP / 2;
-     var yCenter = heightP / 2;
-
-     var goalH = 40 * ratioPxCm;
-
-
-     ctx.beginPath();
-     ctx.strokeStyle = "white";
-     ctx.lineWidth = 0.5 * ratioPxCm;
-     ctx.rect(xCenter - (75 * ratioPxCm), 0, 150 * ratioPxCm, 130 * ratioPxCm);
-     ctx.stroke();
-
-     ctx.beginPath();
-     ctx.arc(xCenter, yCenter, (20 * ratioPxCm), 0, 2 * Math.PI);
-     ctx.stroke();
-
-
-     //Left Goal Area
-     ctx.beginPath();
-     ctx.strokeStyle = "white";
-     ctx.lineWidth = 0.5 * ratioPxCm;
-     ctx.fillStyle = '#444'
-     ctx.fillRect(0, yCenter - (20 * ratioPxCm), 10.3 * ratioPxCm, 40 * ratioPxCm);
-     ctx.stroke();
-
-     //Right Goal Area
-     ctx.beginPath();
-     ctx.strokeStyle = "white";
-     ctx.lineWidth = 0.5 * ratioPxCm;
-     ctx.fillStyle = '#444'
-     ctx.fillRect(widthP - (10.3 * ratioPxCm), yCenter - (20 * ratioPxCm), 10 * ratioPxCm, 40 * ratioPxCm);
-     ctx.stroke();
-
-     //Draw Left Goal Lines
-     ctx.beginPath();
-     ctx.strokeStyle = "white";
-     ctx.lineWidth = 0.5 * ratioPxCm;
-     ctx.fillStyle = '#333'
-     ctx.moveTo(xCenter + (170 * ratioPxCm), yCenter + (20 * ratioPxCm));
-     ctx.lineTo(xCenter + (170 * ratioPxCm) - (10 * ratioPxCm), yCenter + (20 * ratioPxCm));
-     ctx.lineTo(xCenter + (170 * ratioPxCm) - (10 * ratioPxCm), yCenter + (20 * ratioPxCm));
-     ctx.lineTo(xCenter + (170 * ratioPxCm), (yCenter + (35 * ratioPxCm)) - (70 * ratioPxCm));
-
-     // Draw Central Line'
-     ctx.moveTo(xCenter, 0);
-     ctx.lineTo(xCenter, heightP);
-
-     //Draw Right side goal area
-     ctx.moveTo(xCenter + (75 * ratioPxCm), yCenter + (35 * ratioPxCm));
-     ctx.lineTo(xCenter + (60 * ratioPxCm), yCenter + (35 * ratioPxCm));
-     ctx.lineTo(xCenter + (60 * ratioPxCm), (yCenter + (35 * ratioPxCm)) - (70 * ratioPxCm));
-     ctx.lineTo(xCenter + (75 * ratioPxCm), (yCenter + (35 * ratioPxCm)) - (70 * ratioPxCm));
-
-     //Draw Left side goal area
-     ctx.moveTo(xCenter - (75 * ratioPxCm), yCenter + (35 * ratioPxCm));
-     ctx.lineTo(xCenter - (60 * ratioPxCm), yCenter + (35 * ratioPxCm));
-     ctx.lineTo(xCenter - (60 * ratioPxCm), (yCenter + (35 * ratioPxCm)) - (70 * ratioPxCm));
-     ctx.lineTo(xCenter - (75 * ratioPxCm), (yCenter + (35 * ratioPxCm)) - (70 * ratioPxCm));
-
-
-     //Draw bottom-left +
-     ctx.moveTo(xCenter - (37.5 * ratioPxCm), (yCenter) + (44 * ratioPxCm));
-     ctx.lineTo(xCenter - (37.5 * ratioPxCm), (yCenter) + (36 * ratioPxCm));
-     ctx.moveTo(xCenter - (41.5 * ratioPxCm), (yCenter) + (40 * ratioPxCm));
-     ctx.lineTo(xCenter - (33.5 * ratioPxCm), (yCenter) + (40 * ratioPxCm));
-     //Draw center-left +
-     ctx.moveTo((xCenter) - 37.5 * ratioPxCm, (yCenter) - (4 * ratioPxCm));
-     ctx.lineTo((xCenter) - 37.5 * ratioPxCm, (yCenter) + (4 * ratioPxCm));
-     ctx.moveTo((xCenter) - 41.5 * ratioPxCm, yCenter);
-     ctx.lineTo((xCenter) - 33.5 * ratioPxCm, yCenter);
-     //Draw top-left +
-     ctx.moveTo((xCenter) - 37.5 * ratioPxCm, (yCenter) - (44 * ratioPxCm));
-     ctx.lineTo((xCenter) - 37.5 * ratioPxCm, (yCenter) - (36 * ratioPxCm));
-     ctx.moveTo((xCenter) - 41.5 * ratioPxCm, (yCenter) - (40 * ratioPxCm));
-     ctx.lineTo((xCenter) - 33.5 * ratioPxCm, (yCenter) - (40 * ratioPxCm));
-
-
-     //Draw bottom-right +
-     ctx.moveTo(xCenter + (37.5 * ratioPxCm), (yCenter) + (44 * ratioPxCm));
-     ctx.lineTo(xCenter + (37.5 * ratioPxCm), (yCenter) + (36 * ratioPxCm));
-     ctx.moveTo(xCenter + (41.5 * ratioPxCm), (yCenter) + (40 * ratioPxCm));
-     ctx.lineTo(xCenter + (33.5 * ratioPxCm), (yCenter) + (40 * ratioPxCm));
-     //Draw center-right +
-     ctx.moveTo((xCenter) + 37.5 * ratioPxCm, (yCenter) - (4 * ratioPxCm));
-     ctx.lineTo((xCenter) + 37.5 * ratioPxCm, (yCenter) + (4 * ratioPxCm));
-     ctx.moveTo((xCenter) + 41.5 * ratioPxCm, yCenter);
-     ctx.lineTo((xCenter) + 33.5 * ratioPxCm, yCenter);
-     //Draw top-right +
-     ctx.moveTo((xCenter) + 37.5 * ratioPxCm, (yCenter) - (44 * ratioPxCm));
-     ctx.lineTo((xCenter) + 37.5 * ratioPxCm, (yCenter) - (36 * ratioPxCm));
-     ctx.moveTo((xCenter) + 41.5 * ratioPxCm, (yCenter) - (40 * ratioPxCm));
-     ctx.lineTo((xCenter) + 33.5 * ratioPxCm, (yCenter) - (40 * ratioPxCm));
-
-     ctx.strokeStyle = "white";
-     ctx.lineWidth = 0.5 * ratioPxCm;
-     ctx.stroke();*/
- }
-
- function translatePosition(pos_x, pos_y) {
-     x = pos_x * scale + width / 2
-     y = pos_y * scale + height / 2
-     return {
-         'x': x,
-         'y': height - y
-     }
- }
-
- function drawBall(ctx, pos_x, pos_y, radius, color) {
-     ctx.beginPath();
-     ctx.fillStyle = color;
-     ctx.strokeStyle = 'orange';
-     ctx.arc(pos_x, pos_y, radius, 0, 2 * Math.PI);
-     ctx.fill();
-     ctx.stroke();
- }
-
- function drawSemiCircle(ctx, pos_x, pos_y, init_angle, end_angle, radius, color) {
-     ctx.beginPath();
-     ctx.strokeStyle = color;
-     ctx.arc(pos_x, pos_y, 30, init_angle, end_angle);
-     ctx.stroke();
- }
-
- function drawPlayer(ctx, pos_x, pos_y, angle, color, number_tag, confidence) {
-     ctx.beginPath();
-     ctx.fillStyle = 'gray';
-     ctx.fillRect(pos_x - 40, pos_y - 50, 80, 15)
-     ctx.fillStyle = color
-     ctx.fillRect(pos_x - 40, pos_y - 50, 80 * confidence, 15)
-     ctx.lineWidth = 7;
-     ctx.strokeStyle = 'black';
-     ctx.stroke();
-     drawSemiCircle(ctx, pos_x, pos_y, angle + 0.75, angle - 0.75, 'red')
-     ctx.fill();
-     ctx.font = "30px Verdana";
-     ctx.fillStyle = 'black';
-     ctx.fillText(number_tag, pos_x - 9, pos_y + 10);
- }
+function translatePosition(x, y) {
+    x = x * scale + canvas_width / 2
+    y = y * scale + canvas_height / 2
+    return {
+        'x': x,
+        'y': canvas_height - y
+    }
+}
