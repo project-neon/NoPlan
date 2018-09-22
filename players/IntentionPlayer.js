@@ -145,6 +145,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
 
   async update() {
     if(this.match.state.state.status == 'stopped'){
+      this.send(0, 0, 0)
       return [this.radioId, 0, 0, 0]
     }
     if(this.frame){
@@ -201,6 +202,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let {linear, angular} = this.computeRobotModelForIntention(output)
 
     // Apply to robot
+    this.send(1, linear, angular)
     return [this.radioId, 1, linear, angular]
   }
 }

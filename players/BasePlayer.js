@@ -43,10 +43,6 @@ module.exports = class BasePlayer {
 
   // Update robot state (linear and angular) targets
   async send(_state, _linear, _angular) {
-
-    _angular = _angular > MAX_ANGULAR ? MAX_ANGULAR : _angular
-    _angular = _angular < -MAX_ANGULAR ? -MAX_ANGULAR : _angular
-    
     if (_state == 1) {
       this.linear = _linear
       this.angular = _angular
@@ -54,12 +50,6 @@ module.exports = class BasePlayer {
       this.linear = 0
       this.angular = 0
     }
-      _angular = Vector.toDegrees(_angular)
-      _linear = _linear/10
-
-      console.log(this.radioId, _state, _linear, _angular)
-      return this.radioId, _state, _linear, _angular
-
   }
 
   // isActive() {
@@ -91,10 +81,9 @@ module.exports = class BasePlayer {
 
     let deltaPos = Vector.mult(Vector.fromTheta(this.orientation), dt * this.linear)
     let deltaTheta = this.angular * dt
-    
     if (deltaTheta) {
       this.orientation = this.orientation - deltaTheta
-      // console.log(this.orientation.toFixed(2))
+      // console.log(this.orientation.toFixed(2)) 
     }
 
     if (deltaPos)

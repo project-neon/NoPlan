@@ -31,15 +31,15 @@ async function startup(){
       attacker: {
         visionId: 2,
         radioId: 2,
-        class: players.GoalKeeper,
+        class: players.Attacker,
         predict: usePrediction,
       },
-       defender: {
-        visionId: 0,
+      attacker2: {
+        visionId: 3,
         radioId: 1,
-        class: players.GoalKeeper,
+        class: players.Defender,
         predict: usePrediction,
-      },
+      }
     },
     driver: {
       port: (isSimulated ? null : await getPort('/dev/ttyUSB0')),
