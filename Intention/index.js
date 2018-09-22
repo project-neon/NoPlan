@@ -2,8 +2,8 @@ const util = require('./util')
 
 const FRESH_OUTPUT_TIME = 100
 const MIN_WEIGHT_ACTIVE = 0.05
-const STABILIZED_MIN_LINEAR = 15
-const STABILIZED_MIN_ANGULAR = 0.1
+const STABILIZED_MIN_LINEAR = 30
+const STABILIZED_MIN_ANGULAR = 0.5
 
 module.exports = class Intention {
   constructor(name, params) {
@@ -26,14 +26,11 @@ module.exports = class Intention {
     return intention
   }
 
-  isStabilized() {
-    // this._isStabilized = this._isStabilized + 1 || 1
-    // if (this._isStabilized > 100) {
-    //   console.log(this.output)
-    //   this._isStabilized = 0
-    // }
-      // console.log('int:', this.name, this.output && this.output.vx)
+  getIntentionInfo() {
+    return this.intentions.map(x => x.getIntentionInfo())
+  }
 
+  isStabilized() {
     // Is Last compute too old?
     if (Date.now() > this.time + FRESH_OUTPUT_TIME) return false;
     // Has it been computed yet?
@@ -45,6 +42,7 @@ module.exports = class Intention {
     if (Math.abs(this.output.vx) > STABILIZED_MIN_LINEAR) return false;
     if (Math.abs(this.output.vy) > STABILIZED_MIN_LINEAR) return false;
     if (Math.abs(this.output.vtheta) > STABILIZED_MIN_ANGULAR) return false;
+    
     return true
   }
 
@@ -68,8 +66,6 @@ module.exports = class Intention {
       // Save inside intention the lastOutput
       intention.output = output
 
-      // console.log(output)
-
       if (!output) {
         console.log('Fudeo o role:', intention.name, 'com: ', output)
         continue;
@@ -87,13 +83,6 @@ module.exports = class Intention {
     if (outputSumWeight <= MIN_WEIGHT_ACTIVE) {
       outputSum = {vx: 0, vy: 0, vtheta: 0}
     }
-
-    // console.log(outputSum, outputSumWeight)
-
-    // Divide all values by their weights
-    // for(let key in outputSum) {
-    //   outputSum[key] /= outputSumWeight
-    // }
 
     // Save current time and summed output
     this.time = Date.now()

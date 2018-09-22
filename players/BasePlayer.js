@@ -54,15 +54,27 @@ module.exports = class BasePlayer {
       this.linear = 0
       this.angular = 0
     }
-    
-    // try{
       _angular = Vector.toDegrees(_angular)
       _linear = _linear/10
-      this.match.driver.send(this.radioId, _state, _linear, _angular)
-    // } catch(e){
-      // fail++
-    // }
+
+      console.log(this.radioId, _state, _linear, _angular)
+      return this.radioId, _state, _linear, _angular
+
   }
+
+  // isActive() {
+  //   if (!this.frame) {
+  //     return false
+  //   }
+  //   // frame_number: 308954,
+  //   // t_capture: 33517.520055,
+  //   // t_sent: 1513650099.136511,
+  //   // camera_id: 1,
+  //   let delta = Date.now() / 1000 - this.frame.t_sent
+  //   console.log(this.id, 'delta:', this.detection)
+
+  //   return Math.abs(delta) < 4
+  // }
 
   simulate(dt) {
     // Compute dt if not assigned
