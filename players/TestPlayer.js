@@ -1,17 +1,15 @@
 const IntentionPlayer = require('./IntentionPlayer')
-
 const TensorMath = require('../lib/TensorMath')
 const Intention = require('../Intention')
 const LineIntention = require('../Intention/LineIntention')
 const PointIntention = require('../Intention/PointIntention')
 const LookAtIntention = require('../Intention/LookAtIntention')
 
-// const FORWARD_SPEED = 500 // ~4.3s
 const FORWARD_SPEED = 500 // ~4.3s
 
 const ANGULAR_MULTIPLIER = 10
 
-module.exports = class TestIntention2 extends IntentionPlayer {
+module.exports = class TestPlayer extends IntentionPlayer {
   setup(){
     let ball = () => {
       return {x: this.ball.x,
@@ -66,6 +64,7 @@ module.exports = class TestIntention2 extends IntentionPlayer {
     this.$playerAvoidance.addIntetion(new PointIntention('center', {
       // target: ball,
       target: {x: 0, y: 0},
+      radius:150,
       radiusMax: 150,
       decay: TensorMath.new.pow(3).finish,
       multiplier: -FORWARD_SPEED,
@@ -91,7 +90,7 @@ module.exports = class TestIntention2 extends IntentionPlayer {
       current.output = null
       this.states.unshift(this.states.pop())
     }
-
+    // console.log(this.frame)
     // if (this.$goGoalUp.active && this.$goGoalUp.isStabilized()) {
     //   this.$goGoalUp.weight = 0
     //   this.$goCenterUp.weight = 1
@@ -103,6 +102,3 @@ module.exports = class TestIntention2 extends IntentionPlayer {
     // console.log(this.position)
   }
 }
-
-
-
