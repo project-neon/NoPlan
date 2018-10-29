@@ -7,6 +7,8 @@ require('draftlog').into(console)
 
 const Match = require('./lib/Match')
 const MatchSimulated = require('./lib/MatchSimulated')
+const MatchSSLSimulated = require('./lib/MatchSSLSimulated')
+
 const players = require('require-smart')('./players')
 const PORT = 10006
 const HOST = '224.5.23.2'
@@ -17,6 +19,7 @@ const TAG = 'server'
 
 const isSimulated = !!process.env.SIMULATED
 const usePrediction = !isSimulated
+const noStation = process.env.NO_STATION | false
 
 async function startup(){
   console.info(TAG, chalk.yellow('startup'))
@@ -24,6 +27,10 @@ async function startup(){
   console.info(TAG, chalk.yellow('usePrediction'), usePrediction)
     
   let MatchClass = (isSimulated ? MatchSimulated : Match)
+
+  if(noStation) {
+    MatchClass = MatchSSLSimulated
+  }
 
   let match = new MatchClass({
     vision: { PORT, HOST },
@@ -42,7 +49,7 @@ async function startup(){
       }
     },
     driver: {
-      port: (isSimulated ? null : await getPort('/dev/ttyUSB0')),
+      port: ( (isSimulated || noStation) ? null : await getPort('/dev/ttyUSB0')),
       debug: false,
       baudRate: 115200,
     }
