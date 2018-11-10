@@ -75,8 +75,8 @@ module.exports = class PointIntention extends Intention{
     // console.log("Name: ",this.name, force)
     return {
       // Returning result vector times the multiplier as output
-      vx: toTargetNorm.x * force * multiplier,
-      vy: toTargetNorm.y * force * multiplier,
+      vx: -1 * toTargetNorm.x * force * multiplier,
+      vy: -1 * toTargetNorm.y * force * multiplier,
       vtheta: 0
     }
   }

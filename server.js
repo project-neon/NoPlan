@@ -10,6 +10,7 @@ const MatchSimulated = require('./lib/MatchSimulated')
 const MatchSSLSimulated = require('./lib/MatchSSLSimulated')
 
 const players = require('require-smart')('./players')
+const test_players = require('require-smart')('./players/tests')
 const PORT = 10006
 const HOST = '224.5.23.2'
 
@@ -38,7 +39,7 @@ async function startup(){
       attacker: {
         visionId: 2,
         radioId: 2,
-        class: players.TestPlayer2,
+        class: test_players.LookAtIntentionPlayer,
         predict: usePrediction,
       }
     },
