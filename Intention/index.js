@@ -51,7 +51,6 @@ module.exports = class Intention {
   }
 
   compute(input) {
-
     let outputSum = {vx: 0, vy: 0, vtheta: 0}
     let outputSumWeight = 0
 

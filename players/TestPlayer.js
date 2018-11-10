@@ -5,9 +5,9 @@ const LineIntention = require('../Intention/LineIntention')
 const PointIntention = require('../Intention/PointIntention')
 const LookAtIntention = require('../Intention/LookAtIntention')
 
-const FORWARD_SPEED = 500 // ~4.3s
+const FORWARD_SPEED = 15 // ~4.3s
 
-const ANGULAR_MULTIPLIER = 10
+const ANGULAR_MULTIPLIER = 200
 
 module.exports = class TestPlayer extends IntentionPlayer {
   setup(){
@@ -32,7 +32,7 @@ module.exports = class TestPlayer extends IntentionPlayer {
       // target: ,
       theta: Math.PI / 2,
       decay: TensorMath.new.finish,
-      multiplier: ANGULAR_MULTIPLIER,
+      multiplier: ANGULAR_MULTIPLIER
     }))
 
     this.addIntetion(this.$goCenterUp)

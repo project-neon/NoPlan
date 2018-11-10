@@ -36,62 +36,20 @@ module.exports = class IntentionPlayer extends BasePlayer {
     // Self-explanatory
     this.MAX_ROBOT_SPEED=500
 
-    this.SPEED_IMPORTANCE_MAX=15
+    const SPEED_IMPORTANCE_MIN=10
+    const SPEED_IMPORTANCE_MAX=15
+
 
     this.speedImportance = TensorMath.new.map(
-      this.SPEED_IMPORTANCE_MAX,this.SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
+      SPEED_IMPORTANCE_MIN, SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
     // =======================
     this.intentionGroup = new Intention('RootIntentionGroup')
     
     this.lastBall = null
     this.ballSpeed = {x: 0, y: 0}
-    this._ballSpeedsRaw = []
+    this._ballSpeedsRaw = []  
 
     this.setup()
-
-    // Avoid other goal
-    this.addIntetion(new LineIntention('avoidOtherGoal', {
-      target: {x: 800, y: 0},
-      theta: Vector.direction("up"),
-      lineSize: 250,
-      lineSizeSingleSide: true,
-      lineDist: 120,
-      lineDistMax: 120,
-      decay: TensorMath.new.mult(-1).sum(1).finish,
-      multiplier: 4000,
-    }))
-    this.addIntetion(new LineIntention('avoidOtherGoalInside', {
-      target: {x: 800, y: 0},
-      theta: Vector.direction("left"),
-      lineSize: 100,
-      lineSizeSingleSide: true,
-      lineDist: 250,
-      lineDistMax: 250,
-      decay: TensorMath.new.mult(-1).finish,
-      multiplier: 4000,
-    }))
-
-    // Avoid other goal
-    this.addIntetion(new LineIntention('avoidOwnGoal', {
-      target: {x: -800, y: 0},
-      theta: Vector.direction("up"),
-      lineSize: 250,
-      lineSizeSingleSide: true,
-      lineDist: 120,
-      lineDistMax: 120,
-      decay: TensorMath.new.mult(-1).sum(1).finish,
-      multiplier: 4000,
-    }))
-    this.addIntetion(new LineIntention('avoidOwnGoalInside', {
-      target: {x: -800, y: 0},
-      theta: Vector.direction("left"),
-      lineSize: 100,
-      lineSizeSingleSide: true,
-      lineDist: 250,
-      lineDistMax: 250,
-      decay: TensorMath.new.mult(-1).finish,
-      multiplier: 4000,
-    }))
     // this.orientation = 0
   }
 
@@ -111,6 +69,9 @@ module.exports = class IntentionPlayer extends BasePlayer {
     // Create Vector From Received Speed
     let targetSpeedVector = {x: vx, y: vy}
     // Escalar
+    
+    console.log('targetSpeedVector', targetSpeedVector)
+
     let targetSpeed = Vector.size(targetSpeedVector)
     //console.log(targetSpeedVector, targetSpeed)
     // Limit to robot limit
@@ -118,7 +79,6 @@ module.exports = class IntentionPlayer extends BasePlayer {
       targetSpeed = this.MAX_ROBOT_SPEED
       targetSpeedVector = Vector.mult(Vector.norm(targetSpeedVector), this.MAX_ROBOT_SPEED)
     }
-
     // Normalize Vector to robot's Xs and Ys
     let robotWorldSpeed = Vector.rotate(targetSpeedVector, -this.orientation)
 
@@ -137,8 +97,8 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let speedWeight = this.speedImportance(targetSpeed)
     let vthetaWeight = 1 - speedWeight
     // console.log(vthetaWeight)
-
-    let angular = (robotAngleToSpeed * 4 * speedWeight) + (vtheta * vthetaWeight)
+    console.log(robotAngleToSpeed, speedWeight)
+    let angular = (robotAngleToSpeed * 45 * speedWeight) + (vtheta * vthetaWeight)
     //console.log(linear, angular)
     return {linear, angular}
   }
@@ -148,6 +108,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
       this.send(0, 0, 0)
       return [this.radioId, 0, 0, 0]
     }
+
     if(this.frame){
       let frame = this.frame
       // Update ball position

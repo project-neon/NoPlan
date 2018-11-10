@@ -18,7 +18,7 @@ const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 const TAG = 'server'
 
 const isSimulated = !!process.env.SIMULATED
-const usePrediction = !isSimulated
+const usePrediction = false
 const noStation = process.env.NO_STATION | false
 
 async function startup(){
@@ -38,19 +38,13 @@ async function startup(){
       attacker: {
         visionId: 2,
         radioId: 2,
-        class: players.Attacker,
-        predict: usePrediction,
-      },
-      attacker2: {
-        visionId: 3,
-        radioId: 1,
-        class: players.Defender,
+        class: players.TestPlayer2,
         predict: usePrediction,
       }
     },
     driver: {
       port: ( (isSimulated || noStation) ? null : await getPort('/dev/ttyUSB0')),
-      debug: false,
+      debug: true,
       baudRate: 115200,
     }
   })

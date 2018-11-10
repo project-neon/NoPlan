@@ -27,8 +27,7 @@ let engine,
 
 let detection_json;
 
-socket.on('detection', function (msg) {
-
+socket.on('detection', function (msg) {    
     detection_json = msg['detection'];
 
     detection_json.robots_blue.forEach(function(dataset) {
