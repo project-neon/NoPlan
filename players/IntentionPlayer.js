@@ -98,7 +98,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let vthetaWeight = 1 - speedWeight
     // console.log(vthetaWeight)
     console.log(robotAngleToSpeed, speedWeight)
-    let angular = (robotAngleToSpeed * 45 * speedWeight) + (vtheta * vthetaWeight)
+    let angular = (robotAngleToSpeed * 120 * speedWeight) + (vtheta * vthetaWeight)
     //console.log(linear, angular)
     return {linear, angular}
   }
