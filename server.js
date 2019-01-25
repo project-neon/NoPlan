@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const chalk = require('chalk')
+const assert = require('assert')
 const inquirer = require('inquirer')
 const SerialPort = require('serialport')
 const comm = require('./lib/Comm.js')
@@ -15,18 +16,27 @@ const PORT = 10006
 const HOST = '224.5.23.2'
 
 const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
-
 const TAG = 'server'
+/*
+Variavel RUN_MODE args:
+  1: REAL_LIFE, Executa o fluxo completo, usado para partidas reais
+  2: SIMULATED, modo simulado, usando stack SIR-LAB
+  3: ASSIST   , modo assistido, onde o NoPlan recebe dados do
+  SSL-Vision mas não envia para lugar algum
+*/
 
-const isSimulated = !!process.env.SIMULATED
+const run_mode = process.env.RUN_MODE
+assert.notEqual(run_mode, null)
+
+const isSimulated = run_mode==2
 const usePrediction = false
-const noStation = process.env.NO_STATION | false
+const noStation = run_mode==3
 
 async function startup(){
   console.info(TAG, chalk.yellow('startup'))
   console.info(TAG, chalk.yellow('isSimulated'), isSimulated)
   console.info(TAG, chalk.yellow('usePrediction'), usePrediction)
-    
+
   let MatchClass = (isSimulated ? MatchSimulated : Match)
 
   if(noStation) {
@@ -52,7 +62,7 @@ async function startup(){
 
   await match.init()
   console.log('Listening in:', PORT)
-  
+
   await comm(match, {PORT:8080})
 
 }
@@ -74,7 +84,7 @@ async function getPort(prefered) {
   console.log(`Port '${prefered}' not available`)
 
   let answer = await inquirer.prompt({
-    type: 'list', 
+    type: 'list',
     name: 'port',
     choices: _.map(ports, 'comName'),
     message: 'Select Cursor port'
