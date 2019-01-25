@@ -12,7 +12,7 @@ module.exports = class BasePlayer {
     this.ball = {x:0,y:0}
     this.linear = 0
     this.angular = 0
-    
+
     this.position = {x : 600, y : 400}
     this.orientation = 0
 
@@ -52,25 +52,11 @@ module.exports = class BasePlayer {
     }
   }
 
-  // isActive() {
-  //   if (!this.frame) {
-  //     return false
-  //   }
-  //   // frame_number: 308954,
-  //   // t_capture: 33517.520055,
-  //   // t_sent: 1513650099.136511,
-  //   // camera_id: 1,
-  //   let delta = Date.now() / 1000 - this.frame.t_sent
-  //   console.log(this.id, 'delta:', this.detection)
-
-  //   return Math.abs(delta) < 4
-  // }
-
   simulate(dt) {
     // Compute dt if not assigned
     if (!dt) {
       let now = Date.now()
-      dt = (now - this.lastTime) / 1000
+      dt = (now - this.lastTime)
       this.lastTime = now
     }
 
@@ -83,7 +69,7 @@ module.exports = class BasePlayer {
     let deltaTheta = this.angular * dt
     if (deltaTheta) {
       this.orientation = this.orientation - deltaTheta
-      // console.log(this.orientation.toFixed(2)) 
+      // console.log(this.orientation.toFixed(2))
     }
 
     if (deltaPos)

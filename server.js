@@ -37,7 +37,7 @@ const usePrediction = false
 const noStation = run_mode==3
 
 async function startup(){
-  console.info(TAG, chalk.yellow('startup'))
+  console.info(TAG, chalk.yellow('Startup'))
   console.info(TAG, chalk.yellow('Run mode: '), chalk.green(RUN_MODES[run_mode]))
   // FIXME: Se a simulação não esta confiavel vale tentar usar?
   // console.info(TAG, chalk.yellow('usePrediction'), usePrediction)
@@ -60,7 +60,7 @@ async function startup(){
     },
     driver: {
       port: ( (isSimulated || noStation) ? null : await getPort('/dev/ttyUSB0')),
-      debug: true,
+      debug: false,
       baudRate: 115200,
     }
   })
