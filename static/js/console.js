@@ -12,10 +12,8 @@ Licensed under the MIT license
         },
         slice = [].slice;
 
-    $ = jQuery;
-
-    STATE_INPUT = 0;
-
+  $ = jQuery
+  STATE_INPUT = 0
     STATE_OUTPUT = 1;
 
     STATE_PROMPT = 2;
