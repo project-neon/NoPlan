@@ -20,5 +20,10 @@
     "serve-favicon": "^2.4.5",
     "socket.io": "^2.1.1",
     "ssl-vision": "^1.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.15.0"
   }
 }
