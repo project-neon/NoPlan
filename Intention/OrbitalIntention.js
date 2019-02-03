@@ -45,9 +45,9 @@ module.exports = class OrbitalIntention extends Intention{
     let distanceBetweenTarget = Vector.distBetween({x, y}, target)
     let endAngle
     if (distanceBetweenTarget > this.radius) {
-      endAngle = angleToTarget - this.clockwise * Math.PI/2 * (2 - (this.radius + K)/(distanceBetweenTarget + K))
+      endAngle = angleToTarget + this.clockwise * Math.PI/2 * (2 + (this.radius + K)/(distanceBetweenTarget + K))
     } else {
-      endAngle = angleToTarget - this.clockwise * Math.PI/2 * Math.sqrt(distanceBetweenTarget/this.radius)
+      endAngle = angleToTarget + this.clockwise * Math.PI/2 * Math.sqrt(distanceBetweenTarget/this.radius)
     }
     let finalVector = Vector.norm(Vector.fromTheta(endAngle))
 

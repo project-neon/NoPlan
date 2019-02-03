@@ -12,10 +12,10 @@ module.exports = class OrbitalIntentionPlayer extends IntentionPlayer {
 
     this.addIntetion(new OrbitalIntention('test', {
       target: ball,
-      radius: 100,
+      radius: 1,
       multiplier: FORWARD_SPEED,
       clockwise: 1,
-      K: 50
+      K: 5
     }))
   }
   loop(){
