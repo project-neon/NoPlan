@@ -51,24 +51,28 @@ async function startup(){
   let match = new MatchClass({
     vision: { PORT, HOST },
     robots: {
+      /*
+      * Change here when testing new players implementations
+      */
       attacker: {
         visionId: 1,
         radioId: 1,
-        class: test_players.OrbitalIntentionPlayer,
-        predict: usePrediction,
-      },
-      attacker2: {
-        visionId: 2,
-        radioId: 2,
-        class: test_players.OrbitalIntentionPlayer,
-        predict: usePrediction,
-      },
-      attacker3: {
-        visionId: 0,
-        radioId: 0,
-        class: test_players.OrbitalIntentionPlayer,
+        class: test_players.PointIntentionPlayer,
         predict: usePrediction,
       }
+      // ,
+      // attacker2: {
+      //   visionId: 2,
+      //   radioId: 2,
+      //   class: test_players.OrbitalIntentionPlayer,
+      //   predict: usePrediction,
+      // },
+      // attacker3: {
+      //   visionId: 0,
+      //   radioId: 0,
+      //   class: test_players.OrbitalIntentionPlayer,
+      //   predict: usePrediction,
+      // }
     },
     driver: {
       port: ( (isSimulated || noStation) ? null : await getPort('/dev/ttyUSB0')),
