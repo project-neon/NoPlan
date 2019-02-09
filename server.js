@@ -49,33 +49,14 @@ async function startup(){
   }
 
   let match = new MatchClass({
+    // Vision: Dados referentes ao input de dados da visão
+    // Coach: Dados de configuração do Coach que ira orquestrar a partida
+    // Driver: dados referentes ao output de dados de envio para os robos
     vision: { PORT, HOST },
-    robots: {
-      /*
-      * Change here when testing new players implementations
-      */
-      attacker: {
-        visionId: 1,
-        radioId: 1,
-        class: test_players.PointIntentionPlayer,
-        predict: usePrediction,
-      }
-      // ,
-      // attacker2: {
-      //   visionId: 2,
-      //   radioId: 2,
-      //   class: test_players.OrbitalIntentionPlayer,
-      //   predict: usePrediction,
-      // },
-      // attacker3: {
-      //   visionId: 0,
-      //   radioId: 0,
-      //   class: test_players.OrbitalIntentionPlayer,
-      //   predict: usePrediction,
-      // }
-    },
+    coach: {},
+    robotsProperties: {robot_1: {vision_id: 1, radio_id:1}},
     driver: {
-      port: ( (isSimulated || noStation) ? null : await getPort('/dev/ttyUSB0')),
+      port: ((isSimulated || noStation) ? null : await getPort('/dev/ttyUSB0')),
       debug: false,
       baudRate: 115200,
     }
