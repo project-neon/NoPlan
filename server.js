@@ -8,7 +8,7 @@ require('draftlog').into(console)
 
 const Match = require('./lib/Match')
 const MatchSimulated = require('./lib/MatchSimulated')
-const MatchSSLSimulated = require('./lib/MatchSSLSimulated')
+const MatchVSSSimulated = require('./lib/MatchVSSSimulated')
 
 const players = require('require-smart')('./players')
 const test_players = require('require-smart')('./players/tests')
@@ -42,10 +42,10 @@ async function startup(){
   // FIXME: Se a simulação não esta confiavel vale tentar usar?
   // console.info(TAG, chalk.yellow('usePrediction'), usePrediction)
 
-  let MatchClass = (isSimulated ? MatchSimulated : Match)
+  let MatchClass = (isSimulated ? MatchVSSSimulated : Match)
 
   if(noStation) {
-    MatchClass = MatchSSLSimulated
+    MatchClass = MatchVSSSimulated // Mudar no futuro
   }
 
   let match = new MatchClass({
@@ -60,19 +60,19 @@ async function startup(){
         class: test_players.PointIntentionPlayer,
         predict: usePrediction,
       }
-      // ,
-      // attacker2: {
-      //   visionId: 2,
-      //   radioId: 2,
-      //   class: test_players.OrbitalIntentionPlayer,
-      //   predict: usePrediction,
-      // },
-      // attacker3: {
-      //   visionId: 0,
-      //   radioId: 0,
-      //   class: test_players.OrbitalIntentionPlayer,
-      //   predict: usePrediction,
-      // }
+      ,
+      attacker2: {
+        visionId: 2,
+        radioId: 2,
+        class: test_players.OrbitalIntentionPlayer,
+        predict: usePrediction,
+      },
+      attacker3: {
+        visionId: 0,
+        radioId: 0,
+        class: test_players.OrbitalIntentionPlayer,
+        predict: usePrediction,
+      }
     },
     driver: {
       port: ( (isSimulated || noStation) ? null : await getPort('/dev/ttyUSB0')),
