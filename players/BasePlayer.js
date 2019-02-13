@@ -68,7 +68,7 @@ module.exports = class BasePlayer {
     let deltaPos = Vector.mult(Vector.fromTheta(this.orientation), dt * -this.linear)
     let deltaTheta = this.angular * dt
     if (deltaTheta) {
-      this.orientation = this.orientation - deltaTheta
+      this.orientation = this.orientation - deltaTheta * Math.PI/180
       // console.log(this.orientation.toFixed(2))
     }
 
