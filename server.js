@@ -57,20 +57,20 @@ async function startup(){
       attacker: {
         visionId: 1,
         radioId: 1,
-        class: test_players.PointIntentionPlayer,
+        class: test_players.LineIntentionPlayer,
         predict: usePrediction,
       }
       ,
       attacker2: {
         visionId: 2,
         radioId: 2,
-        class: test_players.OrbitalIntentionPlayer,
+        class: test_players.LineIntentionPlayer,
         predict: usePrediction,
       },
       attacker3: {
         visionId: 0,
         radioId: 0,
-        class: test_players.OrbitalIntentionPlayer,
+        class: test_players.LineIntentionPlayer,
         predict: usePrediction,
       }
     },
