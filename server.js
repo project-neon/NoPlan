@@ -7,7 +7,7 @@ require('draftlog').into(console)
 
 const Match = require('./lib/Match')
 const MatchSimulated = require('./lib/MatchSimulated')
-const MatchSSLSimulated = require('./lib/MatchSSLSimulated')
+const MatchVSSSimulated = require('./lib/MatchVSSSimulated')
 
 const players = require('require-smart')('./players')
 const test_players = require('require-smart')('./players/tests')
@@ -23,23 +23,40 @@ const usePrediction = false
 const noStation = process.env.NO_STATION | false
 
 async function startup(){
-  console.info(TAG, chalk.yellow('startup'))
-  console.info(TAG, chalk.yellow('isSimulated'), isSimulated)
-  console.info(TAG, chalk.yellow('usePrediction'), usePrediction)
-    
-  let MatchClass = (isSimulated ? MatchSimulated : Match)
+  console.info(TAG, chalk.yellow('Startup'))
+  console.info(TAG, chalk.yellow('Run mode: '), chalk.green(RUN_MODES[run_mode]))
+  // FIXME: Se a simulação não esta confiavel vale tentar usar?
+  // console.info(TAG, chalk.yellow('usePrediction'), usePrediction)
+
+  let MatchClass = (isSimulated ? MatchVSSSimulated : Match)
 
   if(noStation) {
-    MatchClass = MatchSSLSimulated
+    MatchClass = MatchVSSSimulated // Mudar no futuro
   }
 
   let match = new MatchClass({
     vision: { PORT, HOST },
     robots: {
+      /*
+      * Change here when testing new players implementations
+      */
       attacker: {
+        visionId: 1,
+        radioId: 1,
+        class: test_players.LineIntentionPlayer,
+        predict: usePrediction,
+      }
+      ,
+      attacker2: {
         visionId: 2,
         radioId: 2,
-        class: test_players.OrbitalIntentionPlayer,
+        class: test_players.LineIntentionPlayer,
+        predict: usePrediction,
+      },
+      attacker3: {
+        visionId: 0,
+        radioId: 0,
+        class: test_players.LineIntentionPlayer,
         predict: usePrediction,
       }
     },
