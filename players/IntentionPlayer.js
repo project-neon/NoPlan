@@ -44,10 +44,10 @@ module.exports = class IntentionPlayer extends BasePlayer {
       SPEED_IMPORTANCE_MIN, SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
     // =======================
     this.intentionGroup = new Intention('RootIntentionGroup')
-
+    
     this.lastBall = null
     this.ballSpeed = {x: 0, y: 0}
-    this._ballSpeedsRaw = []
+    this._ballSpeedsRaw = []  
 
     this.setup()
     // this.orientation = 0
@@ -69,6 +69,8 @@ module.exports = class IntentionPlayer extends BasePlayer {
     // Create Vector From Received Speed
     let targetSpeedVector = {x: vx, y: vy}
     // Escalar
+    
+    console.log('targetSpeedVector', targetSpeedVector)
 
     let targetSpeed = Vector.size(targetSpeedVector)
     //console.log(targetSpeedVector, targetSpeed)
@@ -95,6 +97,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let speedWeight = this.speedImportance(targetSpeed)
     let vthetaWeight = 1 - speedWeight
     // console.log(vthetaWeight)
+    console.log(robotAngleToSpeed, speedWeight)
     let angular = (robotAngleToSpeed * 120 * speedWeight) + (vtheta * vthetaWeight)
     //console.log(linear, angular)
     return {linear, angular}
