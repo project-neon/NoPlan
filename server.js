@@ -8,7 +8,7 @@ require('draftlog').into(console)
 
 const Match = require('./lib/Match')
 const MatchSimulated = require('./lib/MatchSimulated')
-const MatchSSLSimulated = require('./lib/MatchSSLSimulated')
+const MatchVSSSimulated = require('./lib/MatchVSSSimulated')
 
 const players = require('require-smart')('./players')
 const test_players = require('require-smart')('./players/tests')
@@ -45,7 +45,7 @@ async function startup(){
   let MatchClass = (isSimulated ? MatchSimulated : Match)
 
   if(noStation) {
-    MatchClass = MatchSSLSimulated
+    MatchClass = MatchVSSSimulated // Mudar no futuro
   }
 
   let match = new MatchClass({

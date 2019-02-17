@@ -17,15 +17,22 @@
                 selects.forEach(element => {
                     console.log(element.selectedIndex.valueOf());
                 });
-
-                console.log("clicou em 'Simulated Match'");
             });
 
         let btn_real_match = document.getElementById("btn_real_match");
             btn_real_match.addEventListener('click', function() {
-                console.log("clicou em 'Real Match'");
             });
 
+
+        let btn_change_side = document.getElementById('slt_change_side')
+            btn_change_side.addEventListener("change", function (event) {
+              socket.emit('state', {type: 'side', state: $(event.target).val()})
+            });
+
+        let btn_change_color = document.getElementById('slt_change_color')
+            btn_change_color.addEventListener("change", function (event) {
+              socket.emit('state', {type: 'color', state: $(event.target).val()})
+            });
 
     }
     init();

@@ -69,7 +69,6 @@ module.exports = class IntentionPlayer extends BasePlayer {
     // Create Vector From Received Speed
     let targetSpeedVector = {x: vx, y: vy}
     // Escalar
-
     let targetSpeed = Vector.size(targetSpeedVector)
     //console.log(targetSpeedVector, targetSpeed)
     // Limit to robot limit

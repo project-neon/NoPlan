@@ -2,7 +2,7 @@
 
 NoPlan is the software used to guide our Very Small Size Soccer Robots.
 
-On NoPlan project we aim to create a project that can be develop by many member at same time. To improve productivity we follow part of Git-flow cheatsheet. Using Master as our "competition" code, develop as our main branch. Also we create legacy as old code of LARC-2017 as a safe point to return.
+With NoPlan, we aim to create a project that can be developed by as many team members as possible at the same time. To improve productivity, we follow part of the Git - flow cheat sheet. We use Master as our "competition" code and develop as our main branch. Also, we created "legacy" as old code of "LARC-2017" branch, a safe point to return.
 
 ## Tech
 
