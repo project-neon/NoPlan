@@ -24,9 +24,14 @@
             });
 
 
-        let btn_change_side = document.getElementById('slt_change_color')
-            btn_change_side.addEventListener("change", function () {
-              socket.emit('side')
+        let btn_change_side = document.getElementById('slt_change_side')
+            btn_change_side.addEventListener("change", function (event) {
+              socket.emit('state', {type: 'side', state: $(event.target).val()})
+            });
+
+        let btn_change_color = document.getElementById('slt_change_color')
+            btn_change_color.addEventListener("change", function (event) {
+              socket.emit('state', {type: 'color', state: $(event.target).val()})
             });
 
     }
