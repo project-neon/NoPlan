@@ -27,7 +27,7 @@ let engine,
 
 let detection_json;
 
-socket.on('detection', function (msg) {    
+socket.on('detection', function (msg) {
     detection_json = msg['detection'];
 
     detection_json.robots_blue.forEach(function(dataset) {
@@ -77,17 +77,19 @@ socket.on('detection', function (msg) {
     });
 
     //Adding a ball, or updating it's position
-    position = translatePosition(detection_json.balls[0].x, detection_json.balls[0].y);
+    if (detection_json.balls.length > 0) {
+      position = translatePosition(detection_json.balls[0].x, detection_json.balls[0].y);
 
-    if (SimulatedMatch.balls.hasOwnProperty(1)) {
+      if (SimulatedMatch.balls.hasOwnProperty(1)) {
 
         SimulatedMatch.balls[1]._update(position.x, position.y);
 
-    } else {
+      } else {
 
-        let ball = new Ball(position.x, position.y, BALL_RADIUS, colors.orange);
-        ball._add();
+          let ball = new Ball(position.x, position.y, BALL_RADIUS, colors.orange);
+          ball._add();
 
+      }
     }
 
 });

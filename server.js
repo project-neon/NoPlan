@@ -42,7 +42,7 @@ async function startup(){
   // FIXME: Se a simulação não esta confiavel vale tentar usar?
   // console.info(TAG, chalk.yellow('usePrediction'), usePrediction)
 
-  let MatchClass = (isSimulated ? MatchVSSSimulated : Match)
+  let MatchClass = (isSimulated ? MatchSimulated : Match)
 
   if(noStation) {
     MatchClass = MatchVSSSimulated // Mudar no futuro
@@ -54,23 +54,10 @@ async function startup(){
       /*
       * Change here when testing new players implementations
       */
-      attacker: {
-        visionId: 1,
-        radioId: 1,
-        class: test_players.LineIntentionPlayer,
-        predict: usePrediction,
-      }
-      ,
-      attacker2: {
-        visionId: 2,
+      attacker1: {
+        visionId: 9,
         radioId: 2,
-        class: test_players.LineIntentionPlayer,
-        predict: usePrediction,
-      },
-      attacker3: {
-        visionId: 0,
-        radioId: 0,
-        class: test_players.LineIntentionPlayer,
+        class: test_players.PointIntentionPlayer,
         predict: usePrediction,
       }
     },
