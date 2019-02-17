@@ -2,7 +2,7 @@
  *            Project Neon 2017           *
  ******************************************
 
-To see more of the documentation visit: 
+To see more of the documentation visit:
 
 https://github.com/Project-Neon/NoPlan/blob/master/Intention/README.md
 
@@ -50,10 +50,9 @@ module.exports = class OrbitalIntention extends Intention{
       endAngle = angleToTarget + this.clockwise * Math.PI/2 * Math.sqrt(distanceBetweenTarget/this.radius)
     }
     let finalVector = Vector.norm(Vector.fromTheta(endAngle))
-    console.log('finalVector', finalVector)
 
     return {
-      // Returning result vector times the multiplier as output. 
+      // Returning result vector times the multiplier as output.
       vx: finalVector.x * this.multiplier,
       vy: finalVector.y * this.multiplier,
       vtheta: 0
