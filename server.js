@@ -12,6 +12,9 @@ const MatchVSSSimulated = require('./lib/MatchVSSSimulated')
 
 const players = require('require-smart')('./players')
 const test_players = require('require-smart')('./players/tests')
+
+const Coach = require('./lib/Coach')
+
 const PORT = 10006
 const HOST = '224.5.23.2'
 
@@ -53,7 +56,7 @@ async function startup(){
     // Coach: Dados de configuração do Coach que ira orquestrar a partida
     // Driver: dados referentes ao output de dados de envio para os robos
     vision: { PORT, HOST },
-    coach: {},
+    coach: Coach,
     robotsProperties: {robot_1: {vision_id: 1, radio_id:1}},
     driver: {
       port: ((isSimulated || noStation) ? null : await getPort('/dev/ttyUSB0')),
