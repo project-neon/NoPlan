@@ -1,3 +1,4 @@
+const fs = require("fs");
 const _ = require('lodash')
 const chalk = require('chalk')
 const assert = require('assert')
@@ -35,20 +36,21 @@ const run_mode = process.env.RUN_MODE
 assert.notEqual(run_mode, null, chalk.red('MISSING PARAMETER: RUN_MODE'))
 assert.ok(run_mode in RUN_MODES, chalk.red('WRONG PARAMETER: RUN_MODE, must be 1, 2 or 3'))
 
-const isSimulated = run_mode==2
-const usePrediction = false
-const noStation = run_mode==3
-
 async function startup(){
   console.info(TAG, chalk.yellow('Startup'))
   console.info(TAG, chalk.yellow('Run mode: '), chalk.green(RUN_MODES[run_mode]))
   // FIXME: Se a simulação não esta confiavel vale tentar usar?
   // console.info(TAG, chalk.yellow('usePrediction'), usePrediction)
 
-  let MatchClass = (isSimulated ? MatchSimulated : Match)
+  let MatchClass = null
+  switch (run_mode) {
+    case 1:
+      MatchClass = Match
+    case 2:
+      MatchClass = MatchSimulated
+    case 3:
+      MatchClass = MatchVSSSimulated
 
-  if(noStation) {
-    MatchClass = MatchVSSSimulated // Mudar no futuro
   }
 
   let match = new MatchClass({
@@ -59,7 +61,7 @@ async function startup(){
     coach: Coach,
     robotsProperties: {robot_1: {vision_id: 1, radio_id:1}},
     driver: {
-      port: ((isSimulated || noStation) ? null : await getPort('/dev/ttyUSB0')),
+      port: (run_mode in [2, 3] ? null : await getPort('/dev/ttyUSB0')),
       debug: false,
       baudRate: 115200,
     }
