@@ -1,28 +1,15 @@
 const _ = require('lodash')
 const chalk = require('chalk')
 const assert = require('assert')
-const inquirer = require('inquirer')
 const comm = require('./lib/Comm.js')
 require('draftlog').into(console)
 
 const Match = require('./lib/Match')
-const MatchSimulated = require('./lib/MatchSimulated')
-const MatchVSSSimulated = require('./lib/MatchVSSSimulated')
 
-const players = require('require-smart')('./players')
-const test_players = require('require-smart')('./players/tests')
-
-const Coach = require('./lib/Coach')
-
-const PORT = 10006
-const HOST = '224.5.23.2'
-
-const sleep = ms => new Promise((res, rej) => setTimeout(res, ms))
 const TAG = 'server'
 
-const RUN_MODES = {1: 'REAL_LIFE', 2: 'SIMULATED', 3: 'ASSIST'}
+const RUN_MODES = {1: 'REAL_LIFE', 2: 'SIMPLE_SIMULATED', 3: 'SIMULATED', 4: 'PASSIVE'}
 
-const config = null
 /*
 Variavel RUN_MODE args:
   1: REAL_LIFE, Executa o fluxo completo, usado para partidas reais
@@ -41,20 +28,35 @@ async function startup(){
   console.info(TAG, chalk.yellow('Run mode: '), chalk.green(RUN_MODES[run_mode]))
   const config = require('./config.json')
 
-  let visionImpl = config.vision
-  let driverImpl = config.driver
+  let visionImpl = null
+  let driverImpl = null
 
-  let MatchClass = null
+  let MatchClass = Match
+  let CoachClass = require('./lib/Coach')
+
+  let vision = null
+  let driver = null
+
   switch (run_mode) {
     case 1:
-      MatchClass = Match
+      visionImpl = 'ssl-vision'
+      driverImpl = 'serial-driver'
       break
     case 2:
-      MatchClass = MatchSimulated
+      visionImpl = 'simple-simulation-vision'
+      driverImpl = 'simple-simulation-driver'
       break
     case 3:
-      MatchClass = MatchVSSSimulated
+      visionImpl = 'vss-vision'
+      driverImpl = 'vss-driver'
       break
+    case 4:
+      visionImpl = 'ssl-vision'
+      driverImpl = 'mock-driver'
+      break
+    default:
+      visionImpl = config.vision
+      driverImpl = config.driver
   }
 
   let match = new MatchClass({
@@ -63,17 +65,11 @@ async function startup(){
     // Driver: dados referentes ao output de dados de envio para os robos
     vision: {impl: visionImpl, params: config[visionImpl]},
     driver: {impl: driverImpl, params: config[driverImpl]},
-    coach: Coach,
+    coach: CoachClass,
     robotsProperties: {robot_1: {vision_id: 1, radio_id:1}},
-    // driver: {
-    //   port: (run_mode in [2, 3] ? null : await getPort('/dev/ttyUSB0')),
-    //   debug: false,
-    //   baudRate: 115200,
-    // }
   })
 
   await match.init()
-  console.log('Listening in:', PORT)
 
   await comm(match, {PORT:8080})
 
