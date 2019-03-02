@@ -4,6 +4,7 @@ let fail = 0
 const MAX_ANGULAR = Vector.toRadians(999)
 
 module.exports = class BasePlayer {
+  // TODO Renomear/Reestruturar necessidade de passar id
   constructor (id, match, options) {
     this.id = id
     this.match = match
@@ -13,24 +14,20 @@ module.exports = class BasePlayer {
     this.linear = 0
     this.angular = 0
     
-    this.position = {x : 600, y : 400}
+    this.position = {x : 0, y : 0}
     this.orientation = 0
 
-    if (options.predict) {
-      console.log('Enabled prediction for', id)
-      setInterval(() => {
-        // Skip if no frame has arrived yet
-        if (!this.position.x)
-          return;
+    // if (options.predict) {
+    //   console.log('Enabled prediction for', id)
+    //   setInterval(() => {
+    //     // Skip if no frame has arrived yet
+    //     if (!this.position.x)
+    //       return;
 
-        this.simulate()
-        this.update()
-      }, 5)
-    }
-  }
-
-  toObject () {
-    return this.state
+    //     this.simulate()
+    //     this.update()
+    //   }, 5)
+    // }
   }
 
   get visionId() {

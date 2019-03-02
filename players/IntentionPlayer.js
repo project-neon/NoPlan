@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 //  Math and vector libs
 const Vector = require('../lib/Vector')
 const TensorMath = require('../lib/TensorMath')
@@ -100,7 +102,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
   }
 
   async update() {
-    if(this.match.state.state.status == 'stopped'){
+    if(this.match.state._state.status == 'stopped'){
       this.send(0, 0, 0)
       return [this.radioId, 0, 0, 0]
     }
