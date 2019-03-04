@@ -1,0 +1,23 @@
+{
+  "vision": "ssl-vision",
+  "driver": "serial-driver",
+  "internal-simulator": true,
+  "ssl-vision": {
+    "class": "ssl-vision",
+    "port": 10006,
+    "host": "224.5.23.2"
+  },
+  "vss-vision": {},
+  "serial-driver": {
+    "class": "./SerialClient",
+    "default-port": "/dev/ttyUSB0",
+    "debug": false,
+    "baud-rate": 115200
+  },
+  "mocked-vision": {},
+  "ui": {
+    "sockets": {
+      "port": 8080
+    }
+  }
+}
