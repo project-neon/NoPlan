@@ -1,5 +1,11 @@
 modeule.exports = {
-  SIDES = {
+  LEFT = {
+    x0: 700,
+    y0: -300,
+    x1: 2000,
+    y1: -2000
+  },
+  RIGHT = {
     x0: 700,
     y0: 300,
     x1: 2000,
