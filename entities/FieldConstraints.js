@@ -1,38 +1,38 @@
-modeule.exports = {
-  LEFT = {
+module.exports = {
+  LEFT: {
     x0: 0,
-    y0: -300,
+    y0: -2000,
     x1: 700,
-    y1: -2000
+    y1: -300
   },
-  SMALL_AREA_LEFT = {
-    x0: -550,
-    y0: 301,
-    x1: -700,
-    y1: 602
+  SMALL_AREA_LEFT: {
+    x0: -720,
+    y0: 300,
+    x1: -550,
+    y1: 600
   },
-  RIGHT = {
+  RIGHT: {
     x0: 0,
     y0: 300,
     x1: 700,
     y1: 2000
   },
-  SMALL_AREA_RIGHT = {
-    x0: -550,
-    y0: 301,
-    x1: -700,
-    y1: 602
+  SMALL_AREA_RIGHT: {
+    x0: -720,
+    y0: -602,
+    x1: -550,
+    y1: -300
   },
-  CENTER = {
+  CENTER: {
     x0: 0,
     y0: 301,
     x1: 700,
     y1: 602
   },
-  SMALL_AREA_CENTER = {
-    x0: -550,
-    y0: 301,
-    x1: -700,
-    y1: 602
+  SMALL_AREA_CENTER: {
+    x0: -720,
+    y0: -300,
+    x1: -500,
+    y1: 300
   }
 }
