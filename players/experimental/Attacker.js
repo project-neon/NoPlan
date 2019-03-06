@@ -7,13 +7,19 @@ const LookAtIntention = require('../../Intention/LookAtIntention')
 const OrbitalIntention = require('../../Intention/OrbitalIntention')
 const Vector = require('../../lib/Vector')
 
-const BASE_SPEED = 50
+const BASE_SPEED = 55
 
 module.exports = class GoalkeeperMain extends IntentionPlayer {
     setup () {
         let ballAntecipation = () => {
             let ball = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
-            return {x: ball.x - 130, y: ball.y}
+            let ballToCenterGoal = Vector.sub({x: 700, y: 0}, ball)
+            let robotToBall = Vector.sub(ball, this.position)
+            let ballToCenterGoalNorm = Vector.norm(ballToCenterGoal)
+
+            let antecipation = {x: ballToCenterGoalNorm.x * 130, y: ballToCenterGoalNorm.y * 130}
+            antecipation = {x: ball.x - antecipation.x, y: ball.y - antecipation.y}
+            return antecipation
         }
 
         let ball = () => {
@@ -21,31 +27,18 @@ module.exports = class GoalkeeperMain extends IntentionPlayer {
             return ball
         }
 
+        let ballSpeedBasedMultiplier = () => {
+            let ballSpeed = Vector.size(this.match.dataManager.ball.speed)
+            let multiplier = Math.max(Math.min(ballSpeed + 10, 70), 50)
+            return multiplier
+        }
+
         this.addIntetion(new PointIntention('goBall', {
             target: ballAntecipation,
             radius: 150,
             decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED,
+            multiplier: ballSpeedBasedMultiplier,
         }))
-        
-        // this.addIntetion(new PointIntention('avoidBall', {
-        //     target: ball,
-        //     radius: 100,
-        //     radiusMax: 160,
-        //     decay: TensorMath.new.mult(-1).finish,
-        //     multiplier: BASE_SPEED * 2,
-        // }))
-
-        // this.addIntetion(new LineIntention('goToSideBall', {
-        //     target: ball,
-        //     theta: Vector.direction("up"),
-        //     lineSize: 160,
-        //     lineDist: 100,
-        //     lineDistMax: 160,
-        //     lineSizeSingleSide: true,
-        //     decay: TensorMath.new.finish,
-        //     multiplier: BASE_SPEED * 2
-        //   }))
 
         this.addIntetion(new LineIntention('avoidBallOwnGoal', {
             target: ball,

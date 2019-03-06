@@ -6,7 +6,7 @@ const PointIntention = require('../../Intention/PointIntention')
 const LookAtIntention = require('../../Intention/LookAtIntention')
 const Vector = require('../../lib/Vector')
 
-const FORWARD_SPEED = 100
+const FORWARD_SPEED = 80
 
 module.exports = class LookAtIntentionPlayer extends IntentionPlayer {
   setup(){
