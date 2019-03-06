@@ -28,13 +28,6 @@ module.exports = class GoalkeeperMain extends IntentionPlayer {
         this.addIntetion(this.$lookAtBall)
         this.addIntetion(this.$Attack)
 
-        // this.$Attack.addIntetion(new PointIntention('goBall', {
-        //     target: ball,
-        //     radius: 150,
-        //     decay: TensorMath.new.finish,
-        //     multiplier: ballSpeedBasedMultiplier,
-        // }))
-
         this.$Attack.addIntetion(new PointIntention('goGoal', {
             target: {x:700, y:0},
             radius: 150,
