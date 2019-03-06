@@ -66,7 +66,10 @@ async function startup(){
     vision: {impl: visionImpl, params: config[visionImpl]},
     driver: {impl: driverImpl, params: config[driverImpl]},
     coach: CoachClass,
-    robotsProperties: {robot_1: {vision_id: 9, radio_id:1}},
+    robotsProperties: {
+      robot_1: {vision_id: 9, radio_id:1},
+      robot_2: {vision_id: 1, radio_id:2}
+    },
   })
 
   await match.init()
