@@ -6,64 +6,43 @@ const PointIntention = require('../../Intention/PointIntention')
 const LookAtIntention = require('../../Intention/LookAtIntention')
 const Vector = require('../../lib/Vector')
 
-const BASE_SPEED = 40
+const BASE_SPEED = 60
 
 module.exports = class GoalkeeperPush extends IntentionPlayer {
     setup(){
-        let ball = () => {
-            let ball = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
-            return ball
+
+        let ballProjection = () => {
+            let pos = this.match.dataManager.ball.projection
+            let ballSpeed = this.match.dataManager.ball.speed
+            let ballPos = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
+            /*
+            A projeção não é usada nos casos onde:
+            - Não existe vetor projeção (ocorre no primeiro frame de execução)
+            - Velocidade da bola inferior a 1.2 cm/s (praticamente parada)
+            - Quando a bola ira bater longe do gol (acima de 30 cm em relação ao centro do gol)
+            */
+            if (!pos || Vector.size(ballSpeed) < 1.2 || Math.abs(pos.y) > 300 ) {
+                if (Math.abs(ballPos.y) > 450) {
+                    let ballYSector = ballPos.y/Math.abs(ballPos.y)
+                    return {x: 0, y: ballYSector * 160}
+                } else {
+                    return {x: 0, y: ballPos.y/2}
+                }
+            }
+            return pos
         }
 
-        this.$AttackBallIntentionGroup = new Intention()
+        this.$projectBall = new Intention()
 
-        this.$AttackBallIntentionGroup.addIntetion(
-            new PointIntention('PushBall', {
-                target: ball,
-                radius: 20,
-                radiusMax: false,
-                decay: TensorMath.new.finish,
-                multiplier: 50,
-              })
-        )
-        
-        this.$AttackBallIntentionGroup.addIntetion(
-            new LineIntention('followBallX', {
-                target: ball,
-                theta: Vector.direction("left"),
-                lineSize: 1700,
-                lineDist: 250,
-                decay: TensorMath.new.constant(1).finish,
-                multiplier: 5
-            })
-        )
-
-        this.addIntetion(this.$AttackBallIntentionGroup)
-        
-        this.$lookAtBeforeAttack = new Intention()
-
-        this.$lookAtBeforeAttack.addIntetion(
-            new LookAtIntention('LookAtBall', {
-                target: ball,
-                decay: TensorMath.new.constant(1).finish,
-                multiplier: 120
-            })
-        )
-
-        this.addIntetion(this.$lookAtBeforeAttack)
+        this.$projectBall.addIntetion(new LineIntention('followBallProjection', {
+            target: ballProjection,
+            theta: Vector.direction("left"),
+            lineSize: 1700,
+            lineDist: 125,
+            decay: TensorMath.new.finish,
+            multiplier: BASE_SPEED
+        }))
+        this.addIntetion(this.$projectBall)
     }
-    loop(){
-        let ball =  {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
-        let toBall = Vector.sub({x: ball.x, y: ball.y}, this.position)
-        let toBallAngle = Vector.angleBetween(toBall, Vector.fromTheta(this.orientation))
-        let withinAttackArea = Math.abs(toBallAngle) < (10)
-
-        if (withinAttackArea) {
-            this.$AttackBallIntentionGroup.height = 1
-            this.$lookAtBeforeAttack.height = 0
-        } else {
-            this.$AttackBallIntentionGroup.height = 0
-            this.$lookAtBeforeAttack.height = 1
-        }
-    }
+    loop(){}
 }

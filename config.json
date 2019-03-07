@@ -5,7 +5,7 @@
   "ssl-vision": {
     "class": "ssl-vision",
     "port": 10006,
-    "host": "224.5.23.2"
+    "host": "224.5.23.3"
   },
   "vss-vision": {},
   "serial-driver": {

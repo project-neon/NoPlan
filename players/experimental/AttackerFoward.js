@@ -47,14 +47,11 @@ module.exports = class GoalkeeperMain extends IntentionPlayer {
           let robotDir = Vector.fromTheta(this.orientation)
           let robotToBall = Vector.sub(this.position, ball)
           let angle = Vector.toDegrees(Vector.angleBetween(robotDir, robotToBall))
-          console.log('angulo orientacao:', angle)
           
           if (Math.abs(angle) > 10 && Math.abs(angle) < 170) {
-            console.log('olhando')
             this.$lookAtBall.weight = 1
             this.$Attack.weight = 0 
           } else {
-            console.log('atacando')
             this.$lookAtBall.weight = 0
             this.$Attack.weight = 1
           }

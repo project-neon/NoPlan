@@ -26,7 +26,7 @@ module.exports = class GoalkeeperMain extends IntentionPlayer {
             - Quando a bola ira bater longe do gol (acima de 30 cm em relação ao centro do gol)
             */
             if (!pos || Vector.size(ballSpeed) < 1.2 || Math.abs(pos.y) > 300 ) {
-                if (Math.abs(ballPos.y) > 400) {
+                if (Math.abs(ballPos.y) > 450) {
                     let ballYSector = ballPos.y/Math.abs(ballPos.y)
                     return {x: 0, y: ballYSector * 160}
                 } else {
