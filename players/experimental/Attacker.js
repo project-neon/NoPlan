@@ -6,10 +6,11 @@ const PointIntention = require('../../Intention/PointIntention')
 const LookAtIntention = require('../../Intention/LookAtIntention')
 const OrbitalIntention = require('../../Intention/OrbitalIntention')
 const Vector = require('../../lib/Vector')
+const RulePlays = require('./RulePlays')
 
 const BASE_SPEED = 65
 
-module.exports = class GoalkeeperMain extends IntentionPlayer {
+module.exports = class Attacker extends RulePlays {
     setup () {
         let ballAntecipation = () => {
             let ball = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
