@@ -7,17 +7,18 @@ const LookAtIntention = require('../../Intention/LookAtIntention')
 const OrbitalIntention = require('../../Intention/OrbitalIntention')
 const Vector = require('../../lib/Vector')
 
-const BASE_SPEED = 55
+const BASE_SPEED = 65
 
 module.exports = class GoalkeeperMain extends IntentionPlayer {
     setup () {
         let ballAntecipation = () => {
             let ball = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
             let ballToCenterGoal = Vector.sub({x: 700, y: 0}, ball)
-            let robotToBall = Vector.sub(ball, this.position)
             let ballToCenterGoalNorm = Vector.norm(ballToCenterGoal)
-
-            let antecipation = {x: ballToCenterGoalNorm.x * 130, y: ballToCenterGoalNorm.y * 130}
+            let antecipation = {
+                x: ballToCenterGoalNorm.x * 130, 
+                y: ballToCenterGoalNorm.y * 130
+            }
             antecipation = {x: ball.x - antecipation.x, y: ball.y - antecipation.y}
             return antecipation
         }
@@ -29,13 +30,13 @@ module.exports = class GoalkeeperMain extends IntentionPlayer {
 
         let ballSpeedBasedMultiplier = () => {
             let ballSpeed = Vector.size(this.match.dataManager.ball.speed)
-            let multiplier = Math.max(Math.min(ballSpeed + 10, 70), 50)
+            let multiplier = Math.max(Math.min(ballSpeed + 30, 80), 55)
             return multiplier
         }
 
         this.addIntetion(new PointIntention('goBall', {
             target: ballAntecipation,
-            radius: 150,
+            radius: 50,
             decay: TensorMath.new.finish,
             multiplier: ballSpeedBasedMultiplier,
         }))
@@ -48,18 +49,18 @@ module.exports = class GoalkeeperMain extends IntentionPlayer {
             lineDistMax: 200, // Tamanho da repelência
             lineDistSingleSide: true,
             decay: TensorMath.new.mult(-1).finish,
-            multiplier: 45,
+            multiplier: 55,
         }))
 
         this.addIntetion(new LineIntention('avoidBallOwnGoallateral', {
             target: ball,
             theta: Vector.direction("right"),
             lineSize: 400, // Largura do segmento de reta
-            lineDist: 150, // Tamanho da repelência
-            lineDistMax: 160, // Tamanho da repelência
+            lineDist: 120, // Tamanho da repelência
+            lineDistMax: 130, // Tamanho da repelência
             lineSizeSingleSide: true,
             decay: TensorMath.new.constant(1).mult(-1).finish,
-            multiplier: 40,
+            multiplier: 50,
         }))
         
       }

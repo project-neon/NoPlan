@@ -38,6 +38,10 @@ module.exports = class BasePlayer {
     return this.options.radioId
   }
 
+  setRobot(robot) {
+    this.options = robot
+  }
+
   // Update robot state (linear and angular) targets
   async send(_state, _linear, _angular) {
     if (_state == 1) {
