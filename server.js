@@ -34,9 +34,6 @@ async function startup(){
   let MatchClass = Match
   let CoachClass = require('./lib/Coach')
 
-  let vision = null
-  let driver = null
-
   switch (run_mode) {
     case 1:
       visionImpl = 'ssl-vision'
@@ -67,8 +64,9 @@ async function startup(){
     driver: {impl: driverImpl, params: config[driverImpl]},
     coach: CoachClass,
     robotsProperties: {
-      robot_1: {vision_id: 9, radio_id:1},
-      robot_2: {vision_id: 1, radio_id:2}
+      robot_1: {vision_id: 9, radio_id: 1},
+      robot_2: {vision_id: 1, radio_id: 2},
+      robot_3: {vision_id: 3, radio_id: 3}
     },
   })
 

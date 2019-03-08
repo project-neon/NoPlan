@@ -227,7 +227,7 @@ module.exports = class Attacker extends IntentionPlayer {
   }
 
 
-  loop(){
+  loop () {
     let toBall = Vector.sub({x: this.ball.x, y: this.ball.y}, this.position)
     let toBallDist = Vector.size(toBall)
     let toBallAngle = Vector.toDegrees(Vector.angle(toBall))

@@ -30,7 +30,7 @@ module.exports = class AttackerForward extends RulePlays {
 
         let ballSpeedBasedMultiplier = () => {
             let ballSpeed = Vector.size(this.match.dataManager.ball.speed)
-            let multiplier = Math.max(Math.min(ballSpeed + 35, 80), 60)
+            let multiplier = Math.max(Math.min(ballSpeed + 25, 80), 25)
             return multiplier
         }
 
