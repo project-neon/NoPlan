@@ -12,6 +12,7 @@ const BASE_SPEED = 65
 
 module.exports = class AttackerForward extends RulePlays {
     setup () {
+        super.setup()
         let ball = () => {
             let ball = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
             return ball
@@ -59,7 +60,7 @@ module.exports = class AttackerForward extends RulePlays {
 
           if (Math.abs(angle) > 20 && Math.abs(angle) < 160) {
             this.$lookAtBall.weight = 1
-            this.$Attack.weight = 0 
+            this.$Attack.weight = 0
           } else {
             this.$lookAtBall.weight = 0
             this.$Attack.weight = 1

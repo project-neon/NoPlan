@@ -12,12 +12,13 @@ const BASE_SPEED = 65
 
 module.exports = class Attacker extends RulePlays {
     setup () {
+        super.setup()
         let ballAntecipation = () => {
             let ball = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
             let ballToCenterGoal = Vector.sub({x: 700, y: 0}, ball)
             let ballToCenterGoalNorm = Vector.norm(ballToCenterGoal)
             let antecipation = {
-                x: ballToCenterGoalNorm.x * 130, 
+                x: ballToCenterGoalNorm.x * 130,
                 y: ballToCenterGoalNorm.y * 130
             }
             antecipation = {x: ball.x - antecipation.x, y: ball.y - antecipation.y}
@@ -63,7 +64,7 @@ module.exports = class Attacker extends RulePlays {
             decay: TensorMath.new.constant(1).mult(-1).finish,
             multiplier: 50,
         }))
-        
+
       }
       loop(){
       }

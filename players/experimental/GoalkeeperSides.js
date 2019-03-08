@@ -5,11 +5,13 @@ const LineIntention = require('../../Intention/LineIntention')
 const PointIntention = require('../../Intention/PointIntention')
 const LookAtIntention = require('../../Intention/LookAtIntention')
 const Vector = require('../../lib/Vector')
+const RulePlays = require('./RulePlays')
 
 const BASE_SPEED = 45
 
-module.exports = class GoalkeeperSides extends IntentionPlayer {
+module.exports = class GoalkeeperSides extends RulePlays {
     setup () {
+      super.setup()
       let crossbar = () => {
         let ballY = this.match.dataManager.ball.y
         let side = ballY/Math.abs(ballY)
