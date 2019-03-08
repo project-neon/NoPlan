@@ -7,10 +7,11 @@ const LookAtIntention = require('../../Intention/LookAtIntention')
 const OrbitalIntention = require('../../Intention/OrbitalIntention')
 const Vector = require('../../lib/Vector')
 const RulePlays = require('./RulePlays')
+const BaseMidfielder = require('./BaseMidfielder')
 
 const BASE_SPEED = 65
 
-module.exports = class MidfieldDefender extends RulePlays {
+module.exports = class MidfieldDefender extends BaseMidfielder {
     setup () {
         super.setup()
         let ballAntecipation = () => {
