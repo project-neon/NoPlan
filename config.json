@@ -7,14 +7,18 @@
     "port": 10006,
     "host": "224.5.23.2"
   },
-  "vss-vision": {},
+  "vss-vision": {
+    "class": "./VSSVision"
+  },
   "serial-driver": {
     "class": "./SerialClient",
     "default-port": "/dev/ttyUSB0",
     "debug": false,
     "baud-rate": 115200
   },
-  "mocked-vision": {},
+  "vss-driver": {
+    "class": "./VSSserialClient"
+  },
   "ui": {
     "sockets": {
       "port": 8080

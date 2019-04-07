@@ -32,7 +32,7 @@ async function startup(){
   let driverImpl = null
 
   let MatchClass = Match
-  let CoachClass = require('./lib/Coach')
+  let CoachClass = require('./lib/DumbCoach')
 
   switch (run_mode) {
     case 1:
@@ -64,9 +64,9 @@ async function startup(){
     driver: {impl: driverImpl, params: config[driverImpl]},
     coach: CoachClass,
     robotsProperties: {
-      robot_1: {vision_id: 9, radio_id: 1},
-      robot_2: {vision_id: 1, radio_id: 2},
-      robot_3: {vision_id: 3, radio_id: 3}
+      robot_1: {vision_id: 0, radio_id: 0},
+      robot_2: {vision_id: 1, radio_id: 1},
+      robot_3: {vision_id: 2, radio_id: 2}
     },
   })
 
