@@ -7,7 +7,7 @@
 
     {
       "type": "node",
-      "env": {"RUN_MODE": "1"},
+      "env": {"RUN_MODE": "3"},
       "request": "launch",
       "name": "Launch Program",
       "program": "${workspaceFolder}/server.js"
