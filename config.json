@@ -2,6 +2,8 @@
   "vision": "ssl-vision",
   "driver": "serial-driver",
   "internal-simulator": true,
+  "startSide": "left",
+  "startColor": "blue",
   "ssl-vision": {
     "class": "ssl-vision",
     "port": 10006,
@@ -12,7 +14,7 @@
   },
   "serial-driver": {
     "class": "./SerialClient",
-    "default-port": "/dev/ttyUSB0",
+    "default-port": "/dev/ttyUSB1",
     "debug": false,
     "baud-rate": 115200
   },

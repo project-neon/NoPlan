@@ -19,7 +19,7 @@ Variavel RUN_MODE args:
   SSL-Vision mas não envia para lugar algum
 */
 const run_mode = parseInt(process.env.RUN_MODE)
-
+console.log(run_mode)
 assert.notEqual(run_mode, null, chalk.red('MISSING PARAMETER: RUN_MODE'))
 assert.ok(run_mode in RUN_MODES, chalk.red('WRONG PARAMETER: RUN_MODE, must be 1, 2 or 3'))
 
@@ -63,10 +63,15 @@ async function startup(){
     vision: {impl: visionImpl, params: config[visionImpl]},
     driver: {impl: driverImpl, params: config[driverImpl]},
     coaches: [CoachClass, CoachClass],
+    matchParams: {
+      'startSide': config.startSide, 
+      'startColor': config.startColor
+    },
     robotsProperties:[
       {
         // TEAM 1
-        robot_0: {vision_id: 0, radio_id: 0},
+        robot_0: {vision_id: 9, radio_id: 2}
+        // robot_0: {vision_id: 9, radio_id: 2}
         // robot_1: {vision_id: 1, radio_id: 1}
         // robot_2: {vision_id: 2, radio_id: 2}
       },
