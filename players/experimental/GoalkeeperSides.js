@@ -13,13 +13,13 @@ module.exports = class GoalkeeperSides extends RulePlays {
     setup () {
       super.setup()
       let crossbar = () => {
-        let ballY = this.match.dataManager.ball.y
+        let ballY = this.frame.cleanData.ball.y
         let side = ballY/Math.abs(ballY)
         return {x: -685, y: side * 160}
       }
 
       let ball = () => {
-          let ball = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
+          let ball = {x: this.frame.cleanData.x, y: this.frame.cleanData.ball.y}
           return ball
       }
 

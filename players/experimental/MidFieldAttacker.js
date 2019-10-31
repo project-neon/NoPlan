@@ -20,14 +20,14 @@ module.exports = class Midfielder extends BaseMidfielder {
         }
 
         let followAttackerShadow = () => {
-            let pos = this.match.gameManager.coach.attackerRobot.robots.self.position
+            //let pos = this.match.gameManager.coach.attackerRobot.robots.self.position
             /*
             A projeção não é usada nos casos onde:
             - Não existe vetor projeção (ocorre no primeiro frame de execução)
             - Velocidade da bola inferior a 1.2 cm/s (praticamente parada)
             - Quando a bola ira bater longe do gol (acima de 30 cm em relação ao centro do gol)
             */
-            return {x: -250, y: -pos.y/2}
+            return {x: -250, y: -0/2}
         }
 
         this.addIntetion(new LineIntention('KeepGoalLine', {
