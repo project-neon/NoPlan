@@ -10,14 +10,6 @@ const TAG = 'server'
 
 const RUN_MODES = {1: 'REAL_LIFE', 2: 'SIMPLE_SIMULATED', 3: 'SIMULATED', 4: 'PASSIVE'}
 
-/*
-Variavel RUN_MODE args:
-  1: REAL_LIFE,         Executa o fluxo completo, usado para partidas reais
-  2: SIMPLE_SIMULATED,  modo simulado, apenas movimentando a posição dos robos sem fisica
-  3: SIMULATED,         modo simulado, usando stack SIR-LAB
-  4: PASSIVE  ,         modo assistido, onde o NoPlan recebe dados do
-  SSL-Vision mas não envia para lugar algum
-*/
 const run_mode = parseInt(process.env.RUN_MODE)
 
 assert.notEqual(run_mode, null, chalk.red('MISSING PARAMETER: RUN_MODE'))
