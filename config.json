@@ -2,19 +2,25 @@
   "vision": "ssl-vision",
   "driver": "serial-driver",
   "internal-simulator": true,
+  "startSide": "left",
+  "startColor": "blue",
   "ssl-vision": {
     "class": "ssl-vision",
     "port": 10006,
     "host": "224.5.23.2"
   },
-  "vss-vision": {},
+  "vss-vision": {
+    "class": "./VSSVision"
+  },
   "serial-driver": {
     "class": "./SerialClient",
-    "default-port": "/dev/ttyUSB0",
+    "default-port": "/dev/ttyUSB1",
     "debug": false,
     "baud-rate": 115200
   },
-  "mocked-vision": {},
+  "vss-driver": {
+    "class": "./VSSserialClient"
+  },
   "ui": {
     "sockets": {
       "port": 8080
