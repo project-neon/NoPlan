@@ -13,14 +13,14 @@ module.exports = class GoalkeeperMain extends RulePlays {
     setup(){
         super.setup()
         let ball = () => {
-            let ball = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
+            let ball = {x: this.frame.cleanData.ball.x, y: this.frame.cleanData.ball.y}
             return ball
         }
 
         let ballProjection = () => {
-            let pos = this.match.dataManager.ball.projection
-            let ballSpeed = this.match.dataManager.ball.speed
-            let ballPos = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
+            let pos = this.frame.cleanData.ball.projection
+            let ballSpeed = this.frame.cleanData.ball.speed
+            let ballPos = {x: this.frame.cleanData.ball.x, y: this.frame.cleanData.ball.y}
             /*
             A projeção não é usada nos casos onde:
             - Não existe vetor projeção (ocorre no primeiro frame de execução)

@@ -4,12 +4,13 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+  
 
     {
       "type": "node",
-      "env": {"RUN_MODE": "1"},
+      "env": {"RUN_MODE": "3"},
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Launch Simulated",
       "program": "${workspaceFolder}/server.js"
     }
   ]

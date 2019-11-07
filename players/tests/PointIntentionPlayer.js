@@ -7,8 +7,10 @@ const FORWARD_SPEED = 35
 
 module.exports = class PointIntentionPlayer extends IntentionPlayer {
   setup(){
+    let ball = () => {return this.ball}
+
     this.addIntetion(new PointIntention('test', {
-      target: {x: 0, y: 0},
+      target: ball,
       theta: Vector.direction("left"),
       radius: 100, 
       decay: TensorMath.new.pow(2).finish,
