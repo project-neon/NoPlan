@@ -8,12 +8,13 @@ module.exports = class LookAtIntention extends Intention {
     super(name, params)
     // Asserting that the params exist
     assert(params)
+    this.params = params
+
     // Either target or theta has to be declared
     assert.notEqual(this.params.theta || this.params.target, null)
     // Decay has to be declared
     assert.notEqual(this.params.decay, null)
 
-    this.params = params
     this.decay = this.params.decay
     this.theta = this.params.theta
     this.target = this.params.target
