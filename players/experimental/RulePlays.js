@@ -8,7 +8,6 @@ const Vector = require('../../lib/Vector')
 
 module.exports = class RulePlays extends IntentionPlayer {
     setup () {
-        super.setup()
         this.addIntetion(new LineIntention('avoidFromGoal', {
             target: {x: 820, y: 0},
             theta: Vector.direction("up"),
