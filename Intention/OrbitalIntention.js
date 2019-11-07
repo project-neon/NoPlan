@@ -1,19 +1,10 @@
-/******************************************
- *            Project Neon 2017           *
- ******************************************
-
-To see more of the documentation visit:
-
-https://github.com/Project-Neon/NoPlan/blob/master/Intention/README.md
-
-*/
 const util = require('./util')
 const Intention = require('./')
 const assert = require('assert')
 const Vector = require('../lib/Vector')
 
-module.exports = class OrbitalIntention extends Intention{
-  constructor(name, params) {
+module.exports = class OrbitalIntention extends Intention {
+  constructor (name, params) {
     super(name, params)
 
     // Asserting that the parameters exist
@@ -35,20 +26,19 @@ module.exports = class OrbitalIntention extends Intention{
     this.multiplier = this.params.multiplier || 1
   }
 
-  compute({x, y, theta}) {
+  compute ({x, y}) {
     // Instanciate target values
     let target = util.callOrReturn(this.target)
-    let multiplier = util.callOrReturn(this.multiplier)
     let clockwise = util.callOrReturn(this.clockwise)
-
-    let angleToTarget = -Math.atan2(target.y - y, x - target.x);
+    let angleToTarget = -Math.atan2(target.y - y, x - target.x)
     let K = 100
     let distanceBetweenTarget = Vector.distBetween({x, y}, target)
     let endAngle
+
     if (distanceBetweenTarget > this.radius) {
-      endAngle = angleToTarget + clockwise * Math.PI/2 * (2 + (this.radius + K)/(distanceBetweenTarget + K))
+      endAngle = angleToTarget + clockwise * Math.PI / 2 * (2 + (this.radius + K) / (distanceBetweenTarget + K))
     } else {
-      endAngle = angleToTarget + clockwise * Math.PI/2 * Math.sqrt(distanceBetweenTarget/this.radius)
+      endAngle = angleToTarget + clockwise * Math.PI / 2 * Math.sqrt(distanceBetweenTarget / this.radius)
     }
     let finalVector = Vector.norm(Vector.fromTheta(endAngle))
 

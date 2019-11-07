@@ -1,19 +1,10 @@
-/******************************************
- *            Project Neon 2017           *
- ******************************************
-
-To see more of the documentation visit: 
-
-https://github.com/Project-Neon/NoPlan/blob/master/Intention/README.md
-
-*/
 const util = require('./util')
 const Intention = require('./')
 const assert = require('assert')
 const Vector = require('../lib/Vector')
 
-module.exports = class PointIntention extends Intention{
-  constructor(name, params) {
+module.exports = class PointIntention extends Intention {
+  constructor (name, params) {
     super(name, params)
 
     // Asserting that the parameters exist
@@ -29,7 +20,7 @@ module.exports = class PointIntention extends Intention{
     this.decay = this.params.decay
 
     // Radius has to be exist
-    assert.notEqual(this.params.radius , null)
+    assert.notEqual(this.params.radius, null)
     this.radius = this.params.radius || this.radiusMax
 
     // Is there a maximum radius?
@@ -39,7 +30,7 @@ module.exports = class PointIntention extends Intention{
     this.multiplier = this.params.multiplier || 1
   }
 
-  getIntentionInfo() {
+  getIntentionInfo () {
     return {
       'type': PointIntention.name,
       'name': this.name,
@@ -47,7 +38,7 @@ module.exports = class PointIntention extends Intention{
     }
   }
 
-  compute({x, y, theta}) {
+  compute ({x, y, theta}) {
     // Instaciate target values
     let targetGoto = util.callOrReturn(this.target)
     let radiusMax = util.callOrReturn(this.radiusMax)
@@ -57,22 +48,18 @@ module.exports = class PointIntention extends Intention{
     let toTarget = Vector.sub(targetGoto, {x, y})
     let toTargetScalar = Vector.size(toTarget)
 
-    // Out of max radius ? output is 0 
-    if (radiusMax && toTargetScalar > radiusMax) {
-      // console.log('Outside radius')
-      return {vx: 0, vy: 0, vtheta: 0}
-    }
+    // Out of max radius ? output is 0
+    if (radiusMax && toTargetScalar > radiusMax) return {vx: 0, vy: 0, vtheta: 0}
 
     // Normalized Vector
     let toTargetNorm = Vector.norm(toTarget)
-    
+
     // Normalized Scalar
     let toTargetScalarNorm = Math.max(0, Math.min(1, toTargetScalar / (this.radius)))
 
     // Apply decay to normalized scalar distance
     let force = util.applyReflectedDecay(this.decay, toTargetScalarNorm)
 
-    // console.log("Name: ",this.name, force)
     return {
       // Returning result vector times the multiplier as output
       vx: -1 * toTargetNorm.x * force * multiplier,
