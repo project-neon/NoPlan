@@ -16,7 +16,7 @@ module.exports = class RulePlays extends IntentionPlayer {
             lineDistMax: 150,
             lineDistSingleSide: true,
             decay: TensorMath.new.mult(-1).finish,
-            multiplier: 100
+            multiplier: 20
         }))
 
         this.addIntetion(new LineIntention('avoidFromGoalLateral', {
@@ -26,7 +26,7 @@ module.exports = class RulePlays extends IntentionPlayer {
             lineDist: 200, // Tamanho da repelência
             lineDistMax: 200,
             decay: TensorMath.new.finish,
-            multiplier: 100
+            multiplier: 20
         }))
 
         this.addIntetion(new LineIntention('avoidFromOwnGoal', {
@@ -37,7 +37,7 @@ module.exports = class RulePlays extends IntentionPlayer {
           lineDistMax: 120,
           lineDistSingleSide: true,
           decay: TensorMath.new.mult(-1).finish,
-          multiplier: 150
+          multiplier: 25
       }))
 
       this.addIntetion(new LineIntention('avoidFromGoalOwnLateral', {
@@ -47,7 +47,7 @@ module.exports = class RulePlays extends IntentionPlayer {
           lineDist: 200, // Tamanho da repelência
           lineDistMax: 200,
           decay: TensorMath.new.finish,
-          multiplier: 150
+          multiplier: 15
       }))
     }
     loop () {}

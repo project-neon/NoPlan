@@ -7,7 +7,7 @@ const LookAtIntention = require('../../Intention/LookAtIntention')
 const Vector = require('../../lib/Vector')
 const RulePlays = require('./RulePlays')
 
-const BASE_SPEED = 55
+const BASE_SPEED = 30
 module.exports = class GoalkeeperPush extends RulePlays {
     setup(){
         super.setup()

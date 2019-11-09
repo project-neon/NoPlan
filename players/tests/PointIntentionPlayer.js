@@ -3,17 +3,17 @@ const TensorMath = require('../../lib/TensorMath')
 const PointIntention = require('../../Intention/PointIntention')
 const Vector = require('../../lib/Vector')
 
-const FORWARD_SPEED = 35
+const FORWARD_SPEED = 10
 
 module.exports = class PointIntentionPlayer extends IntentionPlayer {
   setup(){
     let ball = () => {return this.ball}
 
     this.addIntetion(new PointIntention('test', {
-      target: ball,
+      target: {x: 0, y: 0},
       theta: Vector.direction("left"),
-      radius: 100, 
-      decay: TensorMath.new.pow(2).finish,
+      radius: 400, 
+      decay: TensorMath.new.pow(1.35).finish,
       multiplier: FORWARD_SPEED
     }))
   }
