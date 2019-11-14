@@ -77,10 +77,10 @@ async function startup(){
 
 }
 
-// process.on('unhandledRejection', (e) => {
-//   console.error('Unhandled Rejection')
-//   console.error(e)
-//   process.exit(1)
-// })
+process.on('unhandledRejection', (e) => {
+  console.error('Unhandled Rejection')
+  console.error(e)
+  process.exit(1)
+})
 
 startup()
