@@ -9,7 +9,7 @@ const Match = require('./lib/Match')
 const TAG = 'server'
 
 const RUN_MODES = {
-  1: 'REAL_LIFE', 2: 'SIMPLE_SIMULATED', 
+  1: 'REAL_LIFE', 2: 'SIMPLE_SIMULATED',
   3: 'SIMULATED', 4: 'PASSIVE'
 }
 
@@ -59,22 +59,14 @@ async function startup(){
     driver: {impl: driverImpl, params: config[driverImpl]},
     coaches: [CoachClass, CoachClass],
     matchParams: {
-      'startSide': config.startSide, 
+      'startSide': config.startSide,
       'startColor': config.startColor
     },
     robotsProperties:[
       {
         // TEAM 1
         // robot_0: {vision_id: 9, radio_id: 2}
-        robot_0: {vision_id: 0, radio_id: 0},
-        robot_1: {vision_id: 1, radio_id: 1},
-        robot_2: {vision_id: 2, radio_id: 2}
-      },
-      {
-        // TEAM 2
-        robot_3: {vision_id: 3, radio_id: 3},
-        robot_4: {vision_id: 4, radio_id: 4},
-        robot_5: {vision_id: 5, radio_id: 5}
+        robot_0: {vision_id: 1, radio_id: 1}
       }
     ],
   })

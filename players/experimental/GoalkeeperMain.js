@@ -7,7 +7,7 @@ const LookAtIntention = require('../../Intention/LookAtIntention')
 const Vector = require('../../lib/Vector')
 const RulePlays = require('./RulePlays')
 
-const BASE_SPEED = 50
+const BASE_SPEED = 30
 
 module.exports = class GoalkeeperMain extends RulePlays {
     setup(){
@@ -59,7 +59,7 @@ module.exports = class GoalkeeperMain extends RulePlays {
         this.addIntetion(new LookAtIntention('LookAtBall', {
         target: ball,
         decay: TensorMath.new.constant(1).finish,
-        multiplier: 100
+        multiplier: 40
         }))
       }
       loop(){
