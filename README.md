@@ -31,4 +31,4 @@ Just type `sudo RUN_MODE=1 node server` and press enter in your terminal. Rememb
   - Remember to set the field control points and configure collors correct
 
 ### Simulated Version
-  - To run the position simulator use `sudo RUN_MODE=2 node server` _note:_ currently not working properly. 
+  - To run the position simulator use `sudo RUN_MODE=2 node server`. Make sure to have [NoPlanVssSimulator](https://github.com/project-neon/NoPlanVssSimulator)
