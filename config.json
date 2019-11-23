@@ -1,7 +1,6 @@
 {
   "vision": "ssl-vision",
   "driver": "serial-driver",
-  "internal-simulator": true,
   "startSide": "left",
   "startColor": "blue",
   "ssl-vision": {
@@ -9,7 +8,7 @@
     "port": 10006,
     "host": "224.5.23.2"
   },
-  "vss-vision": {
+  "simple-simulation-vision": {
     "class": "./VSSVision"
   },
   "serial-driver": {
@@ -18,7 +17,7 @@
     "debug": false,
     "baud-rate": 115200
   },
-  "vss-driver": {
+  "simple-simulation-driver": {
     "class": "./VSSserialClient"
   },
   "ui": {
