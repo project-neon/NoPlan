@@ -1,0 +1,67 @@
+const IntentionPlayer = require('../IntentionPlayer')
+const TensorMath = require('../../lib/TensorMath')
+const Intention = require('../../Intention')
+const LineIntention = require('../../Intention/LineIntention')
+const PointIntention = require('../../Intention/PointIntention')
+const LookAtIntention = require('../../Intention/LookAtIntention')
+const Vector = require('../../lib/Vector')
+const RulePlays = require('./RulePlays')
+
+const BASE_SPEED = 30
+
+module.exports = class GoalkeeperMain extends RulePlays {
+    setup(){
+        super.setup()
+        let ball = () => {
+            let ball = {x: this.frame.cleanData.ball.x, y: this.frame.cleanData.ball.y}
+            return ball
+        }
+
+        let ballProjection = () => {
+            let pos = this.frame.cleanData.ball.projection
+            let ballSpeed = this.frame.cleanData.ball.speed
+            let ballPos = {x: this.frame.cleanData.ball.x, y: this.frame.cleanData.ball.y}
+            /*
+            A projeção não é usada nos casos onde:
+            - Não existe vetor projeção (ocorre no primeiro frame de execução)
+            - Velocidade da bola inferior a 1.2 cm/s (praticamente parada)
+            - Quando a bola ira bater longe do gol (acima de 30 cm em relação ao centro do gol)
+            */
+            if (!pos || Vector.size(ballSpeed) < 1.2 || Math.abs(pos.y) > 300 ) {
+                if (Math.abs(ballPos.y) > 450) {
+                    let ballYSector = ballPos.y/Math.abs(ballPos.y)
+                    return {x: 0, y: ballYSector * 160}
+                } else {
+                    return {x: 0, y: ballPos.y/2}
+                }
+            }
+            return pos
+        }
+
+        this.addIntetion(new LineIntention('KeepGoalLine', {
+          target: {x: -670, y: 0},
+          theta: Vector.direction("up"),
+          lineSize: 1700,
+          lineDist: 260,
+          decay: TensorMath.new.finish,
+          multiplier: BASE_SPEED
+        }))
+
+        this.addIntetion(new LineIntention('followBallProjection', {
+            target: ballProjection,
+            theta: Vector.direction("left"),
+            lineSize: 1700,
+            lineDist: 250,
+            decay: TensorMath.new.finish,
+            multiplier: BASE_SPEED
+          }))
+
+        this.addIntetion(new LookAtIntention('LookAtBall', {
+        target: ball,
+        decay: TensorMath.new.constant(1).finish,
+        multiplier: 40
+        }))
+      }
+      loop(){
+      }
+}
