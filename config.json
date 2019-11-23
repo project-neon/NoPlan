@@ -14,7 +14,7 @@
   },
   "serial-driver": {
     "class": "./SerialClient",
-    "default-port": "/dev/ttyUSB1",
+    "default-port": "/dev/ttyUSB0",
     "debug": false,
     "baud-rate": 115200
   },
