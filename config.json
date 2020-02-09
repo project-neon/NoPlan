@@ -20,6 +20,9 @@
   "simple-simulation-driver": {
     "class": "./VSSserialClient"
   },
+  "mock-driver": {
+    "class": "./MockDriver"
+  },
   "ui": {
     "sockets": {
       "port": 8080
