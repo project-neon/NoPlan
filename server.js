@@ -27,7 +27,7 @@ async function startup(){
   let driverImpl = null
 
   let MatchClass = Match
-  let CoachClass = require('./lib/TrainingCoach')
+  let CoachClass = require('./lib/DumbCoach')
 
   switch (run_mode) {
     case 1:
@@ -76,10 +76,10 @@ async function startup(){
 
 }
 
-process.on('unhandledRejection', (e) => {
-  console.error('Unhandled Rejection')
-  console.error(e)
-  process.exit(1)
-})
+// process.on('unhandledRejection', (e) => {
+//   console.error('Unhandled Rejection')
+//   console.error(e)
+//   process.exit(1)
+// })
 
 startup()

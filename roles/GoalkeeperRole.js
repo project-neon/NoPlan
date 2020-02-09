@@ -1,7 +1,6 @@
 const GoalKeeper = require('../players/experimental/GoalkeeperMain')
 const GoalKeeperSides = require('../players/experimental/GoalkeeperSides')
 const GoalKeeperPush = require('../players/experimental/GoalkeeperPush')
-
 const FieldConstraints = require('../entities/FieldConstraints')
 
 
@@ -56,5 +55,10 @@ module.exports = class GoalKeeperRole {
             robot.runningPlay = this.plays.main
             this.plays.main.setRobot(robot)
         }
+
+        robot.runningPlay = this.plays.main
+        this.plays.main.setRobot(robot)
+
+        console.log('|robot' + robot.radioId + '| decided play: ' + robot.runningPlay.constructor.name)
     }
 }

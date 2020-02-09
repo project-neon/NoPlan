@@ -1,13 +1,10 @@
-const IntentionPlayer = require('../IntentionPlayer')
 const TensorMath = require('../../lib/TensorMath')
 const Intention = require('../../Intention')
 const LineIntention = require('../../Intention/LineIntention')
-const PointIntention = require('../../Intention/PointIntention')
-const LookAtIntention = require('../../Intention/LookAtIntention')
 const Vector = require('../../lib/Vector')
 const RulePlays = require('./RulePlays')
 
-const BASE_SPEED = 30
+const BASE_SPEED = 60
 module.exports = class GoalkeeperPush extends RulePlays {
     setup(){
         super.setup()
