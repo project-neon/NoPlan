@@ -38,7 +38,7 @@ async function startup(){
       visionImpl = 'simple-simulation-vision'
       driverImpl = 'simple-simulation-driver'
       break
-    case 3:
+    case 3: 
       visionImpl = 'vss-vision'
       driverImpl = 'vss-driver'
       break
@@ -76,10 +76,10 @@ async function startup(){
 
 }
 
-process.on('unhandledRejection', (e) => {
-  console.error('Unhandled Rejection')
-  console.error(e)
-  process.exit(1)
-})
+// process.on('unhandledRejection', (e) => {
+//   console.error('Unhandled Rejection')
+//   console.error(e)
+//   process.exit(1)
+// })
 
 startup()

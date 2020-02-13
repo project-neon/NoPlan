@@ -4,6 +4,7 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+  
     {
       "type": "node",
       "env": {"RUN_MODE": "1"},
@@ -11,13 +12,18 @@
       "name": "Launch Real Life",
       "program": "${workspaceFolder}/server.js"
     },
-  
-
     {
       "type": "node",
       "env": {"RUN_MODE": "3"},
       "request": "launch",
       "name": "Launch Simulated",
+      "program": "${workspaceFolder}/server.js"
+    },
+    {
+      "type": "node",
+      "env": {"RUN_MODE": "4"},
+      "request": "launch",
+      "name": "Launch Passive",
       "program": "${workspaceFolder}/server.js"
     }
   ]

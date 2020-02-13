@@ -3,7 +3,7 @@ module.exports = {
     x0: -720,
     y0: -2000,
     x1: 720,
-    y1: 0
+    y1: -150
   },
   SMALL_AREA_LEFT: {
     x0: -720,
@@ -13,7 +13,7 @@ module.exports = {
   },
   RIGHT: {
     x0: 0,
-    y0: 0,
+    y0: 150,
     x1: 750,
     y1: 2000
   },
