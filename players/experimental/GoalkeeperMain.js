@@ -44,15 +44,6 @@ module.exports = class GoalkeeperMain extends RulePlays {
             return pos
         }
 
-        this.addIntetion(new LineIntention('KeepGoalLine', {
-          target: {x: -670, y: 0},
-          theta: Vector.direction("up"),
-          lineSize: 1700,
-          lineDist: 260,
-          decay: TensorMath.new.finish,
-          multiplier: BASE_SPEED
-        }))
-
         this.addIntetion(new LineIntention('followBallProjection', {
             target: ballProjection,
             theta: Vector.direction("left"),
@@ -60,7 +51,7 @@ module.exports = class GoalkeeperMain extends RulePlays {
             lineDist: 250,
             decay: TensorMath.new.finish,
             multiplier: BASE_SPEED
-          }))
+        }))
 
         this.addIntetion(new LookAtIntention('LookAtBall', {
         target: ball,
