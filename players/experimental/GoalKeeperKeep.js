@@ -9,16 +9,10 @@ const MAX_SPEED = 80
 
 const GOAL_LINE = -670
 
-module.exports = class GoalkeeperSides2 extends RulePlays {
+module.exports = class GoalkeeperKeep extends RulePlays {
     setup(){
         super.setup()
         
-        let crossbar = () => {
-            let ballY = this.frame.cleanData.ball.y
-            let side = ballY/Math.abs(ballY)
-            return {x: GOAL_LINE - 15, y: side * 160}
-          }
-
         // Fixar goleiro na linha do gol
         this.addIntetion(new LineIntention('KeepGoalLine', {
             target: {x: GOAL_LINE, y: 0},
@@ -28,8 +22,9 @@ module.exports = class GoalkeeperSides2 extends RulePlays {
             decay: TensorMath.new.finish,
             multiplier: BASE_SPEED * 1.6
         }))
+
         this.addIntetion(new PointIntention('followCrossBall', {
-            target: crossbar,
+            target: {x: GOAL_LINE, y: 0},
             radius: 150,
             radiusMax: false,
             decay: TensorMath.new.finish,
