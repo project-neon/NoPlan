@@ -62,11 +62,11 @@ module.exports = class GoalkeeperMain extends RulePlays {
             multiplier: BASE_SPEED
           }))
 
-        // this.addIntetion(new LookAtIntention('LookAtBall', {
-        // target: ball,
-        // decay: TensorMath.new.pow(1/2).finish,
-        // multiplier: 360
-        // }))
+        this.addIntetion(new LookAtIntention('LookAtBall', {
+        target: ball,
+        decay: TensorMath.new.pow(1/2).finish,
+        multiplier: 360
+        }))
       }
       loop(){
       }

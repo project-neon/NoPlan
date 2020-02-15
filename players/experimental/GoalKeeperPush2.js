@@ -1,23 +1,17 @@
 const TensorMath = require('../../lib/TensorMath')
 const LineIntention = require('../../Intention/LineIntention')
-const LookAtIntention = require('../../Intention/LookAtIntention')
-const Vector = require('../../lib/Vector')
+const PointIntention = require('../../Intention/PointIntention')
 const RulePlays = require('./RulePlays')
+const Vector = require('../../lib/Vector')
 
 const BASE_SPEED = 40
-const MAX_SPEED = 80
-
 const GOAL_LINE = -670
 
-module.exports = class GoalkeeperMain2 extends RulePlays {
+module.exports = class GoalkeeperPush2 extends RulePlays {
     setup(){
         super.setup()
         let ball = () => {
-            
-            let ball = {
-                x: this.frame.cleanData.ball.x, 
-                y: this.frame.cleanData.ball.y
-            }
+            let ball = {x: this.frame.cleanData.ball.x, y: this.frame.cleanData.ball.y}
             return ball
         }
 
@@ -28,7 +22,7 @@ module.exports = class GoalkeeperMain2 extends RulePlays {
             lineSize: 1700,
             lineDist: 260,
             decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED * 1.6
+            multiplier: BASE_SPEED
         }))
 
         //Mantem o goleiro fixado na bola, seguindo eixo Y
@@ -38,7 +32,7 @@ module.exports = class GoalkeeperMain2 extends RulePlays {
             lineSize: 1700,
             lineDist: 250,
             decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED * 1.4
+            multiplier: BASE_SPEED * 1.2
         }))
 
         /*
@@ -51,16 +45,19 @@ module.exports = class GoalkeeperMain2 extends RulePlays {
             lineSize: 400,
             lineDist: 150,
             decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED * 1.4
+            multiplier: BASE_SPEED * 1.2
         }))
 
-        this.addIntetion(new LookAtIntention('LookAtBall', {
+       this.addIntetion(new PointIntention('PushBall', {
             target: ball,
-            decay: TensorMath.new.pow(1/2).finish,
-            multiplier: 680
+            radius: 50,
+            radiusMax: 50,
+            decay: TensorMath.new.finish,
+            multiplier: BASE_SPEED * 1.8
         }))
-      }
+    }
 
-      loop(){
-      }
+    loop(){
+
+    }
 }
