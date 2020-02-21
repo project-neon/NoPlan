@@ -2,7 +2,7 @@ const TensorMath = require('../../lib/TensorMath')
 const OrbitalIntention = require('../../Intention/OrbitalIntention')
 const RulePlays = require('./RulePlays')
 
-const BASE_SPEED = 45
+const BASE_SPEED = 50
 
 module.exports = class AttackerMain extends RulePlays {
     setup(){
@@ -30,18 +30,18 @@ module.exports = class AttackerMain extends RulePlays {
             return ball
         }
 
-        let clockwiseOrbit = () => {
-            let ball = {
-                x: this.frame.cleanData.ball.x, 
-                y: this.frame.cleanData.ball.y
-            }
-            if (ball.y < 0) {
-                return 1
-            }
-            else {
-                return -1
-            }
-        }
+        // let clockwiseOrbit = () => {
+        //     let ball = {
+        //         x: this.frame.cleanData.ball.x, 
+        //         y: this.frame.cleanData.ball.y
+        //     }
+        //     if (ball.y < 0) {
+        //         return 1
+        //     }
+        //     else {
+        //         return -1
+        //     }
+        // }
 
         this.orbitalRight = new OrbitalIntention('FollowBall', {
             target: ballShiftedN,
@@ -54,7 +54,7 @@ module.exports = class AttackerMain extends RulePlays {
         this.addIntetion(this.orbitalRight)
 
         this.orbitalLeft = new OrbitalIntention('FollowBall', {
-            target: ball,
+            target: ballShiftedP,
             clockwise: 1,
             radius: 75,
             decay: TensorMath.new.finish,
