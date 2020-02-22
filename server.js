@@ -65,7 +65,8 @@ async function startup(){
     robotsProperties:[
       {
         // TEAM 1
-        robot_0: {vision_id: 1, radio_id: 1},
+        robot_0: {vision_id: 1, radio_id: 2},
+        robot_1: {vision_id: 3, radio_id: 1}
       }
     ]
   })

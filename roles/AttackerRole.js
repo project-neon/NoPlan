@@ -1,5 +1,5 @@
 const AttackerMain = require('../players/experimental/AttackerMain')
-// const AttackerConduct = require('../players/experimental/AttackerConduct')
+const AttackerConduct = require('../players/experimental/AttackerConduct')
 const FieldConstraints = require('../entities/FieldConstraints')
 
 
@@ -11,8 +11,8 @@ module.exports = class AttackerRole {
 
     async init() {
         this.plays = {
-            main: new AttackerMain(0, this.match, null)
-            // conduct: new AttackerConduct(0, this.match, null)
+            main: new AttackerMain(0, this.match, null),
+            conduct: new AttackerConduct(0, this.match, null)
         }
     }
 
@@ -27,8 +27,9 @@ module.exports = class AttackerRole {
         let position = robot.robots.self.position
         let ball = data.cleanData.ball
         
-
-        if (position.x < ball.x) {
+        if (
+            position.x < ball.x && position.y > ball.y - 40 && position.y < ball.y + 40
+            ) {
             robot.runningPlay = this.plays.main
             this.plays.main.setRobot(robot)
         }else {
