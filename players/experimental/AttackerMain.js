@@ -6,7 +6,7 @@ const LineIntention = require('../../Intention/LineIntention')
 
 const RulePlays = require('./RulePlays')
 
-const BASE_SPEED = 75
+const BASE_SPEED = 50
 
 let robot_saw_the_ball_multiplier = 0.5
 
@@ -23,7 +23,7 @@ module.exports = class AttackerMain extends RulePlays {
 
         let ballShiftedP = () => {
             let ball = {
-                x: this.frame.cleanData.ball.x - 60,
+                x: this.frame.cleanData.ball.x - 40,
                 y: this.frame.cleanData.ball.y + 150
             }
             return ball
@@ -31,7 +31,7 @@ module.exports = class AttackerMain extends RulePlays {
 
         let ballShiftedN = () => {
             let ball = {
-                x: this.frame.cleanData.ball.x - 60,
+                x: this.frame.cleanData.ball.x - 40,
                 y: this.frame.cleanData.ball.y - 150
             }
             return ball
@@ -82,42 +82,6 @@ module.exports = class AttackerMain extends RulePlays {
             multiplier: BASE_SPEED
         }))
 
-        this.addIntetion(new LineIntention('ConductBall', {
-            target: ball,
-            theta: ballToGoalNormal,
-            lineSize: 75,
-            lineSizeMax: 75,
-            lineDist: 100,
-            decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED * robot_saw_the_ball_multiplier
-        }))
-
-        // Impedir bater na parede
-        this.avoidFieldWalls1 = new LineIntention('avoidFieldWalls1', {
-            target: {x:0, y: 610},
-            theta: Vector.direction("left"),
-            lineSize: 1700,
-            lineDist: 30,
-            lineDistMax: 30,
-            decay: TensorMath.new.sum(1).mult(-1).finish,
-            multiplier: BASE_SPEED * 4
-        })
-
-        this.addIntetion(this.avoidFieldWalls1)
-
-        // Impedir bater na parede
-        this.avoidFieldWalls2 = new LineIntention('avoidFieldWalls2', {
-            target: {x:0, y: -610},
-            theta: Vector.direction("left"),
-            lineSize: 1700,
-            lineDist: 30,
-            lineDistMax: 30,
-            decay: TensorMath.new.sum(1).mult(-1).finish,
-            multiplier: BASE_SPEED * 4
-        })
-        this.addIntetion(this.avoidFieldWalls2)
-
-        // Impedir bater na parede
         this.avoidFieldWalls3 = new LineIntention('avoidFieldWalls3', {
           target: {x:-780, y: 0},
           theta: Vector.direction("up"),
@@ -132,12 +96,21 @@ module.exports = class AttackerMain extends RulePlays {
       }
       loop () {
         console.log(this.frame.cleanData.ball.y)
+        const FIELD_ORBITAL_MARGIN = 200
+
         let ball = {
-            x: this.frame.cleanData.ball.x,
-            y: this.frame.cleanData.ball.y
+          x: this.frame.cleanData.ball.x,
+          y: this.frame.cleanData.ball.y
         }
 
-        if (this.position.y > ball.y) {
+        if (this.position.y < (-650 + FIELD_ORBITAL_MARGIN)) {
+          this.orbitalRight.weight = 0
+          this.orbitalLeft.weight = 1
+        }else if (this.position.y > (650 - FIELD_ORBITAL_MARGIN)) {
+            this.orbitalRight.weight = 1
+            this.orbitalLeft.weight = 0
+
+        } else if (this.position.y > ball.y) {
             this.orbitalRight.weight = 0
             this.orbitalLeft.weight = 1
         } else {
