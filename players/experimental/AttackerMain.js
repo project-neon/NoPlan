@@ -2,12 +2,11 @@ const Vector = require('../../lib/Vector')
 const TensorMath = require('../../lib/TensorMath')
 const OrbitalIntention = require('../../Intention/OrbitalIntention')
 const PointIntention = require('../../Intention/PointIntention')
-const LookAtIntention = require('../../Intention/LookAtIntention')
 const LineIntention = require('../../Intention/LineIntention')
 
 const RulePlays = require('./RulePlays')
 
-const BASE_SPEED = 50
+const BASE_SPEED = 75
 
 let robot_saw_the_ball_multiplier = 0.5
 
@@ -94,29 +93,41 @@ module.exports = class AttackerMain extends RulePlays {
         }))
 
         // Impedir bater na parede
-        this.avoidFieldWalls1 = new LineIntention('avoidFieldWalls', {
+        this.avoidFieldWalls1 = new LineIntention('avoidFieldWalls1', {
             target: {x:0, y: 610},
             theta: Vector.direction("left"),
             lineSize: 1700,
             lineDist: 30,
             lineDistMax: 30,
             decay: TensorMath.new.sum(1).mult(-1).finish,
-            multiplier: BASE_SPEED * 2
+            multiplier: BASE_SPEED * 4
         })
 
         this.addIntetion(this.avoidFieldWalls1)
 
         // Impedir bater na parede
-        this.avoidFieldWalls2 = new LineIntention('avoidFieldWalls', {
+        this.avoidFieldWalls2 = new LineIntention('avoidFieldWalls2', {
             target: {x:0, y: -610},
             theta: Vector.direction("left"),
             lineSize: 1700,
             lineDist: 30,
             lineDistMax: 30,
             decay: TensorMath.new.sum(1).mult(-1).finish,
-            multiplier: BASE_SPEED * 2
+            multiplier: BASE_SPEED * 4
         })
         this.addIntetion(this.avoidFieldWalls2)
+
+        // Impedir bater na parede
+        this.avoidFieldWalls3 = new LineIntention('avoidFieldWalls3', {
+          target: {x:-780, y: 0},
+          theta: Vector.direction("up"),
+          lineSize: 1700,
+          lineDist: 100,
+          lineDistMax: 100,
+          decay: TensorMath.new.sum(1).mult(-1).finish,
+          multiplier: BASE_SPEED * 4
+        })
+        this.addIntetion(this.avoidFieldWalls3)
 
       }
       loop () {
