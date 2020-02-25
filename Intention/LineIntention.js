@@ -20,7 +20,7 @@ module.exports = class LineIntention extends Intention {
     this.decay = this.params.decay
 
     assert.notEqual(this.params.lineSize, null)
-    this.lineSize = this.params.lineSize
+    this.lineSize = this.params.lineSize  
 
     assert.notEqual(this.params.lineDist, null)
     this.lineDist = this.params.lineDist

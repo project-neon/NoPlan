@@ -13,10 +13,9 @@ module.exports = class GoalkeeperMain2 extends RulePlays {
     setup(){
         super.setup()
         let ball = () => {
-            
             let ball = {
                 x: this.frame.cleanData.ball.x, 
-                y: this.frame.cleanData.ball.y
+                y: Math.max(Math.min(this.frame.cleanData.ball.y, 200), -200)
             }
             return ball
         }

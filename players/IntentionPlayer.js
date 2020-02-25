@@ -17,7 +17,7 @@ module.exports = class IntentionPlayer extends BasePlayer {
     this.AtkOffsetBallDistance = 150
     // Centers of your own goal and enemy goal
     const SPEED_IMPORTANCE_MIN = 10
-    const SPEED_IMPORTANCE_MAX = 15
+    const SPEED_IMPORTANCE_MAX = 35
     this.CENTER_OWN_GOAL = -835
     this.CENTER_ENEMY_GOAL = 835
     this.MAX_ROBOT_SPEED = 500
@@ -61,11 +61,12 @@ module.exports = class IntentionPlayer extends BasePlayer {
       robotWorldSpeed.y = -robotWorldSpeed.y
       robotWorldSpeed.x = -robotWorldSpeed.x
     }
+
     // Use speed vector as robot angle
     let robotAngleToSpeed = -Vector.angle(robotWorldSpeed)
     let speedWeight = this.speedImportance(targetSpeed)
     let vthetaWeight = 1 - speedWeight
-    let angular = (robotAngleToSpeed * 120 * speedWeight) + (vtheta * vthetaWeight)
+    let angular = (robotAngleToSpeed * 240 * speedWeight) + (vtheta * vthetaWeight)
     return {linear, angular}
   }
 
