@@ -8,7 +8,7 @@ const OrbitalIntention = require('../../Intention/OrbitalIntention')
 const Vector = require('../../lib/Vector')
 const RulePlays = require('./RulePlays')
 
-const BASE_SPEED = 75
+const BASE_SPEED = 70
 
 module.exports = class AttackerTriangle extends RulePlays {
   setup () {
@@ -47,7 +47,7 @@ this.addIntetion(new LineIntention('To the goal', {
   lineDist: 200,
   lineDistMax: 200,
   decay: TensorMath.new.finish,
-  multiplier: BASE_SPEED *1.1,
+  multiplier: BASE_SPEED,
   lineDistSingleSide: true
 }))
 
@@ -58,7 +58,7 @@ this.addIntetion(new LineIntention('Keep eye on goal', {
   lineDist: 200,
   lineDistMax: 200,
   decay: TensorMath.new.finish,
-  multiplier: BASE_SPEED
+  multiplier: BASE_SPEED * 1.2
 }))
 
   this.addIntetion(new PointIntention('goBall', {

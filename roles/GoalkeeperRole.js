@@ -28,20 +28,20 @@ module.exports = class GoalKeeperRole {
     }
 
     decidePlay(robot, data) {
-        
+
         const ball = data.cleanData.ball
         if(
-            this.insideFieldConstraint(FieldConstraints.GOAL_INNER_AREA, ball)
+            this.insideFieldConstraint(FieldConstraints.SMALL_AREA, ball)
             ){
-            robot.runningPlay = this.plays.main
-            this.plays.main.setRobot(robot)
+            robot.runningPlay = this.plays.push
+            this.plays.push.setRobot(robot)
         } else if (
-            this.insideFieldConstraint(FieldConstraints.LEFT, ball) 
+            this.insideFieldConstraint(FieldConstraints.LEFT, ball)
             || this.insideFieldConstraint(FieldConstraints.RIGHT, ball)
             ) {
             robot.runningPlay = this.plays.sides
             this.plays.sides.setRobot(robot)
-        }else{
+        } else{
             robot.runningPlay = this.plays.main
             this.plays.main.setRobot(robot)
         }

@@ -38,7 +38,7 @@ async function startup(){
       visionImpl = 'simple-simulation-vision'
       driverImpl = 'simple-simulation-driver'
       break
-    case 3: 
+    case 3:
       visionImpl = 'vss-vision'
       driverImpl = 'vss-driver'
       break
@@ -57,7 +57,7 @@ async function startup(){
     // Driver: dados referentes ao output de dados de envio para os robos
     vision: {impl: visionImpl, params: config[visionImpl]},
     driver: {impl: driverImpl, params: config[driverImpl]},
-    coaches: [CoachClass],
+    coaches: [CoachClass, CoachClass],
     matchParams: {
       'startSide': config.startSide,
       'startColor': config.startColor
@@ -65,8 +65,12 @@ async function startup(){
     robotsProperties:[
       {
         // TEAM 1
-        robot_0: {vision_id: 1, radio_id: 2},
+        robot_2: {vision_id: 1, radio_id: 3},
+        robot_3: {vision_id: 9, radio_id: 2},
         robot_1: {vision_id: 3, radio_id: 1}
+      },
+      {
+
       }
     ]
   })

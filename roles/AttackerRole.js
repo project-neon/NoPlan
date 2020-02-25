@@ -59,12 +59,13 @@ module.exports = class AttackerRole {
           robot.runningPlay = this.plays.triangle
           this.plays.triangle.setRobot(robot)
         } else if (this.insideFieldConstraint(SMALL_AREA, ball)) {
-            robot.runningPlay = this.plays.hold
-            this.plays.hold.setRobot(robot)
+          robot.runningPlay = this.plays.hold
+          this.plays.hold.setRobot(robot)
         } else {
-            robot.runningPlay = this.plays.main
-            this.plays.main.setRobot(robot)
+          robot.runningPlay = this.plays.main
+          this.plays.main.setRobot(robot)
         }
+
         console.log('|robot' + robot.radioId + '| decided play: ' + robot.runningPlay.constructor.name)
     }
 }
