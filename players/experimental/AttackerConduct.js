@@ -1,41 +1,24 @@
 const Vector = require('../../lib/Vector')
 const TensorMath = require('../../lib/TensorMath')
-const OrbitalIntention = require('../../Intention/OrbitalIntention')
 const PointIntention = require('../../Intention/PointIntention')
 const LookAtIntention = require('../../Intention/LookAtIntention')
 const LineIntention = require('../../Intention/LineIntention')
 
 const RulePlays = require('./RulePlays')
 
-const BASE_SPEED = 50
+const BASE_SPEED = 65
 
-let robot_saw_the_ball_multiplier = 0.5
+let robot_saw_the_ball_multiplier = 1.3
 
-module.exports = class AttackerMain extends RulePlays {
+module.exports = class AttackerConduct extends RulePlays {
     setup(){
         super.setup()
         let ball = () => {
-
+            
             return {
-                x: this.frame.cleanData.ball.x,
+                x: this.frame.cleanData.ball.x, 
                 y: this.frame.cleanData.ball.y
             }
-        }
-
-        let ballShiftedP = () => {
-            let ball = {
-                x: this.frame.cleanData.ball.x - 60,
-                y: this.frame.cleanData.ball.y + 150
-            }
-            return ball
-        }
-
-        let ballShiftedN = () => {
-            let ball = {
-                x: this.frame.cleanData.ball.x - 60,
-                y: this.frame.cleanData.ball.y - 150
-            }
-            return ball
         }
 
         let ballToGoalNormal = () => {
@@ -46,39 +29,13 @@ module.exports = class AttackerMain extends RulePlays {
 
             // Vector normal
             ballToGoal = Vector.norm({x: ballToGoal.x, y: -ballToGoal.y})
-
+            
             return Vector.angle(ballToGoal)
         }
 
-        this.orbitalRight = new OrbitalIntention('FollowBall', {
-            target: ballShiftedN,
-            clockwise: -1,
-            radius: 75,
-            decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED
-        })
-
-        this.addIntetion(this.orbitalRight)
-
-        this.orbitalLeft = new OrbitalIntention('FollowBall', {
-            target: ballShiftedP,
-            clockwise: 1,
-            radius: 75,
-            decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED
-        })
-
-        this.addIntetion(this.orbitalLeft)
-
-        /*
-        Aproxima o robo da bola quando ele esta a 10 cm dela.
-        O torna mais rapido e mais preciso na interceptação da mesma.
-        Deve ser mais fraca que o movimento orbial para não cagar.
-        */
         this.addIntetion(new PointIntention('KeepOnBall', {
             target: ball,
             radius: 110,
-            radiusMax: 110,
             decay: TensorMath.new.finish,
             multiplier: BASE_SPEED
         }))
@@ -118,20 +75,14 @@ module.exports = class AttackerMain extends RulePlays {
         })
         this.addIntetion(this.avoidFieldWalls2)
 
+        this.lookToBall = new LookAtIntention('look_to_ball', {
+            target: ball,
+            decay: TensorMath.new.pow(1/2).finish,
+            multiplier: 640
+        })
+        this.addIntetion(this.lookToBall)
       }
-      loop () {
-        console.log(this.frame.cleanData.ball.y)
-        let ball = {
-            x: this.frame.cleanData.ball.x,
-            y: this.frame.cleanData.ball.y
-        }
+      loop(){
+    }
 
-        if (this.position.y > ball.y) {
-            this.orbitalRight.weight = 0
-            this.orbitalLeft.weight = 1
-        } else {
-            this.orbitalRight.weight = 1
-            this.orbitalLeft.weight = 0
-        }
-      }
 }
