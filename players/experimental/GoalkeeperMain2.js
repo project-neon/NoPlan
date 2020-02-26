@@ -27,7 +27,7 @@ module.exports = class GoalkeeperMain2 extends RulePlays {
             lineSize: 1700,
             lineDist: 260,
             decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED * 1.6
+            multiplier: BASE_SPEED * 1.4
         }))
 
         //Mantem o goleiro fixado na bola, seguindo eixo Y
@@ -51,13 +51,13 @@ module.exports = class GoalkeeperMain2 extends RulePlays {
             lineDist: 200,
             lineDistMax: 200,
             decay: TensorMath.new.pow(2).finish,
-            multiplier: BASE_SPEED * 1.6
+            multiplier: BASE_SPEED * 1.4
         }))
 
         this.addIntetion(new LookAtIntention('LookAtBall', {
             target: ball,
             decay: TensorMath.new.pow(1/2).finish,
-            multiplier: 680
+            multiplier: 320
         }))
       }
 

@@ -30,9 +30,9 @@ module.exports = class AttackerRole {
     buildTriangle (robot) {
       return {
         x1: GP.x,
-        y1: GP.y,
+        y1: GP.y - 100,
         x2: GP.x,
-        y2: -GP.y,
+        y2: -GP.y + 100,
 
         x3: robot.robots.self.position.x,
         y3: robot.robots.self.position.y

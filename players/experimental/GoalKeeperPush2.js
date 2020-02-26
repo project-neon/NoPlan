@@ -46,12 +46,6 @@ module.exports = class GoalkeeperPush2 extends RulePlays {
           decay: TensorMath.new.finish,
           multiplier: BASE_SPEED * 1.4
       }))
-
-      this.addIntetion(new LookAtIntention('LookAtBall', {
-          target: ball,
-          decay: TensorMath.new.pow(1/2).finish,
-          multiplier: 680
-      }))
     }
 
     loop(){
