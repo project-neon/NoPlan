@@ -57,7 +57,7 @@ async function startup(){
     // Driver: dados referentes ao output de dados de envio para os robos
     vision: {impl: visionImpl, params: config[visionImpl]},
     driver: {impl: driverImpl, params: config[driverImpl]},
-    coaches: [CoachClass, CoachClass],
+    coaches: [CoachClass],
     matchParams: {
       'startSide': config.startSide,
       'startColor': config.startColor
