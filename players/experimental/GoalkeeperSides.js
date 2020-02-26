@@ -7,19 +7,19 @@ const LookAtIntention = require('../../Intention/LookAtIntention')
 const Vector = require('../../lib/Vector')
 const RulePlays = require('./RulePlays')
 
-const BASE_SPEED = 45
+const BASE_SPEED = 60
 
 module.exports = class GoalkeeperSides extends RulePlays {
     setup () {
       super.setup()
       let crossbar = () => {
-        let ballY = this.match.dataManager.ball.y
+        let ballY = this.frame.cleanData.ball.y
         let side = ballY/Math.abs(ballY)
         return {x: -685, y: side * 160}
       }
 
       let ball = () => {
-          let ball = {x: this.match.dataManager.ball.x, y: this.match.dataManager.ball.y}
+          let ball = {x: this.frame.cleanData.x, y: this.frame.cleanData.ball.y}
           return ball
       }
 
@@ -43,7 +43,7 @@ module.exports = class GoalkeeperSides extends RulePlays {
       this.addIntetion(new LookAtIntention('LookAtBall', {
           target: ball,
           decay: TensorMath.new.constant(1).finish,
-          multiplier: 85
+          multiplier: 35
         }))
 
     }
