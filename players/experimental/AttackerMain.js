@@ -8,8 +8,6 @@ const RulePlays = require('./RulePlays')
 
 const BASE_SPEED = 50
 
-let robot_saw_the_ball_multiplier = 0.5
-
 module.exports = class AttackerMain extends RulePlays {
     setup(){
         super.setup()
@@ -54,7 +52,7 @@ module.exports = class AttackerMain extends RulePlays {
             clockwise: -1,
             radius: 75,
             decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED
+            multiplier: BASE_SPEED * 0.7
         })
 
         this.addIntetion(this.orbitalRight)
@@ -64,7 +62,7 @@ module.exports = class AttackerMain extends RulePlays {
             clockwise: 1,
             radius: 75,
             decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED
+            multiplier: BASE_SPEED * 0.7
         })
 
         this.addIntetion(this.orbitalLeft)
@@ -82,6 +80,13 @@ module.exports = class AttackerMain extends RulePlays {
             multiplier: BASE_SPEED
         }))
 
+        this.addIntetion(new PointIntention('KeepOnBall', {
+            target: ball,
+            radius: 500,
+            decay: TensorMath.new.sin().finish,
+            multiplier: BASE_SPEED * 0.7
+        }))
+
         this.avoidFieldWalls3 = new LineIntention('avoidFieldWalls3', {
           target: {x:-780, y: 0},
           theta: Vector.direction("up"),
@@ -89,7 +94,7 @@ module.exports = class AttackerMain extends RulePlays {
           lineDist: 100,
           lineDistMax: 100,
           decay: TensorMath.new.sum(1).mult(-1).finish,
-          multiplier: BASE_SPEED * 4
+          multiplier: BASE_SPEED
         })
         this.addIntetion(this.avoidFieldWalls3)
 

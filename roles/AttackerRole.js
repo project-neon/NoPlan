@@ -30,9 +30,9 @@ module.exports = class AttackerRole {
     buildTriangle (robot) {
       return {
         x1: GP.x,
-        y1: GP.y,
+        y1: GP.y - 100,
         x2: GP.x,
-        y2: -GP.y,
+        y2: -GP.y + 100,
 
         x3: robot.robots.self.position.x,
         y3: robot.robots.self.position.y
@@ -59,12 +59,13 @@ module.exports = class AttackerRole {
           robot.runningPlay = this.plays.triangle
           this.plays.triangle.setRobot(robot)
         } else if (this.insideFieldConstraint(SMALL_AREA, ball)) {
-            robot.runningPlay = this.plays.hold
-            this.plays.hold.setRobot(robot)
+          robot.runningPlay = this.plays.hold
+          this.plays.hold.setRobot(robot)
         } else {
-            robot.runningPlay = this.plays.main
-            this.plays.main.setRobot(robot)
+          robot.runningPlay = this.plays.main
+          this.plays.main.setRobot(robot)
         }
+
         console.log('|robot' + robot.radioId + '| decided play: ' + robot.runningPlay.constructor.name)
     }
 }
