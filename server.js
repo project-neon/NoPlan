@@ -57,7 +57,7 @@ async function startup(){
     // Driver: dados referentes ao output de dados de envio para os robos
     vision: {impl: visionImpl, params: config[visionImpl]},
     driver: {impl: driverImpl, params: config[driverImpl]},
-    coaches: [CoachClass, CoachClass],
+    coaches: [CoachClass],
     matchParams: {
       'startSide': config.startSide,
       'startColor': config.startColor
@@ -65,9 +65,9 @@ async function startup(){
     robotsProperties:[
       {
         // TEAM 1
-        robot_2: {vision_id: 1, radio_id: 3},
-        robot_3: {vision_id: 9, radio_id: 2},
-        robot_1: {vision_id: 3, radio_id: 1}
+        robot_2: {vision_id: 3, radio_id: 1},
+        robot_3: {vision_id: 9, radio_id: 3},
+        robot_1: {vision_id: 1, radio_id: 2}
       },
       {
 

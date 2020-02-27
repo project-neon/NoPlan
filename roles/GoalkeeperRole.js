@@ -3,7 +3,7 @@ const GoalKeeperSides = require('../players/experimental/GoalkeeperSides2')
 const GoalKeeperPush = require('../players/experimental/GoalKeeperPush2')
 const GoalKeeperKeep = require('../players/experimental/GoalKeeperKeep')
 const FieldConstraints = require('../entities/FieldConstraints')
-
+const Vector = require('../lib/Vector')
 
 module.exports = class GoalKeeperRole {
     constructor(match) {
@@ -30,17 +30,19 @@ module.exports = class GoalKeeperRole {
     decidePlay(robot, data) {
 
         const ball = data.cleanData.ball
-        if(
-            this.insideFieldConstraint(FieldConstraints.SMALL_AREA, ball)
+        if (
+          this.insideFieldConstraint(FieldConstraints.LEFT, ball)
+          || this.insideFieldConstraint(FieldConstraints.RIGHT, ball)
+          ) {
+          robot.runningPlay = this.plays.sides
+          this.plays.sides.setRobot(robot)
+        } else if(
+            this.insideFieldConstraint(FieldConstraints.SMALL_AREA, ball) &&
+            Vector.size(Vector.sub(ball, robot.robots.self.position)) < 100 &&
+            ball.x < -640
             ){
             robot.runningPlay = this.plays.push
             this.plays.push.setRobot(robot)
-        } else if (
-            this.insideFieldConstraint(FieldConstraints.LEFT, ball)
-            || this.insideFieldConstraint(FieldConstraints.RIGHT, ball)
-            ) {
-            robot.runningPlay = this.plays.sides
-            this.plays.sides.setRobot(robot)
         } else{
             robot.runningPlay = this.plays.main
             this.plays.main.setRobot(robot)
