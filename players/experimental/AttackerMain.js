@@ -11,6 +11,10 @@ const BASE_SPEED = 50
 module.exports = class AttackerMain extends RulePlays {
     setup(){
         super.setup()
+
+        const mid = () => {
+          return this.match.gameManager.coaches[0].actualMidfielder.robots.self.position
+        }
         let ball = () => {
 
             return {
@@ -86,6 +90,14 @@ module.exports = class AttackerMain extends RulePlays {
             decay: TensorMath.new.sin().finish,
             multiplier: BASE_SPEED * 0.7
         }))
+
+        // this.addIntetion(new PointIntention('Avoid mid', {
+        //   target: mid,
+        //   decay: TensorMath.new.mult(-1).finish,
+        //   radius: 200,
+        //   radiusMax: 200,
+        //   multiplier: BASE_SPEED * 1.3
+        // }))
 
         this.avoidFieldWalls3 = new LineIntention('avoidFieldWalls3', {
           target: {x:-780, y: 0},
