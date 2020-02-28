@@ -91,14 +91,6 @@ module.exports = class AttackerMain extends RulePlays {
             multiplier: BASE_SPEED * 0.7
         }))
 
-        // this.addIntetion(new PointIntention('Avoid mid', {
-        //   target: mid,
-        //   decay: TensorMath.new.mult(-1).finish,
-        //   radius: 200,
-        //   radiusMax: 200,
-        //   multiplier: BASE_SPEED * 1.3
-        // }))
-
         this.avoidFieldWalls3 = new LineIntention('avoidFieldWalls3', {
           target: {x:-780, y: 0},
           theta: Vector.direction("up"),

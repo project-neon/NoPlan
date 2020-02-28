@@ -1,7 +1,8 @@
 const AttackerMain = require('../players/experimental/AttackerMain')
 const AttackerConduct = require('../players/experimental/AttackerConduct')
 const AttackerHold = require('../players/experimental/AttackerHold')
-const attackerTriangle = require('../players/experimental/AttackerTriangle')
+const AttackerSides = require('../players/experimental/AttackerSides2')
+const AttackerTriangle = require('../players/experimental/AttackerTriangle')
 const { SMALL_AREA, GP } = require('../entities/FieldConstraints')
 
 
@@ -16,7 +17,8 @@ module.exports = class AttackerRole {
             main: new AttackerMain(0, this.match, null),
             conduct: new AttackerConduct(0, this.match, null),
             hold: new AttackerHold(0, this.match, null),
-            triangle: new attackerTriangle(0, this.match, null)
+            triangle: new AttackerTriangle(0, this.match, null),
+            sides: new AttackerSides(0, this.match, null)
         }
     }
 
@@ -55,7 +57,16 @@ module.exports = class AttackerRole {
         let position = robot.robots.self.position
         let ball = data.cleanData.ball
 
-        if (this.isInsideTriangle(robot, ball)) {
+        if (
+            Math.abs(ball.y) > 520
+              &
+            Math.abs(position.y) > 500
+              &
+            ball.x > position.x
+          ) {
+          robot.runningPlay = this.plays.sides
+          this.plays.sides.setRobot(robot)
+        } else if (this.isInsideTriangle(robot, ball)) {
           robot.runningPlay = this.plays.triangle
           this.plays.triangle.setRobot(robot)
         } else if (this.insideFieldConstraint(SMALL_AREA, ball)) {
