@@ -11,10 +11,8 @@ const BASE_SPEED = 50
 module.exports = class AttackerMain extends RulePlays {
     setup(){
         super.setup()
+        this.angularContribution = 160
 
-        const mid = () => {
-          return this.match.gameManager.coaches[0].actualMidfielder.robots.self.position
-        }
         let ball = () => {
 
             return {
@@ -55,8 +53,8 @@ module.exports = class AttackerMain extends RulePlays {
             target: ballShiftedN,
             clockwise: -1,
             radius: 75,
-            decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED * 0.7
+            decay: TensorMath.new.constant(1).finish,
+            multiplier: BASE_SPEED
         })
 
         this.addIntetion(this.orbitalRight)
@@ -65,24 +63,11 @@ module.exports = class AttackerMain extends RulePlays {
             target: ballShiftedP,
             clockwise: 1,
             radius: 75,
-            decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED * 0.7
+            decay: TensorMath.new.constant(1).finish,
+            multiplier: BASE_SPEED
         })
 
         this.addIntetion(this.orbitalLeft)
-
-        /*
-        Aproxima o robo da bola quando ele esta a 10 cm dela.
-        O torna mais rapido e mais preciso na interceptação da mesma.
-        Deve ser mais fraca que o movimento orbial para não cagar.
-        */
-        this.addIntetion(new PointIntention('KeepOnBall', {
-            target: ball,
-            radius: 110,
-            radiusMax: 110,
-            decay: TensorMath.new.finish,
-            multiplier: BASE_SPEED
-        }))
 
         this.addIntetion(new PointIntention('KeepOnBall', {
             target: ball,

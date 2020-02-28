@@ -21,6 +21,9 @@ module.exports = class IntentionPlayer extends BasePlayer {
     this.CENTER_OWN_GOAL = -835
     this.CENTER_ENEMY_GOAL = 835
     this.MAX_ROBOT_SPEED = 500
+
+    this.angularContribution = 160
+
     this.speedImportance = TensorMath.new.map(SPEED_IMPORTANCE_MIN, SPEED_IMPORTANCE_MAX, 0, 1).min(1).max(0).finish
     this.intentionGroup = new Intention('RootIntentionGroup')
     this.lastBall = null
@@ -66,7 +69,9 @@ module.exports = class IntentionPlayer extends BasePlayer {
     let robotAngleToSpeed = -Vector.angle(robotWorldSpeed)
     let speedWeight = this.speedImportance(targetSpeed)
     let vthetaWeight = 1 - speedWeight
-    let angular = (robotAngleToSpeed * 160 * speedWeight) + (vtheta * vthetaWeight)
+    let angular = (
+      robotAngleToSpeed * this.angularContribution * speedWeight
+    ) + (vtheta * vthetaWeight)
     return {linear, angular}
   }
 
