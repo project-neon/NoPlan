@@ -68,9 +68,6 @@ async function startup(){
         robot_2: {vision_id: 3, radio_id: 1},
         robot_3: {vision_id: 9, radio_id: 3},
         robot_1: {vision_id: 1, radio_id: 2}
-      },
-      {
-
       }
     ]
   })
