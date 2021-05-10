@@ -13,7 +13,7 @@
     "draftlog": "^1.0.12",
     "express": "^4.16.2",
     "inquirer": "^3.3.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "node-gamepad": "^0.1.15",
     "package.json": "^2.0.1",
     "require-smart": "^1.1.1",
