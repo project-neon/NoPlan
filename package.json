@@ -11,7 +11,7 @@
   "dependencies": {
     "chalk": "^2.3.0",
     "draftlog": "^1.0.12",
-    "express": "^4.16.2",
+    "express": "^4.18.2",
     "inquirer": "^3.3.0",
     "lodash": "^4.17.19",
     "node-gamepad": "^0.1.15",
